@@ -5,6 +5,10 @@ and numbers below are the claim as published.
 
 ## Interaction foundations
 
+- Goffman, E. *The Presentation of Self in Everyday Life* (1959). Social
+  life as performance; the mirror as backstage rehearsal room.
+- Gallup, G. (1970); Amsterdam (1972, humans). Mirror self-recognition
+  from ~18 months. The mirror showed humans themselves first.
 - Norman, D. *The Design of Everyday Things* (revised). Signifiers and
   perceived affordances; gulfs of execution and evaluation. Basis for all
   "visible commit point" rules.

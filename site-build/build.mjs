@@ -15,6 +15,7 @@ const BUILD = join(ROOT, "site-build");
 
 const PAGES = [
 	["index", "Overview"],
+	["human", "The human"],
 	["principles", "Principles"],
 	["interaction-methods", "Interaction methods"],
 	["foundations/color", "Color"],

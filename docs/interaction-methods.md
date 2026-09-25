@@ -51,9 +51,19 @@ what to watch for, and how it fails. Pick deliberately; document the pick.
 
 ## Voice
 
-- Fits: hands-busy, distance, accessibility. See `ai-interaction.md`.
-- Watch: shared bathrooms — health content is never read aloud by default;
-  every voice action echoes visually within 500ms.
+- Fits: hands-busy, distance, accessibility. Precedent: HiMirror shipped
+  Alexa (2017) then Google Assistant on a vanity mirror — voice belongs on
+  mirrors, with the constraints below.
+- Bathroom hostility is measured, not assumed: visitors dislike speakers in
+  bathrooms — "who else is listening" ("Owning and Sharing", CSCW 2021);
+  responses are audible to the room, so calendar/medical readouts get
+  overheard (Meng et al., CHI 2023 review of 20 papers); mental models are
+  incomplete and coping is avoidance (Lau et al., CSCW 2018; Huang et al.,
+  CHI 2020). Consequences: health content never read aloud by default;
+  physical mute must exist and be trusted more than software mute (Huang et
+  al., PACM 2020); owners need a visitor mode that quiets output (Marky et
+  al., 2020).
+- Every voice action echoes visually within 500ms.
 
 ## Phone as remote
 

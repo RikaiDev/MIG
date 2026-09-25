@@ -26,6 +26,7 @@ const PAGES = [
 	["mirror-hardware", "Mirror hardware"],
 	["ai-interaction", "AI interaction"],
 	["accessibility", "Accessibility"],
+	["references", "References"],
 	["checklists", "Checklists"],
 	["validation", "Validation"],
 	["glossary", "Glossary"],

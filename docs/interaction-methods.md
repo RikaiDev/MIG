@@ -5,24 +5,35 @@ what to watch for, and how it fails. Pick deliberately; document the pick.
 
 ## Touch on glass (capacitive foil or IR frame)
 
+- Precedent, not fiction: the Wize Mirror (EU FP7 SEMEOTICONS) shipped a
+  touch-screen interface with SUS-rated "good" usability (WiMob 2017).
+  Touch on mirrors exists — but no layout was ever validated, so sizes and
+  zones below are phone findings applied by analogy, marked as such.
 - Fits: short, deliberate confirmations at arm's length.
 - Watch: wet hands mis-trigger; glass has no tactile edge — every target
   needs a visible bound plus label (derived — Norman signifiers, WCAG 2.5.8).
 - Fails: distance (>1m), gloves, water film. Never the only path for a
   critical action.
-- Sizes: 24px floor (borrowed — WCAG 2.5.8); 44px preferred where the user
-  stands back (borrowed — HIG 44pt).
+- Sizes: 24px floor (borrowed — WCAG 2.5.8); 44px preferred (borrowed —
+  HIG 44pt). Retracts the old thumb-zone charts: Hoober's later field work
+  (2017, *Touch Design*) superseded his 2013 zones — grips shift constantly
+  and people favor CENTER for reading and touching (observed down to 7mm,
+  corners needing ~12mm). No fixed x-fraction zones; design for miss rates,
+  and never cite the 2013 charts.
 
 ## Mid-air gesture (swipe, hold, push)
 
 - Fits: coarse navigation (next/previous/dismiss), hygiene-critical contexts.
-- Watch: no hover state exists — every gesture needs an on-screen affordance
-  showing it is available PLUS live progress while performed (derived —
-  Norman mapping and feedback).
-- Fails: discoverability (users don't wave at mirrors unprompted); fatigue
-  past ~3 repetitions; false triggers from passersby. Dwell/hold needs an
-  on-screen progress indicator AND an immediate cancel path (derived —
-  WCAG 2.5.2, 2.2.1).
+- Guidance is mandatory, not decoration: OctoPocus (Bau & Mackay, UIST 2008)
+  proved continuous feedforward + feedback beats help menus — ~250ms
+  press-and-wait reveals options, paths filter as the gesture proceeds.
+  For 3D: no user- or expert-defined set reaches consensus (Delamare 2016),
+  so show guide portions not whole paths, keep concurrent feedback early
+  then fade it, and make the recognizer intelligible (Gestu-Wan 2015:
+  granularity, speed, labeled functional affordances).
+- Fails: undiscoverable without a guide; fatigue past ~3 repetitions; false
+  triggers from passersby. Dwell/hold needs on-screen progress AND an
+  immediate cancel path (derived — WCAG 2.5.2, 2.2.1).
 - Never prescribe a specific decorative treatment (pulse, halo, ripple) as
   the signifier — ornament may decorate a clear target, never carry meaning.
 
@@ -30,12 +41,13 @@ what to watch for, and how it fails. Pick deliberately; document the pick.
 
 - Fits: attention confirmation, presence-gated personalization, accessibility
   for users who cannot lift their arms.
-- Watch: looking IS the default state before a mirror — gaze-as-click
-  Midas-touches everything. Require an explicit commit step (dwell with
-  progress, blink, or voice confirm) before any irreversible action
-  (derived — HIG confirmation philosophy).
-- Fails: glasses/sunglasses, low light, multi-person scenes. State whose
-  face is active, persistently, in a corner.
+- Midas touch is proven, not hypothetical: Jacob (CHI 1990, TOIS 1991)
+  showed eyes are "always on" — gaze alone overloads every looked-at item.
+  Tested cures: 400ms dwell reveals, 1s dwell executes, 600ms look-away
+  cancels — but a separate explicit commit (button, blink, voice) beats long
+  dwell. Rule: gaze selects, something else commits.
+- Fails: glasses, low light, multi-person scenes. State whose face is
+  active, persistently, in a corner.
 
 ## Voice
 

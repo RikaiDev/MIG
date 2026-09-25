@@ -28,4 +28,4 @@ fails.
 ## Viewing distance (derived — HIG, Material adaptive)
 
 - 0.5m (arm's length): operate. 16sp floor, 44px targets.
-- 2–3m (room): glance. 32sp+ numerals, status only, no interaction expected.
+- 1–2m (passing): glance only. 32sp+ numerals, status only, no interaction expected.

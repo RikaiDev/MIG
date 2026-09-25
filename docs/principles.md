@@ -5,8 +5,8 @@
 2. **Input is a choice, not a given** (derived). A magic mirror is half-mirror
    plus screen. No input method is mandatory. Pick from the method catalog in
    `interaction-methods.md` and justify the pick against the task, not habit.
-3. **Glanceable at three meters, operable at arm's length** (derived — HIG
-   Clarity, Material honest UI). Two distances, one layout.
+3. **Glanceable passing by, operable up close** (derived — HIG
+   Clarity, Material honest UI). Close work and passing glances, one layout.
 4. **Every method declares its failure modes** (derived — Norman gulfs of
    execution and evaluation). A method you cannot describe failing is a
    method you have not designed.

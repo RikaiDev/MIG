@@ -34,8 +34,7 @@ starts here, not with the system.
    reorder a ritual around a feature (derived — calm technology: dwell
    with computers, don't interact at them).
 4. **The reflection is the senior partner.** UI is the guest. When in doubt,
-   remove (derived — HIG Deference; Ive: design is how it works, and most
-   of the work is deciding what not to do).
+   remove (derived — HIG Deference).
 
 ## Voice note
 

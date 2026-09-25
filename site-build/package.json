@@ -1,0 +1,11 @@
+{
+	"name": "mig-site",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "bun build.mjs"
+	},
+	"dependencies": {
+		"marked": "^16.0.0"
+	}
+}

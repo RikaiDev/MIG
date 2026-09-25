@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} — Mirror Interface Guidelines</title>
+<meta name="description" content="Design guidelines for interactive half-mirror ambient displays.">
+<link rel="stylesheet" href="{{rel}}assets/styles.css">
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="{{rel}}index.html"><span class="brand-mark" aria-hidden="true"></span>MIG</a>
+<nav class="topbar-links" aria-label="Sections">{{navlinks}}</nav>
+<div class="topbar-right">
+<span class="version-chip">v0.1.0 · Draft</span>
+<button class="search-btn" id="search-open" aria-label="Search">Search <kbd>/</kbd></button>
+<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+</div>
+</header>
+<div class="search-overlay" id="search-overlay" hidden>
+<div class="search-box" role="dialog" aria-label="Search guidelines">
+<input id="search-input" type="search" placeholder="Search rules, components, patterns…" autocomplete="off">
+<div id="search-results" class="search-results"></div>
+</div>
+</div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<nav aria-label="Guideline sections">{{sidenav}}</nav>
+<div class="status-legend">
+<span class="chip borrowed">borrowed</span>
+<span class="chip derived">derived</span>
+<span class="chip proposed">proposed</span>
+</div>
+</aside>
+<main class="content">
+{{hero}}
+<article class="prose">
+{{content}}
+</article>
+<footer class="colophon">Mirror Interface Guidelines · v0.1.0 draft · <a href="{{rel}}validation.html">validation status</a> · <a href="{{rel}}changelog.html">changelog</a></footer>
+</main>
+</div>
+<script src="{{rel}}assets/app.js" defer></script>
+</body>
+</html>

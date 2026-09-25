@@ -118,7 +118,9 @@ html { scrollbar-width: thin; scrollbar-color: #d6cfbd transparent; }
 .hero .chip.derived { color: #93c5fd; border-color: currentColor; background: rgba(147, 197, 253, 0.1); }
 .hero .chip.proposed { color: #fcd34d; border-color: currentColor; background: rgba(252, 211, 77, 0.1); }
 /* Layout */
-.layout { display: flex; max-width: 1280px; margin: 0 auto; align-items: flex-start; }
+.layout { display: flex; max-width: 1280px; margin: 0 auto; align-items: flex-start; min-height: calc(100vh - 60px); }
+.content { flex: 1; min-width: 0; padding: 8px 48px 80px; display: flex; flex-direction: column; }
+.content article { flex: 1; }
 .sidebar {
 	position: sticky;
 	top: 60px;

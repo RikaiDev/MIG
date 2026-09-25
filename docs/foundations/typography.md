@@ -1,5 +1,15 @@
 # Foundations — Typography
 
+## Scale
+
+| Role | Size | Line height | Tracking | Use |
+|---|---|---|---|---|
+| glance | 48sp | 1.15 | -2% | numerals at a glance |
+| status | 32sp | 1.25 | -1% | status lines |
+| arm | 24sp | 1.35 | 0 | minimum for passing-glance text |
+| title | 20sp | 1.4 | 0 | titles |
+| body | 16sp | 1.6 | 0 | body floor, never below |
+
 :::type-scale
 
 ## Rules

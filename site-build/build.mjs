@@ -70,15 +70,43 @@ function stripTags(html) {
 	return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function ruleCards(html) {
+	// Renders `**ID (status — …).** body` and `**ID Title** (status — …)`
+	// list items as rule cards. The card nests inside its own <li> so
+	// ordered and unordered lists both stay valid HTML.
+	html = html.replace(
+		/<li>\s*<strong>([A-Z][A-Z0-9-]*)([^<]*?)<\/strong>\s*\(([a-z]+)[^<]*?\)([\s\S]*?)<\/li>|<li>\s*<strong>([A-Z][A-Z0-9-]*)\s+\(([a-z]+)[^<]*<\/strong>([\s\S]*?)<\/li>/g,
+		(...args) => {
+			const full = args[0];
+			let id, title, status, body;
+			if (args[1] !== undefined) {
+				[id, title, status, body] = [args[1], args[2], args[3], args[4]];
+			} else {
+				[id, status, body] = [args[5], args[6], args[7]];
+				title = "";
+			}
+			if (!["borrowed", "derived", "proposed"].includes(status)) return full;
+			const head = title.trim() ? `<h2 class="rule-title">${title.trim()}</h2>` : "";
+			body = body.trim().replace(/^\.\s*/, "");
+			return `<li class="rule-item"><section class="rule" id="rule-${id.toLowerCase()}"><div class="rule-head"><span class="rule-id">${id}</span><span class="chip ${status}">${status}</span></div>${head}<div class="rule-body">${body.trim()}</div></section></li>`;
+		}
+	);
+	// Renders `## Title (MIG-C1, derived …)` sections (with following body) as cards.
+	html = html.replace(
+		/<h2>([^<]*?)\s*\(MIG-([A-Z0-9]+),\s*([a-z]+)[^<]*?\)<\/h2>([\s\S]*?)(?=<h2|$)/g,
+		(_, title, id, status, body) => {
+			if (!["borrowed", "derived", "proposed"].includes(status)) return _;
+			return `<section class="rule" id="rule-mig-${id.toLowerCase()}"><div class="rule-head"><span class="rule-id">MIG-${id}</span><span class="chip ${status}">${status}</span></div><h2 class="rule-title">${title.trim()}</h2><div class="rule-body">${body.trim()}</div></section>`;
+		}
+	);
+	return html;
+}
+
 const template = readFileSync(join(BUILD, "template.html"), "utf-8");
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(join(OUT, "assets"), { recursive: true });
 copyFileSync(join(BUILD, "styles.css"), join(OUT, "assets", "styles.css"));
 copyFileSync(join(BUILD, "app.js"), join(OUT, "assets", "app.js"));
-
-const navlinks = () =>
-	PAGES.map(([slug, title]) => `<a href="{rel}${slug}.html">${title}</a>`).join("");
-void navlinks;
 
 function sidenav(active) {
 	const groups = new Map([["", []]]);
@@ -102,7 +130,7 @@ function sidenav(active) {
 const indexEntries = [];
 for (const [slug, title] of PAGES) {
 	const src = readFileSync(join(DOCS, `${slug}.md`), "utf-8");
-	const content = injectDemos(checklistBoxes(marked.parse(src)));
+	const content = injectDemos(checklistBoxes(ruleCards(marked.parse(src))));
 	const text = stripTags(content);
 	const depth = slug.split("/").length - 1;
 	const rel = "../".repeat(depth);

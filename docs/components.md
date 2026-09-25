@@ -27,6 +27,8 @@ label or universal icon, minimum 24px, 44px preferred. A mirror without
 touch hardware has no press targets at all — do not draw buttons for a
 medium that cannot feel them.
 
+:::anatomy-edgebar
+
 ## Edge bar (MIG-C4, proposed)
 
 Assumes: glance-first usage. Persistent navigation in a top or bottom bar,

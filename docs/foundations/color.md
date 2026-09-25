@@ -1,5 +1,16 @@
 # Foundations — Color
 
+## Roles
+
+| Role | Value | Usage | Contrast on |
+|---|---|---|---|
+| `plate` | `#171717` | Primary surface for text | — |
+| `on-plate` | `#FAFAF9` | Body text, 17.2:1 | plate |
+| `glass` | `#0E0D0B` | Hero, transient surfaces | — |
+| `accent` | `#0F766E` | Single primary action per screen | white 5.5:1 |
+| `error` | `#B91C1C` | Errors only, 6.5:1 on plate | plate |
+| `muted` | `#6F6A64` | Secondary text on paper, 5.0:1 | paper |
+
 :::color-plates
 
 ## Rules

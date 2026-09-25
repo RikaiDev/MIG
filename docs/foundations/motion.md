@@ -1,5 +1,13 @@
 # Foundations — Motion
 
+## Tokens
+
+| Token | Duration | Easing | Use |
+|---|---|---|---|
+| `feedback` | 150ms | `cubic-bezier(0.4, 0, 0.2, 1)` | press response |
+| `enter` | 250ms | `cubic-bezier(0.4, 0, 0.2, 1)` | transient confirmations |
+| `ambient` | none | none | nothing loops forever |
+
 :::easing
 
 ## Rules

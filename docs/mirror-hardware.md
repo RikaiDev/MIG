@@ -5,14 +5,19 @@
 Half-mirror (two-way) glass over a display: the brighter side wins. UI
 brightness competes with room light reflected back at the user.
 
-## Optical ROI (proposed, calibrating)
+## The face region (derived — HIG Deference)
 
-rPPG and face-measurement regions of interest sit behind the glass. Until a
-panel is calibrated, assume the central `center_fraction` (default 0.60,
-see `foundations/layout-grid.md` L2) isNama instrument territory. Calibration
-procedure: capture face bounding boxes across user heights 150–190cm at
-40–80cm distance; take the union + 10% margin. Record the result per panel
-model — it is data, not doctrine.
+Keep faces unobstructed: no persistent UI over the face region, transient
+confirmations never cover it. The exact fraction is panel- and
+distance-dependent — measure it per product (procedure below), never
+hardcode a universal number.
+
+## Calibration procedure (proposed)
+
+Capture face bounding boxes across user heights 150–190cm at 40–80cm
+distance; take the union + 10% margin. Record the result per panel model —
+it is product data, not doctrine. A measurement instrument product (e.g.
+rPPG) records its own optical ROI the same way, in its own docs — not here.
 
 ## Lighting (proposed)
 

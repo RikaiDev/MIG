@@ -2,12 +2,12 @@
 
 ## Design review (per screen)
 
-- [ ] Center clear zone respected (L2; parameter recorded, not assumed)?
+- [ ] Center clear zone respected (L2; parameter measured, not assumed)?
 - [ ] Body text 7.0:1 on plate (C1)? Tested under three lightings?
-- [ ] Primary action is one, bounded, labeled, ≥24px (MIG-C1)?
-- [ ] Every touch action has a zero-touch twin (A5)?
-- [ ] Motion has a static twin (M1)? No halo-as-signifier (M3)?
-- [ ] Face ROI never covered, even transiently (M3 in principles → MIG-C4)?
+- [ ] Input method chosen deliberately, with rejected alternatives (P2)?
+- [ ] Every method's failure modes described (P4)? Critical tasks covered by two methods (A5)?
+- [ ] Motion has a static twin (M1)? No decoration-as-signifier (M3)?
+- [ ] Face region never covered, even transiently (MIG-C4)?
 - [ ] Active profile shown when personalized (A3)?
 
 ## Tool mapping (mesen rule IDs)

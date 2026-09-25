@@ -16,6 +16,7 @@ const BUILD = join(ROOT, "site-build");
 const PAGES = [
 	["index", "Overview"],
 	["principles", "Principles"],
+	["interaction-methods", "Interaction methods"],
 	["foundations/color", "Color"],
 	["foundations/typography", "Typography"],
 	["foundations/layout-grid", "Layout grid"],
@@ -75,6 +76,7 @@ copyFileSync(join(BUILD, "app.js"), join(OUT, "assets", "app.js"));
 
 const navlinks = () =>
 	PAGES.map(([slug, title]) => `<a href="{rel}${slug}.html">${title}</a>`).join("");
+void navlinks;
 
 function sidenav(active) {
 	const groups = new Map([["", []]]);
@@ -88,7 +90,8 @@ function sidenav(active) {
 		if (group) out.push(`<p class="nav-group">${group}</p>`);
 		for (const [slug, title] of items) {
 			const cls = slug === active ? "active" : "";
-			out.push(`<a class="${cls}" href="{rel}${slug}.html">${title}</a>`);
+			const current = slug === active ? ' aria-current="page"' : "";
+			out.push(`<a class="${cls}"${current} href="{rel}${slug}.html">${title}</a>`);
 		}
 	}
 	return out.join("");
@@ -105,7 +108,6 @@ for (const [slug, title] of PAGES) {
 	const page = template
 		.split("{{title}}").join(title)
 		.split("{{rel}}").join(rel)
-		.split("{{navlinks}}").join(navlinks().split("{rel}").join(rel))
 		.split("{{sidenav}}").join(sidenav(slug).split("{rel}").join(rel))
 		.split("{{hero}}").join(hero)
 		.split("{{content}}").join(content);

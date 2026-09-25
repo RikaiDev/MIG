@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="{{rel}}assets/styles.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="topbar">
 <a class="brand" href="{{rel}}index.html"><span class="brand-mark" aria-hidden="true"></span>MIG</a>
-<nav class="topbar-links" aria-label="Sections">{{navlinks}}</nav>
 <div class="topbar-right">
 <span class="version-chip">v0.1.0 · Draft</span>
 <button class="search-btn" id="search-open" aria-label="Search">Search <kbd>/</kbd></button>
-<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
 </div>
 </header>
 <div class="search-overlay" id="search-overlay" hidden>
@@ -32,7 +32,7 @@
 <span class="chip proposed">proposed</span>
 </div>
 </aside>
-<main class="content">
+<main class="content" id="main">
 {{hero}}
 <article class="prose">
 {{content}}

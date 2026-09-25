@@ -15,13 +15,15 @@
 - **A4.** Proactive suggestions (health nudges) are glanceable cards, never
   modal, never spoken unprompted. Health data is never read aloud by default.
 
-## Zero-touch parity (proposed)
+## Method coverage (proposed)
 
-- **A5.** Every touch action has a voice or gesture twin that completes the
-  same task end-to-end, not a crippled subset.
-- **A6.** Breath-hold or dwell activation needs an on-screen progress
-  indicator AND an immediate cancel path (derived — WCAG 2.5.2 pointer
-  cancellation, 2.2.1 timing adjustable).
+- **A5.** Safety-critical and frequent tasks must be completable by at
+  least TWO independent methods (e.g. gesture + voice). A single method is a
+  single point of failure — wet hands, noise, distance, tremor each kill a
+  different one. Document the pair per task (see `interaction-methods.md`).
+- **A6.** Any timed commit (dwell, breath-hold, countdown) needs an on-screen
+  progress indicator AND an immediate cancel path (derived — WCAG 2.5.2
+  pointer cancellation, 2.2.1 timing adjustable).
 
 ## Privacy (borrowed — platform privacy norms, HIPAA/GDPR spirit)
 

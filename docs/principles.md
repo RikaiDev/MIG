@@ -2,11 +2,13 @@
 
 1. **The reflection is the content** (derived — HIG Deference). UI defers to
    the user's own face. Nothing persistent may claim the center.
-2. **Measure twice, show once** (proposed). The surface is an instrument
-   first, a display second. Measurement integrity outranks decoration.
+2. **Input is a choice, not a given** (derived). A magic mirror is half-mirror
+   plus screen. No input method is mandatory. Pick from the method catalog in
+   `interaction-methods.md` and justify the pick against the task, not habit.
 3. **Glanceable at three meters, operable at arm's length** (derived — HIG
    Clarity, Material honest UI). Two distances, one layout.
-4. **Every touch has a zero-touch twin** (proposed). Wet hands and distance
-   are the normal case on mirrors.
+4. **Every method declares its failure modes** (derived — Norman gulfs of
+   execution and evaluation). A method you cannot describe failing is a
+   method you have not designed.
 5. **Calm by default** (derived — Material calm technology, WCAG 2.3.3).
    No motion that is not feedback; no feedback that is not reducible.

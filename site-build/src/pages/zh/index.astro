@@ -1,0 +1,81 @@
+---
+import { getCollection } from "astro:content";
+import Docs from "../../layouts/Docs.astro";
+import { buildNav } from "../../lib/docs-nav";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const pages = await getCollection("docsZh");
+const { nav } = buildNav(
+  base,
+  "zh",
+  pages.map((p) => ({
+    id: p.id,
+    title: p.data.title,
+    nav: p.data.nav,
+    order: p.data.order,
+    group: p.data.group ?? "指南",
+  })),
+  "",
+);
+---
+
+<Docs
+  lang="zh"
+  title="鏡面互動設計指南"
+  nav={nav}
+  otherLangHref={`${base}/`}
+  description="設計倒影、數位內容與身體動作之間的關係。"
+>
+  <section class="hero">
+    <p class="kicker">Mirror Interface Guidelines · v0.1.0 草稿</p>
+    <h1>
+      設計倒影、內容與
+      <br />
+      身體之間的關係
+    </h1>
+    <p class="lede">
+      這不是「把螢幕 UI
+      放到鏡子上」。鏡面是光線相加、背景是使用者現場、倒影與身體不在同一個平面——這份指南從物理限制出發，給出可引用、可實作、可驗證的規則。
+    </p>
+    <div class="entries">
+      <a class="entry" href={`${base}/zh/scope.html`}>
+        <span class="entry-num">01</span>
+        <span class="entry-title">理解鏡面</span>
+        <span class="entry-desc">
+          第一次接觸：光學鏡面與影像鏡面的差異、光線疊加、硬體限制。
+        </span>
+      </a>
+      <a class="entry" href={`${base}/zh/patterns.html`}>
+        <span class="entry-num">02</span>
+        <span class="entry-title">解決設計問題</span>
+        <span class="entry-desc">
+          已在設計：從任務出發找模式——開始互動、追蹤恢復、多人交接、結束清除。
+        </span>
+      </a>
+      <a class="entry" href={`${base}/zh/checklists.html`}>
+        <span class="entry-num">03</span>
+        <span class="entry-title">檢查我的設計</span>
+        <span class="entry-desc">
+          準備部署：光學測試、環境矩陣、現場驗收表，逐項勾。
+        </span>
+      </a>
+    </div>
+  </section>
+  <section class="homesection">
+    <h2>適用技術</h2>
+    <p>
+      第一版以<strong>光學鏡面</strong>（半透半反射鏡＋後方螢幕）為主，
+      <strong>影像鏡面</strong>
+      （攝影機＋顯示器）作為對照。每條規則都標明適用技術，投影與特殊顯示另列延伸範圍。
+    </p>
+  </section>
+  <section class="homesection">
+    <h2>規則怎麼讀</h2>
+    <p>
+      每條規則固定包含：編號、行動式標題、適用範圍、原因、正反例、實作注意、驗證方法、已知缺口。右上角徽章同時標示
+      <strong>依據類型</strong>
+      （物理限制／直接實證／相關領域推論／團隊決策／待驗證假設）與
+      <strong>規範程度</strong>（必須／建議／可選）。兩者不混為一談。
+    </p>
+  </section>
+</Docs>

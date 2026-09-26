@@ -1,0 +1,171 @@
+---
+/**
+ * @typedef {object} NavEntry
+ * @property {string} href
+ * @property {string} label
+ * @property {boolean} current
+ *
+ * @typedef {object} Props
+ * @property {"en" | "zh"} lang
+ * @property {string} title
+ * @property {string} [description]
+ * @property {{ group: string, entries: NavEntry[] }[]} nav
+ * @property {{ depth: number, slug: string, text: string }[]} [headings]
+ * @property {{ href: string, label: string }[]} [related]
+ * @property {{ href: string, label: string }} [prev]
+ * @property {{ href: string, label: string }} [next]
+ * @property {string} otherLangHref
+ */
+
+const {
+  lang,
+  title,
+  description,
+  nav,
+  headings = [],
+  related = [],
+  prev,
+  next,
+  otherLangHref,
+} = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const t =
+  lang === "en"
+    ? {
+        menu: "Menu",
+        skip: "Skip to content",
+        search:
+          "e.g. text unreadable on mirror, false triggers, two people stepping up…",
+        searchLabel: "Search design problems",
+        toc: "On this page",
+        related: "Related",
+        prevnext: "Previous and next",
+        version: "v0.1.0 draft",
+      }
+    : {
+        menu: "選單",
+        skip: "跳到內文",
+        search: "例如：鏡面看不到字、一直誤觸、兩個人一起站過來…",
+        searchLabel: "搜尋設計問題",
+        toc: "本頁",
+        related: "相關",
+        prevnext: "前後頁",
+        version: "v0.1.0 草稿",
+      };
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<!doctype html>
+<html lang={lang === "en" ? "en" : "zh-Hant"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>{title} — MIG</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="stylesheet" href={`${base}/assets/tokens.css`} />
+    <link rel="stylesheet" href={`${base}/assets/site.css`} />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      {t.skip}
+    </a>
+    <header class="topbar">
+      <button
+        class="navbtn"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="sidenav"
+        aria-label={t.menu}
+      >
+        ☰
+      </button>
+      <a class="brand" href={lang === "en" ? `${base}/` : `${base}/zh/`}>
+        MIG
+      </a>
+      <span class="version">{t.version}</span>
+      <a
+        class="langtoggle"
+        href={otherLangHref}
+        aria-label={lang === "en" ? "切換為繁體中文" : "Switch to English"}
+      >
+        {lang === "en" ? "中文" : "EN"}
+      </a>
+      <div class="searchwrap">
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder={t.search}
+          autocomplete="off"
+          aria-label={t.searchLabel}
+          data-index={lang === "en" ? "search-en.json" : "search-zh.json"}
+        />
+        <div id="hits" class="hits" role="listbox" hidden></div>
+      </div>
+    </header>
+    <div class="shell">
+      <nav
+        class="sidenav"
+        id="sidenav"
+        aria-label={lang === "en" ? "Guide sections" : "指南章節"}
+      >
+        {nav.map((g) => (
+          <>
+            <p class="navgroup">{g.group}</p>
+            {g.entries.map((e) => (
+              <a
+                class={e.current ? "navlink active" : "navlink"}
+                aria-current={e.current ? "page" : undefined}
+                href={e.href}
+              >
+                {e.label}
+              </a>
+            ))}
+          </>
+        ))}
+      </nav>
+      <main class="main" id="main">
+        <slot />
+        {(prev || next) && (
+          <nav class="prevnext" aria-label={t.prevnext}>
+            {prev && (
+              <a class="prev" href={prev.href}>
+                ← {prev.label}
+              </a>
+            )}
+            {next && (
+              <a class="next" href={next.href}>
+                {next.label} →
+              </a>
+            )}
+          </nav>
+        )}
+      </main>
+      {toc.length > 0 && (
+        <nav class="toc" aria-label={t.toc}>
+          <p class="toc-title">{t.toc}</p>
+          {toc.map((h) => (
+            <a class={`toc-link d${h.depth}`} href={`#${h.slug}`}>
+              {h.text}
+            </a>
+          ))}
+          {related.length > 0 && (
+            <>
+              <p class="toc-title">{t.related}</p>
+              {related.map((r) => (
+                <a
+                  class="toc-link"
+                  href={r.href.startsWith("/") ? `${base}${r.href}` : r.href}
+                >
+                  {r.label}
+                </a>
+              ))}
+            </>
+          )}
+        </nav>
+      )}
+    </div>
+    <script src={`${base}/assets/site.js`} defer></script>
+  </body>
+</html>

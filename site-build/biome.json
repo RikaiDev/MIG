@@ -1,0 +1,26 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	// Biome owns css/mjs/js/ts. *.astro is owned by ESLint (lint) and
+	// Prettier (format): Biome cannot parse Astro components, and its
+	// frontmatter reformat fights Prettier. One owner per file type.
+	"files": { "ignores": ["src/**/*.astro"] },
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "error"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"trailingCommas": "all"
+		}
+	}
+}

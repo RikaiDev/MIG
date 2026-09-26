@@ -1,0 +1,147 @@
+[
+	{
+		"keys": [
+			"black background covers",
+			"black hides",
+			"unreadable",
+			"mirror text invisible",
+			"mask reflection"
+		],
+		"title": "OPT-01 — Never use black screen areas to mask the real reflection",
+		"why": "optics · must",
+		"href": "/optics.html#rule-opt-01"
+	},
+	{
+		"keys": [
+			"test legibility",
+			"clothing background",
+			"bright window",
+			"contrast"
+		],
+		"title": "OPT-02 — Test legibility on reflection backgrounds",
+		"why": "optics · should",
+		"href": "/optics.html#rule-opt-02"
+	},
+	{
+		"keys": [
+			"face marker offset",
+			"misaligned",
+			"side step",
+			"parallax",
+			"sticker drifts"
+		],
+		"title": "POS-01 — Separate three positioning modes",
+		"why": "optics · should",
+		"href": "/optics.html#rule-pos-01"
+	},
+	{
+		"keys": [
+			"hardware",
+			"ghosting",
+			"touch glass",
+			"latency",
+			"cleaning mode",
+			"fog"
+		],
+		"title": "HW-01 — Confirm five hardware conditions first",
+		"why": "optics · should",
+		"href": "/optics.html#rule-hw-01"
+	},
+	{
+		"keys": ["info covers face", "covers clothes", "layout blocks", "corners"],
+		"title": "ZONE-01 — Define each task's required reflection zone first",
+		"why": "layout · should",
+		"href": "/layout.html#rule-zone-01"
+	},
+	{
+		"keys": ["left right reversed", "raise hand wrong side", "mirror writing"],
+		"title": "POS-02 — Body references for direction, never mirrored UI",
+		"why": "layout · should",
+		"href": "/layout.html#rule-pos-02"
+	},
+	{
+		"keys": [
+			"false trigger",
+			"keeps triggering",
+			"tracking lost",
+			"session stolen",
+			"left without ending"
+		],
+		"title": "FLOW-01 — Four distinctions in every flow",
+		"why": "flows · should",
+		"href": "/interaction.html#rule-flow-01"
+	},
+	{
+		"keys": ["photo consent", "saves photos", "privacy", "data kept", "delete"],
+		"title": "PRIV-01 — Explicit confirmation before capture",
+		"why": "flows · must",
+		"href": "/interaction.html#rule-priv-01"
+	},
+	{
+		"keys": [
+			"gesture tiring",
+			"arm tired",
+			"input method",
+			"voice noisy",
+			"wet hands",
+			"fallback"
+		],
+		"title": "INP-01 — Select input methods by task, each with a fallback",
+		"why": "flows · should",
+		"href": "/interaction.html#rule-inp-01"
+	},
+	{
+		"keys": [
+			"two people",
+			"second person joins",
+			"who controls",
+			"queue",
+			"handover"
+		],
+		"title": "PPL-01 — One visible controller, explicit handover",
+		"why": "people · should",
+		"href": "/people.html#rule-ppl-01"
+	},
+	{
+		"keys": [
+			"first time",
+			"passerby",
+			"how to start",
+			"no instructor",
+			"attract"
+		],
+		"title": "Pattern: helping a first-time user start",
+		"why": "pattern",
+		"href": "/start.html"
+	},
+	{
+		"keys": ["tracking dropped", "resume", "hand left", "recognition failed"],
+		"title": "Pattern: recovering after tracking loss",
+		"why": "pattern",
+		"href": "/recover.html"
+	},
+	{
+		"keys": ["contested control", "take over", "friend hijack"],
+		"title": "Pattern: deciding who controls",
+		"why": "pattern",
+		"href": "/handover.html"
+	},
+	{
+		"keys": ["ending", "cancel", "clear data", "reset next user", "walk away"],
+		"title": "Pattern: ending and clearing personal content",
+		"why": "pattern",
+		"href": "/exit.html"
+	},
+	{
+		"keys": ["acceptance", "field test", "checklist", "sign off", "deploy"],
+		"title": "Field checklists",
+		"why": "build",
+		"href": "/checklists.html"
+	},
+	{
+		"keys": ["additive light", "reflectance", "demo", "simulate"],
+		"title": "Mirror Lab",
+		"why": "build · demos",
+		"href": "/lab.html"
+	}
+]

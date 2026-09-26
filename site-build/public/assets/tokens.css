@@ -1,0 +1,26 @@
+/* tokens.css — sole owner of all literal color. */
+:root {
+	--paper: #ffffff;
+	--ink: #1a1d1c;
+	--ink-2: #45504e;
+	--accent: #00544c;
+	--accent-ink: #ffffff;
+	--accent-soft: #e6f4f0;
+	--line: #d8dfdd;
+	--panel: #f4f7f6;
+	--must-bg: #f9dedc;
+	--must-ink: #410002;
+	--should-bg: #d6e3ff;
+	--should-ink: #001b3d;
+	--may-bg: #e4e0d4;
+	--may-ink: #1c1b17;
+	--ok-bg: #b9efc3;
+	--ok-ink: #062b13;
+	--warn-bg: #ffddb3;
+	--warn-ink: #2e1500;
+	--code-bg: #eef2f1;
+	--focus: #00544c;
+	--shadow: rgba(26, 29, 28, 0.15);
+	--radius: 10px;
+	--measure: 68ch;
+}

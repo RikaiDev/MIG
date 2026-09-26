@@ -1,0 +1,84 @@
+---
+import { getCollection } from "astro:content";
+import Docs from "../layouts/Docs.astro";
+import { buildNav } from "../lib/docs-nav";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const pages = await getCollection("docs");
+const { nav } = buildNav(
+  base,
+  "en",
+  pages.map((p) => ({
+    id: p.id,
+    title: p.data.title,
+    nav: p.data.nav,
+    order: p.data.order,
+    group: p.data.group ?? "Guide",
+  })),
+  "",
+);
+---
+
+<Docs
+  lang="en"
+  title="Mirror Interface Guidelines"
+  nav={nav}
+  otherLangHref={`${base}/zh/`}
+  description="Design the relationship between reflection, digital content, and body movement."
+>
+  <section class="hero">
+    <p class="kicker">Mirror Interface Guidelines · v0.1.0 draft</p>
+    <h1>Designing the relationship between reflection, content, and body</h1>
+    <p class="lede">
+      This is not "putting screen UI on a mirror". A mirror adds light, the
+      background belongs to the user and the room, and reflections don't share a
+      plane with the screen — this guide starts from physical constraints and
+      gives rules you can cite, implement, and verify.
+    </p>
+    <div class="entries">
+      <a class="entry" href={`${base}/scope.html`}>
+        <span class="entry-num">01</span>
+        <span class="entry-title">Understand the mirror</span>
+        <span class="entry-desc">
+          First contact: optical vs video mirrors, additive light, hardware
+          limits.
+        </span>
+      </a>
+      <a class="entry" href={`${base}/patterns.html`}>
+        <span class="entry-num">02</span>
+        <span class="entry-title">Solve a design problem</span>
+        <span class="entry-desc">
+          Already designing: task-named patterns — starting, recovery, handover,
+          exit.
+        </span>
+      </a>
+      <a class="entry" href={`${base}/checklists.html`}>
+        <span class="entry-num">03</span>
+        <span class="entry-title">Check my design</span>
+        <span class="entry-desc">
+          Ready to deploy: optics tests, environment matrix, field acceptance
+          tables.
+        </span>
+      </a>
+    </div>
+  </section>
+  <section class="homesection">
+    <h2>Which technology</h2>
+    <p>
+      First edition centers on <strong>optical mirrors</strong> (half-mirror
+      plus display), with <strong>video mirrors</strong> (camera plus display)
+      as contrast. Every rule carries its applicable technology; projection and
+      exotic displays are out of scope for v1.
+    </p>
+  </section>
+  <section class="homesection">
+    <h2>How to read a rule</h2>
+    <p>
+      Each rule carries: ID, action title, scope, rationale, wrong example, fix,
+      verification, and known gaps. Badges show <strong>evidence type</strong>{" "}
+      (physical / direct / cross-domain / team decision / hypothesis) and{" "}
+      <strong>normative strength</strong> (must / should / may) separately —
+      never mixed.
+    </p>
+  </section>
+</Docs>

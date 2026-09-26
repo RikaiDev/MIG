@@ -1,26 +1,26 @@
-/* tokens.css — sole owner of all literal color. */
+/* tokens.css — warm print editorial. Sole owner of all literal color. */
 :root {
-	--paper: #ffffff;
-	--ink: #1a1d1c;
-	--ink-2: #45504e;
-	--accent: #00544c;
+	--paper: #faf7f1;
+	--ink: #211a13;
+	--ink-2: #6b5f52;
+	--accent: #9a3412;
 	--accent-ink: #ffffff;
-	--accent-soft: #e6f4f0;
-	--line: #d8dfdd;
-	--panel: #f4f7f6;
-	--must-bg: #f9dedc;
-	--must-ink: #410002;
-	--should-bg: #d6e3ff;
-	--should-ink: #001b3d;
-	--may-bg: #e4e0d4;
-	--may-ink: #1c1b17;
-	--ok-bg: #b9efc3;
-	--ok-ink: #062b13;
-	--warn-bg: #ffddb3;
-	--warn-ink: #2e1500;
-	--code-bg: #eef2f1;
-	--focus: #00544c;
-	--shadow: rgba(26, 29, 28, 0.15);
-	--radius: 10px;
+	--accent-soft: #f6e7d7;
+	--line: #e0d5c3;
+	--panel: #f3ede1;
+	--must-bg: #f8d7d2;
+	--must-ink: #4d0a02;
+	--should-bg: #d9e8dd;
+	--should-ink: #0b3d24;
+	--may-bg: #e8e0cf;
+	--may-ink: #211a13;
+	--ok-bg: #cfe8d2;
+	--ok-ink: #0a3a1c;
+	--warn-bg: #f5d9a8;
+	--warn-ink: #4a2c00;
+	--code-bg: #efe8d9;
+	--focus: #9a3412;
+	--radius: 6px;
 	--measure: 68ch;
+	--font-display: Georgia, "Times New Roman", "Noto Serif TC", serif;
 }

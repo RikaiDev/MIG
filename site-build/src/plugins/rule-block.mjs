@@ -66,7 +66,7 @@ function parseRule(text) {
 			current = m[1];
 			fields[current] = m[2];
 		} else if (current && line.trim() !== "") {
-			fields[current] += " " + line.trim();
+			fields[current] += ` ${line.trim()}`;
 		}
 	}
 	for (const k of [

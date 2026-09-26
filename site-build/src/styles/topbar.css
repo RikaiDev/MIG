@@ -1,0 +1,131 @@
+/* topbar.css — Top app bar, brand mark, text/icon buttons, theme switch. */
+/* M3 small top app bar */
+.topbar {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 0 20px;
+	height: 64px;
+	background: var(--m3-surface);
+	color: var(--m3-on-surface);
+}
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 22px;
+	line-height: 28px;
+	font-weight: 500;
+	color: var(--m3-on-surface);
+	text-decoration: none;
+	letter-spacing: 0.14em;
+}
+.brand-mark {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 32% 30%,
+		var(--brand-hi) 0%,
+		var(--brand-mid) 42%,
+		var(--brand-lo) 100%
+	);
+	display: inline-block;
+	box-shadow: inset 0 0 0 1px var(--brand-ring);
+}
+.topbar-right {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+/* M3 text button + icon button */
+.m3-text-btn {
+	border: none;
+	background: none;
+	color: var(--m3-primary);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: 0.00625em;
+	border-radius: var(--shape-full);
+	padding: 10px 16px;
+	cursor: pointer;
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	position: relative;
+}
+.m3-text-btn:hover::before {
+	opacity: 0.08;
+}
+.m3-text-btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: currentColor;
+	opacity: 0;
+	transition: opacity var(--motion-duration-short) var(--motion-standard);
+}
+.m3-text-btn kbd {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 12px;
+}
+.m3-icon-btn,
+.nav-toggle {
+	position: relative;
+	border: none;
+	background: none;
+	color: var(--m3-on-surface-variant);
+	width: 44px;
+	height: 44px;
+	border-radius: var(--shape-full);
+	cursor: pointer;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+/* M3 switch */
+.m3-switch {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	border: none;
+	background: none;
+	padding: 8px;
+}
+.m3-switch .track {
+	width: 52px;
+	height: 32px;
+	border-radius: var(--shape-full);
+	background: var(--m3-surface-container-highest);
+	border: 2px solid var(--m3-outline);
+	display: inline-flex;
+	align-items: center;
+	padding: 0 4px;
+	transition:
+		background var(--motion-duration-short) var(--motion-standard),
+		border-color var(--motion-duration-short) var(--motion-standard);
+}
+.m3-switch .thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--m3-outline);
+	transition:
+		transform var(--motion-duration-medium) var(--motion-emphasized),
+		background var(--motion-duration-short) var(--motion-standard);
+}
+.m3-switch[aria-checked="true"] .track {
+	background: var(--m3-primary);
+	border-color: var(--m3-primary);
+}
+.m3-switch[aria-checked="true"] .thumb {
+	transform: translateX(20px);
+	background: var(--m3-on-primary);
+}

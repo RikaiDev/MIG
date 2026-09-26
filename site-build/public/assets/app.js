@@ -1,11 +1,11 @@
 /* MIG site interactions: search overlay, checklist persistence, mobile nav. */
 (() => {
-	// Mobile sidebar toggle.
+	// Mobile rail toggle.
 	const toggle = document.getElementById("nav-toggle");
-	const sidebar = document.getElementById("sidebar");
-	if (toggle && sidebar) {
+	const rail = document.getElementById("rail");
+	if (toggle && rail) {
 		toggle.addEventListener("click", () => {
-			const open = sidebar.classList.toggle("open");
+			const open = rail.classList.toggle("open");
 			toggle.setAttribute("aria-expanded", open ? "true" : "false");
 		});
 	}

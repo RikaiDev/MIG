@@ -1,3 +1,4 @@
+/* tokens.css — M3 tokens: color roles, shapes, motion. Sole owner of all literal color. */
 /* MIG site — M3 expressive visual system (full rewrite).
    Teal-seed custom scheme, light + dark. Editorial rule flow, component
    gallery, tonal do/don't, elevated demos. All text pairs AA-verified. */
@@ -50,6 +51,14 @@
 	--st-on-proposed: #ffffff;
 	--st-proposed-container: #ffddb3;
 	--st-on-proposed-container: #2e1500;
+	--brand-hi: #e7e5e4;
+	--brand-mid: #78716c;
+	--brand-lo: #0e0d0b;
+	--brand-ring: rgba(0, 0, 0, 0.15);
+	--demo-halo: rgba(250, 250, 249, 0.5);
+	--demo-muted: #a8a29e;
+	--demo-track: rgba(128, 128, 128, 0.25);
+	--demo-warn: #f59e0b;
 	--shape-xs: 4px;
 	--shape-sm: 8px;
 	--shape-md: 12px;
@@ -109,11 +118,15 @@
 	--st-proposed-container: #6b4300;
 	--st-on-proposed-container: #ffddb3;
 }
+
+/* base.css — Reset, page shell, type scale, scrollbars, focus. */
 * {
 	box-sizing: border-box;
 }
 html {
 	scroll-behavior: smooth;
+	scrollbar-width: thin;
+	scrollbar-color: var(--m3-outline-variant) transparent;
 }
 body {
 	margin: 0;
@@ -128,38 +141,13 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 /* M3 type scale */
-.display-l {
-	font-size: 57px;
-	line-height: 64px;
-	letter-spacing: -0.25px;
-	font-weight: 400;
-}
 h1 {
 	font-size: 32px;
 	line-height: 40px;
 	font-weight: 400;
 	letter-spacing: 0;
 }
-.prose h2:not(.rule-title) {
-	font-size: 24px;
-	line-height: 32px;
-	font-weight: 400;
-	margin: 48px 0 4px;
-	padding-top: 20px;
-	border-top: 1px solid var(--m3-outline-variant);
-}
-.prose h3:not(.rule-title) {
-	font-size: 16px;
-	line-height: 24px;
-	letter-spacing: 0.009375em;
-	font-weight: 500;
-	margin: 28px 0 0;
-}
 /* Scrollbars: thin, theme-aware */
-html {
-	scrollbar-width: thin;
-	scrollbar-color: var(--m3-outline-variant) transparent;
-}
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;
@@ -194,6 +182,8 @@ html {
 	outline-offset: 2px;
 	border-radius: 6px;
 }
+
+/* topbar.css — Top app bar, brand mark, text/icon buttons, theme switch. */
 /* M3 small top app bar */
 .topbar {
 	position: sticky;
@@ -224,12 +214,12 @@ html {
 	border-radius: 50%;
 	background: radial-gradient(
 		circle at 32% 30%,
-		#e7e5e4 0%,
-		#78716c 42%,
-		#0e0d0b 100%
+		var(--brand-hi) 0%,
+		var(--brand-mid) 42%,
+		var(--brand-lo) 100%
 	);
 	display: inline-block;
-	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+	box-shadow: inset 0 0 0 1px var(--brand-ring);
 }
 .topbar-right {
 	margin-left: auto;
@@ -284,9 +274,6 @@ html {
 	align-items: center;
 	justify-content: center;
 }
-.nav-toggle {
-	display: none;
-}
 /* M3 switch */
 .m3-switch {
 	position: relative;
@@ -327,6 +314,8 @@ html {
 	transform: translateX(20px);
 	background: var(--m3-on-primary);
 }
+
+/* rail.css — Navigation rail, bottom bar, filter chips. */
 /* Layout: M3 navigation rail + content */
 .layout {
 	display: flex;
@@ -504,6 +493,8 @@ button.chip {
 	color: var(--chip-ink-on, var(--chip-ink));
 	border-color: transparent;
 }
+
+/* content.css — Content column, hero block, section gallery cards. */
 /* Content */
 .content {
 	flex: 1;
@@ -687,6 +678,8 @@ button.chip {
 	opacity: 1;
 	transform: none;
 }
+
+/* prose.css — Prose typography and editorial rule flow. Sole owner of .prose type rules. */
 /* Prose */
 .prose h1 {
 	margin: 40px 0 12px;
@@ -863,6 +856,8 @@ h3.rule-title {
 .rule-body p:first-child {
 	margin-top: 0;
 }
+
+/* demos.css — Interactive demo widgets. No breakpoints here. */
 /* Demos in M3 elevated cards */
 .demo {
 	margin: 28px 0 34px;
@@ -946,11 +941,6 @@ h3.rule-title {
 	grid-template-columns: 1fr 1fr;
 	gap: 14px;
 }
-@media (max-width: 640px) {
-	.dodont {
-		grid-template-columns: 1fr;
-	}
-}
 .do,
 .dont {
 	border-radius: var(--shape-lg);
@@ -1026,7 +1016,7 @@ h3.rule-title {
 	width: 74px;
 	height: 74px;
 	border-radius: 50%;
-	border: 3px solid rgba(250, 250, 249, 0.5);
+	border: 3px solid var(--demo-halo);
 	animation: halo 2.2s var(--motion-standard) infinite;
 }
 @keyframes halo {
@@ -1058,7 +1048,7 @@ h3.rule-title {
 }
 .dd-tiny {
 	font-size: 11px;
-	color: #a8a29e;
+	color: var(--demo-muted);
 	text-decoration: underline;
 }
 .easing-demo {
@@ -1079,7 +1069,7 @@ h3.rule-title {
 	position: relative;
 	flex: 1;
 	height: 30px;
-	background: rgba(128, 128, 128, 0.25);
+	background: var(--demo-track);
 	border-radius: var(--shape-full);
 }
 .ease-ball {
@@ -1097,10 +1087,10 @@ h3.rule-title {
 }
 .ease-ball.linear {
 	animation-timing-function: linear;
-	background: #f59e0b;
+	background: var(--demo-warn);
 }
 .ease-ball.instant {
-	background: #a8a29e;
+	background: var(--demo-muted);
 }
 @keyframes slide {
 	from {
@@ -1108,18 +1098,6 @@ h3.rule-title {
 	}
 	to {
 		left: calc(100% - 26px);
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	.dd-halo,
-	.ease-ball {
-		animation: none;
-	}
-	.ease-ball.instant {
-		left: calc(100% - 26px);
-	}
-	html {
-		scroll-behavior: auto;
 	}
 }
 .anatomy-spec {
@@ -1142,6 +1120,8 @@ h3.rule-title {
 .colophon a {
 	color: var(--m3-primary);
 }
+
+/* search.css — Search overlay dialog. */
 /* Search overlay as M3 dialog */
 .search-overlay {
 	position: fixed;
@@ -1201,7 +1181,14 @@ h3.rule-title {
 	color: var(--m3-on-surface-variant);
 	text-align: center;
 }
-/* Responsive */
+
+/* responsive.css — All media queries. Only file allowed to contain @media. */
+/* Responsive: all breakpoints live here, nowhere else. */
+@media (max-width: 640px) {
+	.dodont {
+		grid-template-columns: 1fr;
+	}
+}
 @media (max-width: 960px) {
 	.nav-toggle {
 		display: inline-flex;
@@ -1265,5 +1252,18 @@ h3.rule-title {
 	}
 	.gallery {
 		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dd-halo,
+	.ease-ball {
+		animation: none;
+	}
+	.ease-ball.instant {
+		left: calc(100% - 26px);
+	}
+	html {
+		scroll-behavior: auto;
 	}
 }

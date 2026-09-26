@@ -10,7 +10,9 @@
 		"prebuild": "rm -rf node_modules/.vite node_modules/.astro .astro",
 		"build": "astro build && bun make-index.mjs",
 		"preview": "astro preview",
-		"lint": "biome check src/ public/assets/"
+		"css:build": "bun src/styles/build-css.mjs",
+		"css:check": "bun check-css.mjs",
+		"lint": "biome check src/ public/assets/ check-css.mjs && bun check-css.mjs"
 	},
 	"type": "module",
 	"devDependencies": {

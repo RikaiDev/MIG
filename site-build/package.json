@@ -12,10 +12,12 @@
 		"preview": "astro preview",
 		"css:build": "bun src/styles/build-css.mjs",
 		"css:check": "bun check-css.mjs",
-		"lint": "biome check src/ public/assets/ check-css.mjs && bun check-css.mjs"
+		"lint": "biome check src/styles/ src/plugins/ public/assets/ check-css.mjs && bun check-css.mjs && prettier --check 'src/**/*.astro'"
 	},
 	"type": "module",
 	"devDependencies": {
-		"@biomejs/biome": "2.5.14"
+		"@biomejs/biome": "2.5.14",
+		"prettier": "^3.9.9",
+		"prettier-plugin-astro": "^1.1.0"
 	}
 }

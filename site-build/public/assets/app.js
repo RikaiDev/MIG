@@ -131,19 +131,19 @@
 			themeBtnRail.setAttribute("aria-checked", on ? "true" : "false");
 	}
 	function applyTheme(t) {
-		if (t === "dark") {
-			document.documentElement.dataset.theme = "dark";
+		if (t === "light") {
+			document.documentElement.dataset.theme = "light";
 		} else {
 			delete document.documentElement.dataset.theme;
 		}
-		setChecked(t === "dark");
+		setChecked(t !== "light");
 		try {
 			localStorage.setItem("mig-theme", t);
 		} catch {}
 	}
 	function toggleTheme() {
 		applyTheme(
-			document.documentElement.dataset.theme === "dark" ? "light" : "dark",
+			document.documentElement.dataset.theme === "light" ? "dark" : "light",
 		);
 	}
 	if (themeBtn) {
@@ -156,7 +156,7 @@
 		try {
 			const stored = localStorage.getItem("mig-theme");
 			if (stored === "dark" || stored === "light") applyTheme(stored);
-			else setChecked(document.documentElement.dataset.theme === "dark");
+			else setChecked(document.documentElement.dataset.theme !== "light");
 		} catch {}
 	}
 

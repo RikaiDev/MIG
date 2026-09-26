@@ -4,13 +4,13 @@ import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-	const pages = await getCollection("docs");
-	return pages
-		.filter((p) => p.id.replace(/\.md$/, "") !== "index")
-		.map((p) => ({
-			params: { slug: p.id.replace(/\.md$/, "") },
-			props: { entry: p },
-		}));
+  const pages = await getCollection("docs");
+  return pages
+    .filter((p) => p.id.replace(/\.md$/, "") !== "index")
+    .map((p) => ({
+      params: { slug: p.id.replace(/\.md$/, "") },
+      props: { entry: p },
+    }));
 }
 
 const { entry } = Astro.props;
@@ -21,11 +21,11 @@ const slug = entry.id.replace(/\.md$/, "");
 ---
 
 <Layout
-	title={entry.data.title}
-	description={entry.data.description}
-	hero={slug === "index"}
-	active={slug}
-	headings={headings}
+  title={entry.data.title}
+  description={entry.data.description}
+  hero={slug === "index"}
+  active={slug}
+  headings={headings}
 >
-	<Content />
+  <Content />
 </Layout>

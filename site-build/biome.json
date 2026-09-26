@@ -1,5 +1,9 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	// *.astro is owned by Prettier (prettier-plugin-astro): Biome cannot
+	// parse Astro components, and its frontmatter reformat fights Prettier.
+	// One owner per file type, no overlap.
+	"files": { "ignores": ["src/**/*.astro"] },
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"

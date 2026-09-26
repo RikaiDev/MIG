@@ -1,5 +1,5 @@
 /* topbar.css — Top app bar, brand mark, text/icon buttons, theme switch. */
-/* M3 small top app bar */
+/* Glass top bar with hairline base */
 .topbar {
 	position: sticky;
 	top: 0;
@@ -9,19 +9,23 @@
 	gap: 12px;
 	padding: 0 20px;
 	height: 64px;
-	background: var(--m3-surface);
+	background: color-mix(in srgb, var(--m3-surface) 78%, transparent);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	border-bottom: 1px solid var(--glass-line);
 	color: var(--m3-on-surface);
 }
 .brand {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	font-family: var(--font-display);
 	font-size: 22px;
 	line-height: 28px;
-	font-weight: 500;
+	font-weight: 700;
 	color: var(--m3-on-surface);
 	text-decoration: none;
-	letter-spacing: 0.14em;
+	letter-spacing: 0.22em;
 }
 .brand-mark {
 	width: 26px;
@@ -72,7 +76,7 @@
 	transition: opacity var(--motion-duration-short) var(--motion-standard);
 }
 .m3-text-btn kbd {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-family: var(--font-mono);
 	font-size: 12px;
 }
 .m3-icon-btn,

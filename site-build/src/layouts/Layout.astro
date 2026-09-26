@@ -19,25 +19,25 @@ const asset = (p) => `${base}/assets/${p}`;
 const pages = await getCollection("docs");
 
 const order = [
-	"index",
-	"human",
-	"principles",
-	"interaction-methods",
-	"components",
-	"mirror-hardware",
-	"ai-interaction",
-	"accessibility",
-	"references",
-	"history",
-	"checklists",
-	"validation",
-	"glossary",
-	"changelog",
-	"foundations/color",
-	"foundations/typography",
-	"foundations/layout-grid",
-	"foundations/iconography",
-	"foundations/motion",
+  "index",
+  "human",
+  "principles",
+  "interaction-methods",
+  "components",
+  "mirror-hardware",
+  "ai-interaction",
+  "accessibility",
+  "references",
+  "history",
+  "checklists",
+  "validation",
+  "glossary",
+  "changelog",
+  "foundations/color",
+  "foundations/typography",
+  "foundations/layout-grid",
+  "foundations/iconography",
+  "foundations/motion",
 ];
 const byId = new Map(pages.map((p) => [p.id.replace(/\.md$/, ""), p]));
 // biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
@@ -46,163 +46,419 @@ const ordered = order.map((id) => byId.get(id)).filter(Boolean);
 const toc = headings.filter((h) => h.depth === 2).slice(0, 12);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{title} — Mirror Interface Guidelines</title>
-<meta name="description" content={description} />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href={`${asset("styles.css")}`} />
-<script>
-try {
-	const stored = localStorage.getItem("mig-theme");
-	const theme = stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-	if (theme === "dark") document.documentElement.dataset.theme = "dark";
-} catch (e) {}
-</script>
-</head>
-<body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="topbar">
-<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-<a class="brand" href={`${base}/`}><span class="brand-mark" aria-hidden="true"></span>MIG</a>
-<div class="topbar-right">
-<button class="m3-switch" id="theme-toggle" role="switch" aria-checked="false" aria-label="Dark theme">
-<span class="track" aria-hidden="true"><span class="thumb"></span></span>
-</button>
-<button class="m3-text-btn" id="search-open" aria-label="Search">Search <kbd>/</kbd></button>
-</div>
-</header>
-<div class="search-overlay" id="search-overlay" hidden>
-<div class="search-box" role="dialog" aria-label="Search guidelines">
-<input id="search-input" class="search-field" type="search" placeholder="Search rules, components, patterns…" autocomplete="off" />
-<div id="search-results" class="search-results"></div>
-</div>
-</div>
-<div class="layout">
-<aside class="rail" id="rail">
-<button class="rail-search" id="search-open-rail" aria-label="Search">
-<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-</button>
-<nav aria-label="Guideline sections">
-{(() => {
-	const items = [];
-	let foundationsHeaded = false;
-	const icons = {
-		index: '<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
-		human: '<circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.5-4 4-5.5 7-5.5s5.5 1.5 7 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-		principles: '<path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
-		"interaction-methods": '<path d="M8 12V6.5a1.5 1.5 0 013 0V11m0-5.5v-1a1.5 1.5 0 013 0V11m0-4.5a1.5 1.5 0 013 0V12m0-2.5a1.5 1.5 0 013 0v5c0 4-2.5 7-6.5 7S7 19 6 17l-2.5-3c-.8-1 0-2.5 1.2-2.2L8 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-		components: '<rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>',
-		"mirror-hardware": '<rect x="6" y="3" width="12" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 8.5l5 3.5-5 3.5z" fill="currentColor"/>',
-		"ai-interaction": '<path d="M12 3c.6 4.5 2.5 6.4 7 7-4.5.6-6.4 2.5-7 7-.6-4.5-2.5-6.4-7-7 4.5-.6 6.4-2.5 7-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18.5 3.5c.3 2 1.1 2.8 3.1 3.1-2 .3-2.8 1.1-3.1 3.1-.3-2-1.1-2.8-3.1-3.1 2-.3 2.8-1.1 3.1-3.1z" fill="currentColor"/>',
-		accessibility: '<circle cx="12" cy="6" r="2.5" fill="currentColor"/><path d="M4 9.5c5.5 1.5 10.5 1.5 16 0M12 10.5v5m0 0l-3.5 5m3.5-5l3.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-		references: '<path d="M5 4.5A1.5 1.5 0 016.5 3H19v15H6.5A1.5 1.5 0 005 19.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 19.5A1.5 1.5 0 016.5 18H19" fill="none" stroke="currentColor" stroke-width="1.8"/>',
-		history: '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-		checklists: '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
-		validation: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 12l2 2 3.5-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-		glossary: '<path d="M4 6.5h16M4 12h16M4 17.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-		changelog: '<path d="M7 3.5h10v15l-2.5-1.8L12 18.5l-2.5-1.8L7 18.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8h4M10 11.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-		"foundations/color": '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="currentColor"/>',
-		"foundations/typography": '<path d="M6 19V8m0 0h9M6 8H3m12 11v-9m0 0h-3m3 0h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
-		"foundations/layout-grid": '<rect x="4" y="4" width="16" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.4"/>',
-		"foundations/iconography": '<circle cx="9" cy="9" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/>',
-		"foundations/motion": '<path d="M3 12c2.5 0 2.5-6 5-6s2.5 12 5 12 2.5-6 5-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-	};
-	for (const p of ordered) {
-		const id = p.id.replace(/\.md$/, "");
-		const railShort = {
-			"human": "Human",
-			"interaction-methods": "Methods",
-			"components": "Components",
-			"mirror-hardware": "Hardware",
-			"ai-interaction": "AI",
-			"accessibility": "Access",
-			"foundations/typography": "Type",
-			"foundations/layout-grid": "Layout",
-			"foundations/iconography": "Icons",
-		};
-		if (p.data.navGroup === "Foundations" && !foundationsHeaded) {
-			items.push(<span class="rail-group" aria-hidden="true">Foundations</span>);
-			foundationsHeaded = true;
-		}
-		items.push(
-			<a
-				class={"rail-link" + (id === active ? " active" : "")}
-				aria-current={id === active ? "page" : undefined}
-				aria-label={p.data.nav ?? p.data.title}
-				href={`${base}/${id}.html`}
-			>
-				<span class="rail-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" set:html={icons[id] ?? icons.index} /></span>
-				<span class="rail-label">{railShort[id] ?? p.data.nav ?? p.data.title}</span>
-			</a>
-		);
-	}
-	return items;
-})()}
-</nav>
-<div class="rail-bottom">
-<button class="rail-iconbtn" id="theme-toggle-rail" aria-label="Toggle dark theme">
-<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-</button>
-<span class="version-chip">v0.1.0</span>
-</div>
-</aside>
-<main class="content" id="main">
-{hero && (
-<section class="hero">
-<div class="hero-copy">
-<p class="eyebrow">RikaiDev · Design Guidelines</p>
-<h1>Mirror Interface<br /><em>Guidelines</em></h1>
-<p class="lede">Design rules for interactive half-mirror ambient displays —
-surfaces that are simultaneously a mirror, an optical measurement instrument,
-and a touch/voice interface.</p>
-<div class="hero-chips">
-<span class="chip borrowed on">borrowed — restates HIG / Material / WCAG</span>
-<span class="chip derived on">derived — established principle, mirror analogy</span>
-<span class="chip proposed on">proposed — no precedent, needs validation</span>
-</div>
-</div>
-<div class="hero-art" aria-hidden="true">
-<svg class="hero-art-svg" viewBox="0 0 320 380" role="presentation">
-<rect x="40" y="10" width="240" height="360" rx="28" fill="var(--m3-surface-container-high)"/>
-<rect x="40" y="10" width="240" height="360" rx="28" fill="url(#sheen)"/>
-<circle cx="160" cy="130" r="52" fill="var(--m3-surface-container-highest)"/>
-<circle cx="160" cy="130" r="52" fill="none" stroke="var(--m3-primary)" stroke-width="3" stroke-dasharray="10 8"/>
-<rect x="86" y="220" width="148" height="40" rx="20" fill="var(--m3-primary)"/>
-<rect x="104" y="272" width="112" height="14" rx="7" fill="var(--m3-outline-variant)"/>
-<rect x="124" y="294" width="72" height="14" rx="7" fill="var(--m3-outline-variant)"/>
-<defs><linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
-</svg>
-</div>
-</section>
-)}
-<div class="body-row">
-<article class="prose">
-<slot />
-</article>
-{toc.length > 0 && (
-<nav class="toc" aria-label="On this page">
-<p class="toc-title">On this page</p>
-{toc.map((h) => (
-<a class="toc-link" href={`#${h.slug}`}>{h.text}</a>
-))}
-</nav>
-)}
-</div>
-<footer class="colophon">Mirror Interface Guidelines · v0.1.0 draft · <a href={`${base}/validation.html`}>validation status</a> · <a href={`${base}/changelog.html`}>changelog</a></footer>
-</main>
-</div>
-<nav class="bottombar" aria-label="Guideline sections">
-<a href={`${base}/`} aria-label="Overview"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg><span>Home</span></a>
-<a href={`${base}/principles.html`} aria-label="Principles"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Rules</span></a>
-<a href={`${base}/components.html`} aria-label="Components"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Parts</span></a>
-<a href={`${base}/checklists.html`} aria-label="Checklists"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Check</span></a>
-</nav>
-<script src={`${asset("app.js")}`} defer></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — Mirror Interface Guidelines</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href={`${asset("styles.css")}`} />
+    <script>
+      try {
+        const stored = localStorage.getItem("mig-theme");
+        const theme =
+          stored ||
+          (matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark");
+        if (theme === "light") document.documentElement.dataset.theme = "light";
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="topbar">
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-label="Menu"
+        aria-expanded="false"
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+          <path
+            d="M2 4.5h14M2 9h14M2 13.5h14"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+      <a class="brand" href={`${base}/`}>
+        <span class="brand-mark" aria-hidden="true"></span>MIG
+      </a>
+      <div class="topbar-right">
+        <button
+          class="m3-switch"
+          id="theme-toggle"
+          role="switch"
+          aria-checked="true"
+          aria-label="Dark theme"
+        >
+          <span class="track" aria-hidden="true">
+            <span class="thumb"></span>
+          </span>
+        </button>
+        <button class="m3-text-btn" id="search-open" aria-label="Search">
+          Search <kbd>/</kbd>
+        </button>
+      </div>
+    </header>
+    <div class="search-overlay" id="search-overlay" hidden>
+      <div class="search-box" role="dialog" aria-label="Search guidelines">
+        <input
+          id="search-input"
+          class="search-field"
+          type="search"
+          placeholder="Search rules, components, patterns…"
+          autocomplete="off"
+        />
+        <div id="search-results" class="search-results"></div>
+      </div>
+    </div>
+    <div class="layout">
+      <aside class="rail" id="rail">
+        <button class="rail-search" id="search-open-rail" aria-label="Search">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path
+              d="M16.5 16.5L21 21"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <nav aria-label="Guideline sections">
+          {(() => {
+            const items = [];
+            let foundationsHeaded = false;
+            const icons = {
+              index:
+                '<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+              human:
+                '<circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.5-4 4-5.5 7-5.5s5.5 1.5 7 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+              principles:
+                '<path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+              "interaction-methods":
+                '<path d="M8 12V6.5a1.5 1.5 0 013 0V11m0-5.5v-1a1.5 1.5 0 013 0V11m0-4.5a1.5 1.5 0 013 0V12m0-2.5a1.5 1.5 0 013 0v5c0 4-2.5 7-6.5 7S7 19 6 17l-2.5-3c-.8-1 0-2.5 1.2-2.2L8 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+              components:
+                '<rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+              "mirror-hardware":
+                '<rect x="6" y="3" width="12" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 8.5l5 3.5-5 3.5z" fill="currentColor"/>',
+              "ai-interaction":
+                '<path d="M12 3c.6 4.5 2.5 6.4 7 7-4.5.6-6.4 2.5-7 7-.6-4.5-2.5-6.4-7-7 4.5-.6 6.4-2.5 7-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18.5 3.5c.3 2 1.1 2.8 3.1 3.1-2 .3-2.8 1.1-3.1 3.1-.3-2-1.1-2.8-3.1-3.1 2-.3 2.8-1.1 3.1-3.1z" fill="currentColor"/>',
+              accessibility:
+                '<circle cx="12" cy="6" r="2.5" fill="currentColor"/><path d="M4 9.5c5.5 1.5 10.5 1.5 16 0M12 10.5v5m0 0l-3.5 5m3.5-5l3.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+              references:
+                '<path d="M5 4.5A1.5 1.5 0 016.5 3H19v15H6.5A1.5 1.5 0 005 19.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 19.5A1.5 1.5 0 016.5 18H19" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+              history:
+                '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+              checklists:
+                '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+              validation:
+                '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 12l2 2 3.5-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+              glossary:
+                '<path d="M4 6.5h16M4 12h16M4 17.5h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+              changelog:
+                '<path d="M7 3.5h10v15l-2.5-1.8L12 18.5l-2.5-1.8L7 18.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8h4M10 11.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+              "foundations/color":
+                '<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="currentColor"/>',
+              "foundations/typography":
+                '<path d="M6 19V8m0 0h9M6 8H3m12 11v-9m0 0h-3m3 0h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+              "foundations/layout-grid":
+                '<rect x="4" y="4" width="16" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.4"/>',
+              "foundations/iconography":
+                '<circle cx="9" cy="9" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+              "foundations/motion":
+                '<path d="M3 12c2.5 0 2.5-6 5-6s2.5 12 5 12 2.5-6 5-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+            };
+            for (const p of ordered) {
+              const id = p.id.replace(/\.md$/, "");
+              const railShort = {
+                human: "Human",
+                "interaction-methods": "Methods",
+                components: "Components",
+                "mirror-hardware": "Hardware",
+                "ai-interaction": "AI",
+                accessibility: "Access",
+                "foundations/typography": "Type",
+                "foundations/layout-grid": "Layout",
+                "foundations/iconography": "Icons",
+              };
+              if (p.data.navGroup === "Foundations" && !foundationsHeaded) {
+                items.push(
+                  <span class="rail-group" aria-hidden="true">
+                    Foundations
+                  </span>,
+                );
+                foundationsHeaded = true;
+              }
+              items.push(
+                <a
+                  class={"rail-link" + (id === active ? " active" : "")}
+                  aria-current={id === active ? "page" : undefined}
+                  aria-label={p.data.nav ?? p.data.title}
+                  href={`${base}/${id}.html`}
+                >
+                  <span class="rail-icon" aria-hidden="true">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      set:html={icons[id] ?? icons.index}
+                    />
+                  </span>
+                  <span class="rail-label">
+                    {railShort[id] ?? p.data.nav ?? p.data.title}
+                  </span>
+                </a>,
+              );
+            }
+            return items;
+          })()}
+        </nav>
+        <div class="rail-bottom">
+          <button
+            class="rail-iconbtn"
+            id="theme-toggle-rail"
+            aria-label="Toggle dark theme"
+            aria-checked="true"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <span class="version-chip">v0.1.0</span>
+        </div>
+      </aside>
+      <main class="content" id="main">
+        {hero && (
+          <section class="hero">
+            <div class="hero-copy">
+              <p class="eyebrow">RikaiDev · Design Guidelines</p>
+              <h1>
+                Mirror Interface
+                <br />
+                <em>Guidelines</em>
+              </h1>
+              <p class="lede">
+                Design rules for interactive half-mirror ambient displays —
+                surfaces that are simultaneously a mirror, an optical
+                measurement instrument, and a touch/voice interface.
+              </p>
+              <div class="hero-chips">
+                <span class="chip borrowed on">
+                  borrowed — restates HIG / Material / WCAG
+                </span>
+                <span class="chip derived on">
+                  derived — established principle, mirror analogy
+                </span>
+                <span class="chip proposed on">
+                  proposed — no precedent, needs validation
+                </span>
+              </div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <svg
+                class="hero-art-svg"
+                viewBox="0 0 320 380"
+                role="presentation"
+              >
+                <rect
+                  x="40"
+                  y="10"
+                  width="240"
+                  height="360"
+                  rx="28"
+                  fill="var(--m3-surface-container-high)"
+                />
+                <rect
+                  x="40"
+                  y="10"
+                  width="240"
+                  height="360"
+                  rx="28"
+                  fill="url(#sheen)"
+                />
+                <circle
+                  cx="160"
+                  cy="130"
+                  r="52"
+                  fill="var(--m3-surface-container-highest)"
+                />
+                <circle
+                  cx="160"
+                  cy="130"
+                  r="52"
+                  fill="none"
+                  stroke="var(--m3-primary)"
+                  stroke-width="3"
+                  stroke-dasharray="10 8"
+                />
+                <rect
+                  x="86"
+                  y="220"
+                  width="148"
+                  height="40"
+                  rx="20"
+                  fill="var(--m3-primary)"
+                />
+                <rect
+                  x="104"
+                  y="272"
+                  width="112"
+                  height="14"
+                  rx="7"
+                  fill="var(--m3-outline-variant)"
+                />
+                <rect
+                  x="124"
+                  y="294"
+                  width="72"
+                  height="14"
+                  rx="7"
+                  fill="var(--m3-outline-variant)"
+                />
+                <defs>
+                  <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#fff" stop-opacity=".35" />
+                    <stop offset=".4" stop-color="#fff" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </section>
+        )}
+        <div class="body-row">
+          <article class="prose">
+            <slot />
+          </article>
+          {toc.length > 0 && (
+            <nav class="toc" aria-label="On this page">
+              <p class="toc-title">On this page</p>
+              {toc.map((h) => (
+                <a class="toc-link" href={`#${h.slug}`}>
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
+        <footer class="colophon">
+          Mirror Interface Guidelines · v0.1.0 draft ·{" "}
+          <a href={`${base}/validation.html`}>validation status</a> ·{" "}
+          <a href={`${base}/changelog.html`}>changelog</a>
+        </footer>
+      </main>
+    </div>
+    <nav class="bottombar" aria-label="Guideline sections">
+      <a href={`${base}/`} aria-label="Overview">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href={`${base}/principles.html`} aria-label="Principles">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Rules</span>
+      </a>
+      <a href={`${base}/components.html`} aria-label="Components">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <rect
+            x="4"
+            y="4"
+            width="7"
+            height="7"
+            rx="1.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <rect
+            x="13"
+            y="4"
+            width="7"
+            height="7"
+            rx="3.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <rect
+            x="4"
+            y="13"
+            width="7"
+            height="7"
+            rx="3.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <rect
+            x="13"
+            y="13"
+            width="7"
+            height="7"
+            rx="1.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+        </svg>
+        <span>Parts</span>
+      </a>
+      <a href={`${base}/checklists.html`} aria-label="Checklists">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M5 12.5l4.5 4.5L19 7.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Check</span>
+      </a>
+    </nav>
+    <script src={`${asset("app.js")}`} defer></script>
+  </body>
 </html>

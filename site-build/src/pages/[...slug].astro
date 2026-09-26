@@ -4,10 +4,12 @@ import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
 	const pages = await getCollection("docs");
-	return pages.map((p) => ({
-		params: { slug: p.id.replace(/\.md$/, "") },
-		props: { entry: p },
-	}));
+	return pages
+		.filter((p) => p.id.replace(/\.md$/, "") !== "index")
+		.map((p) => ({
+			params: { slug: p.id.replace(/\.md$/, "") },
+			props: { entry: p },
+		}));
 }
 
 const { entry } = Astro.props;

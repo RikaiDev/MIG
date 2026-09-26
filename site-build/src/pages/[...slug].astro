@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+// biome-ignore lint/correctness/noUnusedImports: Biome cannot see Astro template usage; binding is consumed in markup below
 import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -13,7 +14,9 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
 const { Content } = await render(entry);
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
 const slug = entry.id.replace(/\.md$/, "");
 ---
 

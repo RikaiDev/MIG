@@ -1,24 +1,23 @@
 ---
 import { getCollection } from "astro:content";
 
-interface Props {
-	title: string;
-	description: string;
-	hero?: boolean;
-	active: string;
-}
+/**
+ * @typedef {object} Props
+ * @property {string} title
+ * @property {string} description
+ * @property {boolean} [hero]
+ * @property {string} active
+ * @property {{ depth: number, slug: string, text: string }[]} [headings]
+ */
 
-const { title, description, hero = false, active } = Astro.props;
+/** @type {Props} */
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
+const { title, description, hero = false, active, headings = [] } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
 const asset = (p) => `${base}/assets/${p}`;
 const pages = await getCollection("docs");
 
-const groups = new Map();
-for (const p of pages) {
-	const g = p.data.navGroup ?? "";
-	if (!groups.has(g)) groups.set(g, []);
-	groups.get(g).push(p);
-}
 const order = [
 	"index",
 	"human",
@@ -41,7 +40,10 @@ const order = [
 	"foundations/motion",
 ];
 const byId = new Map(pages.map((p) => [p.id.replace(/\.md$/, ""), p]));
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
 const ordered = order.map((id) => byId.get(id)).filter(Boolean);
+// biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
+const toc = headings.filter((h) => h.depth === 2).slice(0, 12);
 ---
 
 <!DOCTYPE html>
@@ -66,13 +68,13 @@ try {
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="topbar">
+<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
 <a class="brand" href={`${base}/`}><span class="brand-mark" aria-hidden="true"></span>MIG</a>
 <div class="topbar-right">
 <button class="m3-switch" id="theme-toggle" role="switch" aria-checked="false" aria-label="Dark theme">
 <span class="track" aria-hidden="true"><span class="thumb"></span></span>
 </button>
 <button class="m3-text-btn" id="search-open" aria-label="Search">Search <kbd>/</kbd></button>
-<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
 </div>
 </header>
 <div class="search-overlay" id="search-overlay" hidden>
@@ -82,7 +84,10 @@ try {
 </div>
 </div>
 <div class="layout">
-<aside class="sidebar" id="sidebar">
+<aside class="rail" id="sidebar">
+<button class="rail-search" id="search-open-rail" aria-label="Search">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
 <nav aria-label="Guideline sections">
 {(() => {
 	const items = [];
@@ -111,35 +116,35 @@ try {
 	for (const p of ordered) {
 		const id = p.id.replace(/\.md$/, "");
 		if (p.data.navGroup === "Foundations" && !foundationsHeaded) {
-			items.push(<p class="nav-group">Foundations</p>);
+			items.push(<span class="rail-group" aria-hidden="true">Foundations</span>);
 			foundationsHeaded = true;
 		}
 		items.push(
 			<a
 				class={id === active ? "active" : ""}
 				aria-current={id === active ? "page" : undefined}
+				aria-label={p.data.nav ?? p.data.title}
 				href={`${base}/${id}.html`}
 			>
-				<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" set:html={icons[id] ?? icons.index} />
-				{p.data.nav ?? p.data.title}
+				<span class="rail-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" set:html={icons[id] ?? icons.index} /></span>
+				<span class="rail-label">{p.data.nav ?? p.data.title}</span>
 			</a>
 		);
 	}
 	return items;
 })()}
 </nav>
-<div class="status-legend">
-<span class="chip borrowed">borrowed</span>
-<span class="chip derived">derived</span>
-<span class="chip proposed">proposed</span>
-</div>
-<div class="sidebar-foot">
-<span class="version-chip">v0.1.0 · Draft</span>
+<div class="rail-bottom">
+<button class="rail-iconbtn" id="theme-toggle-rail" aria-label="Toggle dark theme">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+</button>
+<span class="version-chip">v0.1.0</span>
 </div>
 </aside>
 <main class="content" id="main">
 {hero && (
 <section class="hero">
+<div class="hero-copy">
 <p class="eyebrow">RikaiDev · Design Guidelines</p>
 <h1>Mirror Interface<br /><em>Guidelines</em></h1>
 <p class="lede">Design rules for interactive half-mirror ambient displays —
@@ -150,14 +155,43 @@ and a touch/voice interface.</p>
 <span class="chip derived">derived — established principle, mirror analogy</span>
 <span class="chip proposed">proposed — no precedent, needs validation</span>
 </div>
+</div>
+<div class="hero-art" aria-hidden="true">
+<svg viewBox="0 0 320 380" role="presentation">
+<rect x="40" y="10" width="240" height="360" rx="28" fill="var(--m3-surface-container-high)"/>
+<rect x="40" y="10" width="240" height="360" rx="28" fill="url(#sheen)"/>
+<circle cx="160" cy="130" r="52" fill="var(--m3-surface-container-highest)"/>
+<circle cx="160" cy="130" r="52" fill="none" stroke="var(--m3-primary)" stroke-width="3" stroke-dasharray="10 8"/>
+<rect x="86" y="220" width="148" height="40" rx="20" fill="var(--m3-primary)"/>
+<rect x="104" y="272" width="112" height="14" rx="7" fill="var(--m3-outline-variant)"/>
+<rect x="124" y="294" width="72" height="14" rx="7" fill="var(--m3-outline-variant)"/>
+<defs><linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+</svg>
+</div>
 </section>
 )}
+<div class="body-row">
 <article class="prose">
 <slot />
 </article>
+{toc.length > 0 && (
+<nav class="toc" aria-label="On this page">
+<p class="toc-title">On this page</p>
+{toc.map((h) => (
+<a href={`#${h.slug}`}>{h.text}</a>
+))}
+</nav>
+)}
+</div>
 <footer class="colophon">Mirror Interface Guidelines · v0.1.0 draft · <a href={`${base}/validation.html`}>validation status</a> · <a href={`${base}/changelog.html`}>changelog</a></footer>
 </main>
 </div>
+<nav class="bottombar" aria-label="Guideline sections">
+<a href={`${base}/`} aria-label="Overview"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg><span>Home</span></a>
+<a href={`${base}/principles.html`} aria-label="Principles"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Rules</span></a>
+<a href={`${base}/components.html`} aria-label="Components"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Parts</span></a>
+<a href={`${base}/checklists.html`} aria-label="Checklists"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Check</span></a>
+</nav>
 <script src={`${asset("app.js")}`} defer></script>
 </body>
 </html>

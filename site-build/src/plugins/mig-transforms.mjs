@@ -1,10 +1,15 @@
 /** MIG content transforms (remark + rehype). Replaces the retired build.mjs regexes. */
-import { readFileSync, existsSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { visit } from "unist-util-visit";
 
-const DEMOS = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "demos");
+const DEMOS = join(
+	dirname(fileURLToPath(import.meta.url)),
+	"..",
+	"..",
+	"demos",
+);
 const BASE = "/MIG";
 const STATUSES = new Set(["borrowed", "derived", "proposed"]);
 
@@ -18,7 +23,8 @@ export function remarkMig() {
 	return (tree) => {
 		// Demo markers: `:::demo-id` paragraphs become live demo partials.
 		visit(tree, "paragraph", (node, index, parent) => {
-			if (node.children?.length !== 1 || node.children[0].type !== "text") return;
+			if (node.children?.length !== 1 || node.children[0].type !== "text")
+				return;
 			const m = node.children[0].value.trim().match(/^:::([a-z0-9-]+)$/);
 			if (!m || !parent || typeof index !== "number") return;
 			const file = join(DEMOS, `${m[1]}.html`);
@@ -100,14 +106,14 @@ export function rehypeMig() {
 			let host = node;
 			let kids = node.children;
 			const para = node.children.find(
-				(c) => c.type === "element" && c.tagName === "p"
+				(c) => c.type === "element" && c.tagName === "p",
 			);
 			if (para) {
 				host = para;
 				kids = para.children || [];
 			}
 			const strong = kids[0];
-			if (!strong || strong.type !== "element" || strong.tagName !== "strong") return;
+			if (strong?.type !== "element" || strong.tagName !== "strong") return;
 			const idMatch = textOf(strong).match(/^([A-Z][A-Z0-9-_]*)\b([\s\S]*)$/);
 			if (!idMatch) return;
 			const afterText = kids
@@ -143,7 +149,9 @@ export function rehypeMig() {
 		// `## Title (MIG-C1, derived)` sections become cards.
 		visit(tree, "element", (node) => {
 			if (node.tagName !== "h2") return;
-			const m = textOf(node).match(/^(.*?)\s*\(MIG-([A-Z0-9]+),\s*([a-z]+).*\)$/);
+			const m = textOf(node).match(
+				/^(.*?)\s*\(MIG-([A-Z0-9]+),\s*([a-z]+).*\)$/,
+			);
 			if (!m || !STATUSES.has(m[3])) return;
 			node.tagName = "div";
 			node.properties = { className: ["mig-h2-card"] };
@@ -157,7 +165,7 @@ export function rehypeMig() {
 						properties: { className: ["rule-title"] },
 						children: [{ type: "text", value: m[1].trim() }],
 					},
-					[]
+					[],
 				),
 			];
 		});
@@ -174,7 +182,10 @@ export function rehypeMig() {
 				) {
 					if (open) out.push(open.section);
 					const section = child.children[0];
-					open = { section, body: section.children[section.children.length - 1].children };
+					open = {
+						section,
+						body: section.children[section.children.length - 1].children,
+					};
 					out.push(child);
 					continue;
 				}
@@ -195,7 +206,8 @@ export function rehypeMig() {
 		});
 		// GFM task checkboxes: enable + hook for persistence.
 		visit(tree, "element", (node) => {
-			if (node.tagName !== "input" || node.properties?.type !== "checkbox") return;
+			if (node.tagName !== "input" || node.properties?.type !== "checkbox")
+				return;
 			delete node.properties.disabled;
 			node.properties["data-task"] = "";
 		});

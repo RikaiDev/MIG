@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import { remarkMig, rehypeMig } from "./src/plugins/mig-transforms.mjs";
 
 export default defineConfig({
@@ -7,8 +8,10 @@ export default defineConfig({
 	output: "static",
 	build: { format: "file" },
 	markdown: {
-		gfm: true,
-		remarkPlugins: [remarkMig],
-		rehypePlugins: [rehypeMig],
+		processor: unified({
+			gfm: true,
+			remarkPlugins: [remarkMig],
+			rehypePlugins: [rehypeMig],
+		}),
 	},
 });

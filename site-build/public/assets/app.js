@@ -43,7 +43,7 @@
 
 	function asset(path) {
 		var css = document.querySelector('link[rel="stylesheet"]');
-		if (css) return css.href.replace(/styles\.css.*$/, path);
+		if (css) return css.href.replace(/assets\/styles\.css.*$/, path);
 		return base + path;
 	}
 
@@ -130,4 +130,62 @@
 	input.addEventListener("input", function () {
 		render(input.value);
 	});
+
+	// M3 theme switch (persisted; defaults to system).
+	var themeBtn = document.getElementById("theme-toggle");
+	function applyTheme(t) {
+		if (t === "dark") {
+			document.documentElement.dataset.theme = "dark";
+		} else {
+			delete document.documentElement.dataset.theme;
+		}
+		if (themeBtn) themeBtn.setAttribute("aria-checked", t === "dark" ? "true" : "false");
+		try {
+			localStorage.setItem("mig-theme", t);
+		} catch (e) {}
+	}
+	if (themeBtn) {
+		themeBtn.addEventListener("click", function () {
+			applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+		});
+		try {
+			var stored = localStorage.getItem("mig-theme");
+			if (stored === "dark" || stored === "light") applyTheme(stored);
+			else if (themeBtn) themeBtn.setAttribute("aria-checked", document.documentElement.dataset.theme === "dark" ? "true" : "false");
+		} catch (e) {}
+	}
+
+	// Status filter chips: dim rules that don't match the active set.
+	var legend = document.querySelector(".status-legend");
+	if (legend) {
+		var active = { borrowed: true, derived: true, proposed: true };
+		var buttons = Array.prototype.slice.call(legend.querySelectorAll(".chip"));
+		buttons.forEach(function (btn) {
+			var kind = btn.classList.contains("borrowed")
+				? "borrowed"
+				: btn.classList.contains("derived")
+					? "derived"
+					: "proposed";
+			var press = document.createElement("button");
+			press.className = btn.className + " on";
+			press.textContent = btn.textContent;
+			press.setAttribute("aria-pressed", "true");
+			press.setAttribute("aria-label", "Toggle " + kind + " rules");
+			btn.replaceWith(press);
+			press.addEventListener("click", function () {
+				active[kind] = !active[kind];
+				press.setAttribute("aria-pressed", active[kind] ? "true" : "false");
+				press.classList.toggle("on", active[kind]);
+				Array.prototype.forEach.call(document.querySelectorAll("section.rule"), function (sec) {
+					var chip = sec.querySelector(".rule-eyebrow .chip");
+					var show =
+						!chip ||
+						((chip.classList.contains("borrowed") && active.borrowed) ||
+							(chip.classList.contains("derived") && active.derived) ||
+							(chip.classList.contains("proposed") && active.proposed));
+					sec.style.display = show ? "" : "none";
+				});
+			});
+		});
+	}
 })();

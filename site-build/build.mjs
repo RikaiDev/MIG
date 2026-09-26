@@ -86,9 +86,9 @@ function ruleCards(html) {
 				title = "";
 			}
 			if (!["borrowed", "derived", "proposed"].includes(status)) return full;
-			const head = title.trim() ? `<h2 class="rule-title">${title.trim()}</h2>` : "";
+			const head = title.trim() ? `<h3 class="rule-title">${title.trim()}</h3>` : "";
 			body = body.trim().replace(/^\.\s*/, "");
-			return `<li class="rule-item"><section class="rule" id="rule-${id.toLowerCase()}"><div class="rule-head"><span class="rule-id">${id}</span><span class="chip ${status}">${status}</span></div>${head}<div class="rule-body">${body.trim()}</div></section></li>`;
+			return `<li class="rule-item"><section class="rule" id="rule-${id.toLowerCase()}"><p class="rule-eyebrow"><span class="rule-id">${id}</span><span class="chip ${status}">${status}</span></p>${head}<div class="rule-body">${body.trim()}</div></section></li>`;
 		}
 	);
 	// Renders `## Title (MIG-C1, derived …)` sections (with following body) as cards.
@@ -96,7 +96,7 @@ function ruleCards(html) {
 		/<h2>([^<]*?)\s*\(MIG-([A-Z0-9]+),\s*([a-z]+)[^<]*?\)<\/h2>([\s\S]*?)(?=<h2|$)/g,
 		(_, title, id, status, body) => {
 			if (!["borrowed", "derived", "proposed"].includes(status)) return _;
-			return `<section class="rule" id="rule-mig-${id.toLowerCase()}"><div class="rule-head"><span class="rule-id">MIG-${id}</span><span class="chip ${status}">${status}</span></div><h2 class="rule-title">${title.trim()}</h2><div class="rule-body">${body.trim()}</div></section>`;
+			return `<section class="rule" id="rule-mig-${id.toLowerCase()}"><p class="rule-eyebrow"><span class="rule-id">MIG-${id}</span><span class="chip ${status}">${status}</span></p><h2 class="rule-title">${title.trim()}</h2><div class="rule-body">${body.trim()}</div></section>`;
 		}
 	);
 	return html;

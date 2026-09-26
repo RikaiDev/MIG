@@ -52,10 +52,19 @@ export function remarkMig() {
 
 function ruleSection(id, status, titleNode, bodyNodes) {
 	const slug = `rule-${id.toLowerCase()}`;
+	const dots = {
+		borrowed: "var(--st-borrowed)",
+		derived: "var(--st-derived)",
+		proposed: "var(--st-proposed)",
+	};
 	return {
 		type: "element",
 		tagName: "section",
-		properties: { className: ["rule"], id: slug },
+		properties: {
+			className: ["rule"],
+			id: slug,
+			style: `--dot: ${dots[status] ?? "var(--m3-outline)"};`,
+		},
 		children: [
 			{
 				type: "element",

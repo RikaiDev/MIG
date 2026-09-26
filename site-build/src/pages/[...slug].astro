@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 // biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 // biome-ignore lint/correctness/noUnusedVariables: Biome cannot see Astro template usage; binding is consumed in markup below
 const slug = entry.id.replace(/\.md$/, "");
 ---
@@ -25,6 +25,7 @@ const slug = entry.id.replace(/\.md$/, "");
 	description={entry.data.description}
 	hero={slug === "index"}
 	active={slug}
+	headings={headings}
 >
 	<Content />
 </Layout>

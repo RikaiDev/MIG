@@ -203,11 +203,12 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 3. Confirm every path ends in reset or a named recovery — never a dead end.
 
 <div class="demo wide">
-<p>State: <output id="lab3-state"></output></p>
+<svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="Comic panel: Mei and the mirror positions"></svg>
+<p>What happens: <output id="lab3-story"></output></p>
 <p>Mirror shows: <output id="lab3-screen"></output></p>
+<p>State: <output id="lab3-state"></output></p>
 <div class="row" id="lab3-btns"></div>
-<p>Story so far:</p>
-<ol id="lab3-log"></ol>
+<p>Walked: <output id="lab3-trail"></output></p>
 </div>
 
 <script>
@@ -235,21 +236,72 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 		countdown: '"Clearing in 10 seconds — keep it?"',
 		reset: "(a clean mirror, next please)",
 	};
+	const STORY = {
+		"idle-mirror": "Saturday afternoon: Mei walks past a mirror that looks perfectly ordinary.",
+		noticing: "A small light winks in the corner; Mei catches it and stops.",
+		guidance: "Footprints appear on the floor. The mirror says: step on.",
+		engaged: "The jacket is on mirror-Mei now. She gives it a twirl.",
+		paused: "Mei's hand leaves the frame; the mirror loses it and pauses submission.",
+		queue: "Her friend Zhe wants a turn too, waving beside her.",
+		countdown: "Mei turns to leave; the mirror starts clearing.",
+		reset: "A clean mirror. Next, please.",
+	};
+	const POS = {
+		"idle-mirror": { mei: 500 },
+		noticing: { mei: 400 },
+		guidance: { mei: 300, marks: true },
+		engaged: { mei: 300, glow: true },
+		paused: { mei: 60, half: true },
+		queue: { mei: 300, other: 180 },
+		countdown: { mei: 500, away: true },
+		reset: { mei: null },
+	};
+	function drawScene(key) {
+		const q = POS[key];
+		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
+			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
+			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
+		if (q.marks) {
+			g += `<ellipse cx="310" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>` +
+				`<ellipse cx="340" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>`;
+		}
+		if (q.other) g += `<circle cx="${q.other}" cy="150" r="14" fill="#6b5f52"/>`;
+		if (q.mei !== null && q.mei !== undefined) {
+			if (q.half) {
+				g += `<circle cx="30" cy="150" r="16" fill="#9a3412"/>` +
+					`<text x="60" y="120" font-size="20" fill="#9a3412">?</text>`;
+			} else {
+				g += `<circle cx="${q.mei}" cy="150" r="16" fill="#9a3412"/>`;
+			}
+			if (q.away) g += `<text x="${q.mei + 24}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
+		}
+		return g;
+	}
 	const state = document.getElementById("lab3-state");
 	const screen = document.getElementById("lab3-screen");
-	const log = document.getElementById("lab3-log");
+	const scene = document.getElementById("lab3-scene");
+	const story = document.getElementById("lab3-story");
+	const trail = document.getElementById("lab3-trail");
 	let cur = "idle-mirror";
+	const walked = ["plain mirror"];
 	function render() {
 		state.textContent = `${NAME[cur]} (${cur})`;
 		screen.textContent = SCREEN[cur];
+		story.textContent = STORY[cur];
+		scene.innerHTML = drawScene(cur);
+		trail.textContent = walked.join(" → ");
 		box.innerHTML = "";
 		for (const [label, to] of EDGES[cur] || []) {
 			const b = document.createElement("button");
-			b.textContent = label;
+			const t1 = document.createElement("span");
+			t1.textContent = label;
+			const t2 = document.createElement("small");
+			t2.textContent = ` → ${NAME[to]}`;
+			b.appendChild(t1);
+			b.appendChild(document.createTextNode(" "));
+			b.appendChild(t2);
 			b.addEventListener("click", () => {
-				const li = document.createElement("li");
-				li.textContent = `${NAME[cur]} → ${NAME[to]} (${label})`;
-				log.prepend(li);
+				walked.push(NAME[to]);
 				cur = to;
 				render();
 			});

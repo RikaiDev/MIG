@@ -203,11 +203,12 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 3. 確認每條路都結束在重設或具名恢復——沒有死路。
 
 <div class="demo wide">
-<p>目前狀態：<output id="lab3-state"></output></p>
+<svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="小劇場：小美與鏡面的位置關係"></svg>
+<p>發生什麼事：<output id="lab3-story"></output></p>
 <p>鏡子顯示：<output id="lab3-screen"></output></p>
+<p>目前狀態：<output id="lab3-state"></output></p>
 <div class="row" id="lab3-btns"></div>
-<p>故事回顧：</p>
-<ol id="lab3-log"></ol>
+<p>走過：<output id="lab3-trail"></output></p>
 </div>
 
 <script>
@@ -235,21 +236,73 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		countdown: "「10 秒後清除，要留著嗎？」",
 		reset: "（乾淨的鏡面，下一位）",
 	};
+	const STORY = {
+		"idle-mirror": "星期六下午，小美走進百貨公司，經過一面看起來很普通的鏡子。",
+		noticing: "鏡面角落亮起小光點，小美餘光掃到，停了下來。",
+		guidance: "地板上出現一對腳印，鏡子說：站上來。",
+		engaged: "外套穿到鏡子裡的小美身上了，她轉了一圈。",
+		paused: "小美的手伸出畫面，鏡子跟丟了，提交先暫停。",
+		queue: "朋友阿哲也想玩，站在小美旁邊揮手。",
+		countdown: "小美轉身走了，鏡子開始倒數清除。",
+		reset: "鏡面乾乾淨淨，下一位請。",
+	};
+	const POS = {
+		"idle-mirror": { mei: 500 },
+		noticing: { mei: 400 },
+		guidance: { mei: 300, marks: true },
+		engaged: { mei: 300, glow: true },
+		paused: { mei: 60, half: true },
+		queue: { mei: 300, other: 180 },
+		countdown: { mei: 500, away: true },
+		reset: { mei: null },
+	};
+	function drawScene(key) {
+		const p = POS[key];
+		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
+			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${p.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
+			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
+		if (p.marks) {
+			g += `<ellipse cx="310" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>` +
+				`<ellipse cx="340" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>`;
+		}
+		if (p.other) g += `<circle cx="${p.other}" cy="150" r="14" fill="#6b5f52"/>`;
+		if (p.mei !== null && p.mei !== undefined) {
+			if (p.half) {
+				g += `<circle cx="30" cy="150" r="16" fill="#9a3412"/>` +
+					`<text x="60" y="120" font-size="20" fill="#9a3412">?</text>`;
+			} else {
+				g += `<circle cx="${p.mei}" cy="150" r="16" fill="#9a3412"/>`;
+			}
+			if (p.away) g += `<text x="${p.mei + 24}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
+		}
+		return g;
+	}
 	const state = document.getElementById("lab3-state");
 	const screen = document.getElementById("lab3-screen");
-	const log = document.getElementById("lab3-log");
+	const scene = document.getElementById("lab3-scene");
+	const story = document.getElementById("lab3-story");
+	const trail = document.getElementById("lab3-trail");
 	let cur = "idle-mirror";
+	const walked = ["純鏡面"];
 	function render() {
 		state.textContent = `${NAME[cur]} (${cur})`;
 		screen.textContent = SCREEN[cur];
+		story.textContent = STORY[cur];
+		scene.innerHTML = drawScene(cur);
+		trail.textContent = walked.join(" → ");
 		box.innerHTML = "";
 		for (const [label, to] of EDGES[cur] || []) {
 			const b = document.createElement("button");
-			b.textContent = label;
+			b.innerHTML = "";
+			const t1 = document.createElement("span");
+			t1.textContent = label;
+			const t2 = document.createElement("small");
+			t2.textContent = ` → ${NAME[to]}`;
+			b.appendChild(t1);
+			b.appendChild(document.createTextNode(" "));
+			b.appendChild(t2);
 			b.addEventListener("click", () => {
-				const li = document.createElement("li");
-				li.textContent = `${NAME[cur]} → ${NAME[to]}（${label}）`;
-				log.prepend(li);
+				walked.push(NAME[to]);
 				cur = to;
 				render();
 			});

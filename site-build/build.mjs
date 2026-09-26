@@ -70,6 +70,18 @@ function stripTags(html) {
 	return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function docLinks(html, rel) {
+	// Backtick doc refs (`foo/bar.md`) become site links.
+	return html.replace(
+		/<code>([a-z0-9/_-]+\.md)<\/code>/g,
+		(_, path) => {
+			const slug = path.replace(/\.md$/, ".html");
+			const name = path.split("/").pop().replace(/\.md$/, "");
+			return `<a href="${rel}${slug}"><code>${name}</code></a>`;
+		}
+	);
+}
+
 function ruleCards(html) {
 	// Renders `**ID (status — …).** body` and `**ID Title** (status — …)`
 	// list items as rule cards. The card nests inside its own <li> so
@@ -130,10 +142,13 @@ function sidenav(active) {
 const indexEntries = [];
 for (const [slug, title] of PAGES) {
 	const src = readFileSync(join(DOCS, `${slug}.md`), "utf-8");
-	const content = injectDemos(checklistBoxes(ruleCards(marked.parse(src))));
-	const text = stripTags(content);
 	const depth = slug.split("/").length - 1;
 	const rel = "../".repeat(depth);
+	const content = docLinks(
+		injectDemos(checklistBoxes(ruleCards(marked.parse(src)))),
+		rel
+	);
+	const text = stripTags(content);
 	const hero = slug === "index" ? HERO : "";
 	const page = template
 		.split("{{title}}").join(title)

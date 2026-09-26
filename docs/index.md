@@ -1,31 +1,43 @@
 # Mirror Interface Guidelines (MIG)
 
-Version 0.1.0 — DRAFT. Provisional, not ratified. See `CHANGELOG.md`.
+Version 0.1.0 — DRAFT. Provisional, not ratified. See `changelog.md`.
 
 Design guidelines for interactive half-mirror ambient displays: surfaces that
 are simultaneously a mirror, an optical measurement instrument, and a
 touch/voice interface.
 
-## Status contract
+## Start here
 
-Every rule carries one status. Unmarked rules do not exist.
+- New to mirrors? Read `human.md` first (rituals, recognition, glance),
+  then `interaction-methods.md` (pick an input method deliberately).
+- Designing a screen? `checklists.md` is the review gate.
+- Challenging a rule? Every rule carries status — `validation.md` explains
+  how proposed rules graduate by evidence.
 
-- `borrowed` — restates Apple HIG, Material Design, or WCAG. Citation given.
-- `derived` — an established principle applied to mirrors by analogy.
-- `proposed` — no precedent. Must not be cited above `info` severity by any
-  tool until validated (see `validation.md`).
+## How to read a rule
 
-## Contents
+Each rule shows an ID (`P1`, `C1`, `MIG-C2`), a status, a statement, and its
+grounds. Status meanings: `borrowed` restates HIG / Material / WCAG;
+`derived` applies an established principle by analogy; `proposed` has no
+precedent and caps at `info` until validated.
 
-- `principles.md` — the five principles everything else hangs from.
-- `foundations/` — color, typography, layout grid, iconography, motion.
-- `components.md` — buttons, edge bars, cards, transient confirmations.
-- `mirror-hardware.md` — panels, optical ROI, lighting, viewing distance.
-- `ai-interaction.md` — voice, presence, proactivity, privacy, zero-touch.
-- `accessibility.md` — what WCAG means on a reflective surface.
-- `checklists.md` — design-review checklists, mapped to mesen rule IDs.
-- `validation.md` — open questions and how each gets resolved.
-- `glossary.md` — terms.
+## Foundations
+
+Token tables with measured values: `foundations/color.md` (roles),
+`foundations/typography.md` (scale), `foundations/motion.md` (tokens);
+`foundations/layout-grid.md`, `foundations/iconography.md`.
+
+## Method catalog
+
+No input method is mandatory: `interaction-methods.md` covers touch on
+glass, mid-air gesture, face and gaze, voice, phone as remote, presence —
+each with fits, watch-fors, and failure modes.
+
+## Research behind it
+
+`history.md` traces calm computing to bathroom mirrors; `references.md`
+is the bibliography. Every citation is machine-verified
+(`bun site-build/check-citations.mjs`).
 
 ## Versioning
 

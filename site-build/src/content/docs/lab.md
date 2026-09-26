@@ -8,15 +8,41 @@ description: "Three no-camera demonstrations: additive light, position and depth
 
 # Mirror Lab
 
-Small demonstrations that serve understanding and verification. No camera needed — everything here runs on sliders and buttons.
+Each demo answers one design question. Pattern per demo: what it is, an annotated figure, when to use it, cases needing caution — then the interactive controls. No camera needed.
 
 <p class="disclaimer">Browser demos explain principles. They cannot reproduce mirror brightness, optical depth, or sensing quality, and never replace field acceptance.</p>
 
 <span id="demo-light"></span>
 
-## ## Demo 1 — additive light
+## Demo 1 — additive light
 
-Change the reflection background, the reflectance/transmittance split, and the screen content. Watch why black is not a mask, and how background decides legibility (OPT-01, OPT-02).
+**What it is.** A mockup-time simulator for the question "will this text survive the reflection behind it" (OPT-01, OPT-02).
+
+<figure>
+<svg viewBox="0 0 640 240" role="img" aria-label="Left: mockup assumes a black card hides the face. Right: on a real mirror the bright reflection still shows through.">
+<rect x="8" y="8" width="300" height="224" fill="none" stroke="#6b5f52"/>
+<rect x="60" y="40" width="196" height="120" rx="6" fill="#211a13"/>
+<text x="158" y="105" font-size="16" fill="#faf7f1" text-anchor="middle">20:47</text>
+<text x="158" y="30" font-size="13" fill="#6b5f52" text-anchor="middle">mockup assumes: black hides</text>
+<rect x="332" y="8" width="300" height="224" fill="none" stroke="#6b5f52"/>
+<circle cx="482" cy="100" r="46" fill="#e8e0cf"/>
+<rect x="410" y="40" width="144" height="120" rx="6" fill="#211a13" opacity="0.55"/>
+<text x="482" y="105" font-size="16" fill="#faf7f1" text-anchor="middle">20:47</text>
+<text x="482" y="30" font-size="13" fill="#6b5f52" text-anchor="middle">mirror reality: bright shows through</text>
+<text x="482" y="200" font-size="13" fill="#9a3412" text-anchor="middle">black is not a mask</text>
+</svg>
+<figcaption>Left: what the mockup promises. Right: what the mirror delivers. Same black card, different physics.</figcaption>
+</figure>
+
+**Use when.** Choosing text placement, or reviewing a mockup that relies on dark panels to "clear" an area.
+
+**Cases needing caution.** Do not use slider positions as specifications — the numbers illustrate the additive relationship, not your glass. Always re-test on the unit (checklist O1–O2).
+
+**Steps.**
+
+1. Set the background to your brightest expected case (white shirt, window).
+2. Lower the screen level until the text just survives.
+3. Flip the background dark — if the design only works on one end, move or reduce content instead of recoloring.
 
 <div class="demo wide">
 <div class="row">
@@ -63,9 +89,35 @@ Change the reflection background, the reflectance/transmittance split, and the s
 
 <span id="demo-depth"></span>
 
-## ## Demo 2 — position and depth
+## Demo 2 — position and depth
 
-Switch positioning modes and drag the viewpoint. Watch why flat alignment is not mirror alignment (POS-01).
+**What it is.** A side-view answer to "the camera sees the face, so will the user see the marker on the face" (POS-01). Three labeled parts: screen plane, reflection depth, viewpoint.
+
+<figure>
+<svg viewBox="0 0 640 200" role="img" aria-label="Side view: screen plane near the glass, reflection depth behind it, eye viewpoint to the side.">
+<line x1="60" y1="170" x2="580" y2="170" stroke="#6b5f52" stroke-width="2"/>
+<rect x="120" y="60" width="400" height="10" fill="#9a3412"/>
+<text x="120" y="48" font-size="13" fill="#211a13">1 screen plane (where pixels live)</text>
+<rect x="120" y="120" width="400" height="10" fill="#6b5f52" opacity="0.5"/>
+<text x="120" y="148" font-size="13" fill="#211a13">2 reflection depth (where the body appears)</text>
+<circle cx="560" cy="90" r="8" fill="none" stroke="#211a13" stroke-width="2"/>
+<text x="500" y="80" font-size="13" fill="#211a13">3 viewpoint (moves)</text>
+<line x1="552" y1="95" x2="330" y2="65" stroke="#9a3412" stroke-dasharray="5 4"/>
+<line x1="552" y1="95" x2="330" y2="125" stroke="#6b5f52" stroke-dasharray="5 4"/>
+<text x="330" y="190" font-size="13" fill="#9a3412">same marker, two sightlines — never the same point</text>
+</svg>
+<figcaption>One marker, two sightlines. Flat alignment is not mirror alignment.</figcaption>
+</figure>
+
+**Use when.** Deciding between fixed, body-following, and mirror-space positioning — or reviewing a design that claims "precise face registration".
+
+**Cases needing caution.** The drift curves below are illustrative, not calibration data. Never ship a registration claim without per-viewpoint measurement on the unit.
+
+**Steps.**
+
+1. Pick a positioning mode.
+2. Drag the viewpoint ±40 cm and watch the red marker separate from the body.
+3. Read the verdict: which mode your element is allowed to use.
 
 <div class="demo wide">
 <div class="row">
@@ -94,14 +146,14 @@ Switch positioning modes and drag the viewpoint. Watch why flat alignment is not
 		const ox = 320 + v * 2;
 		const mx = 320 + v * 2 + off;
 		svg.innerHTML =
-			`<line x1="60" y1="200" x2="580" y2="200" stroke="#45504e" stroke-width="2"/>` +
-			`<rect x="120" y="60" width="400" height="10" fill="#00544c" opacity="0.85"/>` +
-			`<text x="120" y="50" font-size="13" fill="#45504e">screen plane</text>` +
-			`<rect x="120" y="150" width="400" height="10" fill="#45504e" opacity="0.4"/>` +
-			`<text x="120" y="175" font-size="13" fill="#45504e">reflection depth</text>` +
-			`<circle cx="${ox}" cy="100" r="10" fill="none" stroke="#1a1d1c" stroke-width="3"/>` +
-			`<circle cx="${mx}" cy="100" r="10" fill="none" stroke="#b3261e" stroke-width="3" stroke-dasharray="5 4"/>` +
-			`<text x="60" y="30" font-size="13" fill="#1a1d1c">black = where the body is seen · red dashed = where the marker lands</text>`;
+			`<line x1="60" y1="200" x2="580" y2="200" stroke="#6b5f52" stroke-width="2"/>` +
+			`<rect x="120" y="60" width="400" height="10" fill="#9a3412" opacity="0.85"/>` +
+			`<text x="120" y="50" font-size="13" fill="#211a13">screen plane</text>` +
+			`<rect x="120" y="150" width="400" height="10" fill="#6b5f52" opacity="0.4"/>` +
+			`<text x="120" y="175" font-size="13" fill="#211a13">reflection depth</text>` +
+			`<circle cx="${ox}" cy="100" r="10" fill="none" stroke="#211a13" stroke-width="3"/>` +
+			`<circle cx="${mx}" cy="100" r="10" fill="none" stroke="#9a3412" stroke-width="3" stroke-dasharray="5 4"/>` +
+			`<text x="60" y="30" font-size="13" fill="#211a13">black = where the body is seen · red dashed = where the marker lands</text>`;
 		document.getElementById("lab2-verdict").textContent =
 			m === "fixed"
 				? "Fixed: viewpoint-independent, but never registers on a body — use for time and status only."
@@ -117,9 +169,19 @@ Switch positioning modes and drag the viewpoint. Watch why flat alignment is not
 
 <span id="demo-states"></span>
 
-## ## Demo 3 — interaction states
+## Demo 3 — interaction states
 
-Click through the journey including branches: tracking loss, second person, leaving (FLOW-01, PPL-01, exit pattern).
+**What it is.** A clickable journey through the baseline flow including every branch: tracking loss, second person, leaving (FLOW-01, PPL-01, exit pattern).
+
+**Use when.** Checking whether a flow design names every state and its exit — any transition you cannot click through here is missing design.
+
+**Cases needing caution.** Timing values (grace periods, countdowns) are placeholders. Set them per deployment and record them; do not ship these defaults.
+
+**Steps.**
+
+1. Click from idle-mirror to engaged using only the offered buttons.
+2. Force each branch: tracking lost, second person joins, leave.
+3. Confirm every path ends in reset or a named recovery — never a dead end.
 
 <div class="demo wide">
 <p>State: <output id="lab3-state">idle-mirror</output></p>

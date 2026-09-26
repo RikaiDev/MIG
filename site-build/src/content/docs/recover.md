@@ -14,7 +14,7 @@ Use when: any body-following or mirror-space interaction. Do not use as a silent
 
 ## Demonstration
 
-Simulate hand-leave, recognition failure, and re-acquire in the [Mirror Lab](/lab.html#demo-states): submission pauses, the last good state freezes visibly, and a resume cue names the exact recovery action ("raise your hand into the frame").
+Simulate hand-leave, recognition failure, and re-acquire in the [Mirror Lab](lab.html#demo-states): submission pauses, the last good state freezes visibly, and a resume cue names the exact recovery action ("raise your hand into the frame").
 
 ## Specification
 

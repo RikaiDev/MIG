@@ -14,7 +14,7 @@ Use when: any mirror visible or reachable by more than one person. Do not use pr
 
 ## Demonstration
 
-Role-play in the [Mirror Lab](/lab.html#demo-states): a second participant joins mid-task and gets queue / request-takeover / restart choices; the controller indicator never moves without an explicit action.
+Role-play in the [Mirror Lab](lab.html#demo-states): a second participant joins mid-task and gets queue / request-takeover / restart choices; the controller indicator never moves without an explicit action.
 
 ## Specification
 

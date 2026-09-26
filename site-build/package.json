@@ -23,6 +23,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "css:check": "bun check-css.mjs",
-    "lint": "biome check src/lib/ src/plugins/ public/assets/ check-css.mjs eslint.config.mjs && bun check-css.mjs && prettier --check 'src/**/*.astro' && eslint 'src/**/*.astro'"
+    "lint": "biome check src/lib/ src/plugins/ public/assets/ check-css.mjs check-links.mjs eslint.config.mjs && bun check-css.mjs && bun check-links.mjs && prettier --check 'src/**/*.astro' && eslint 'src/**/*.astro'",
+    "links:check": "bun check-links.mjs"
   }
 }

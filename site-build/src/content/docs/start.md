@@ -14,7 +14,7 @@ Use when: public or semi-public mirrors where nobody teaches. Do not use as a ge
 
 ## Demonstration
 
-Show the behavior, don't just describe it: the attract loop responds to movement with a clearly digital, causal cue (e.g. a marker that follows the hand with visible cause and effect) — because on a real mirror, "a reflection that moves with you" alone does not say "interactive". Guide to a marked standing zone, then teach exactly one action. Try it in the [Mirror Lab](/lab.html#demo-states).
+Show the behavior, don't just describe it: the attract loop responds to movement with a clearly digital, causal cue (e.g. a marker that follows the hand with visible cause and effect) — because on a real mirror, "a reflection that moves with you" alone does not say "interactive". Guide to a marked standing zone, then teach exactly one action. Try it in the [Mirror Lab](lab.html#demo-states).
 
 ## Specification
 

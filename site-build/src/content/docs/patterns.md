@@ -12,9 +12,9 @@ Pages are named by task or problem, so each one connects components, states, and
 
 | Pattern | The problem it solves |
 |---|---|
-| [Helping a first-time user start](/start.html) | No instructor: how does a passerby know it is interactive, where to stand, what to do |
-| [Recovering after tracking loss](/recover.html) | Tracking dropped mid-task: how to pause, resume, and keep trust |
-| [Deciding who controls when several approach](/handover.html) | Contested control and handover without silent session stealing |
-| [Ending and clearing personal content](/exit.html) | Finish, cancel, clear data, and reset for the next user |
+| [Helping a first-time user start](start.html) | No instructor: how does a passerby know it is interactive, where to stand, what to do |
+| [Recovering after tracking loss](recover.html) | Tracking dropped mid-task: how to pause, resume, and keep trust |
+| [Deciding who controls when several approach](handover.html) | Contested control and handover without silent session stealing |
+| [Ending and clearing personal content](exit.html) | Finish, cancel, clear data, and reset for the next user |
 
 Each pattern page follows four blocks: usage guide, interaction demonstration, design specification, verification and evidence — plus known gaps.

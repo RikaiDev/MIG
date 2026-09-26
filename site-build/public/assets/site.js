@@ -31,7 +31,7 @@
 		const atRoot = /\/MIG\/?$/.test(here) || /\/MIG\/index\.html$/.test(here);
 		const stored = localStorage.getItem("mig-lang");
 		if (atRoot && stored === "zh" && !onZh) {
-			location.replace(`${base}/zh/${location.hash}`);
+			location.replace(`${base}/zh.html${location.hash}`);
 		} else if (atRoot && stored === "en" && onZh) {
 			location.replace(`${base}/${location.hash}`);
 		}

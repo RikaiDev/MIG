@@ -14,7 +14,7 @@ description: 完成、取消、清除資料、為下一位重設——離開不�
 
 ## 互動示範
 
-到 [Mirror Lab](/zh/lab.html#demo-states) 走退出分支：完成給收據、取消給 undo 窗口、離開逾時給可見倒數、下一位看到的重設畫面。
+到 [Mirror Lab](lab.html#demo-states) 走退出分支：完成給收據、取消給 undo 窗口、離開逾時給可見倒數、下一位看到的重設畫面。
 
 ## 設計規格
 

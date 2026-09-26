@@ -14,7 +14,7 @@ Use when: any session that captures, personalizes, or changes shared state. Do n
 
 ## Demonstration
 
-Walk the exit branch in the [Mirror Lab](/lab.html#demo-states): finish with receipt, cancel with undo window, walk-away timeout with visible countdown, and the reset state the next user meets.
+Walk the exit branch in the [Mirror Lab](lab.html#demo-states): finish with receipt, cancel with undo window, walk-away timeout with visible countdown, and the reset state the next user meets.
 
 ## Specification
 

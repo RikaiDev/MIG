@@ -86,7 +86,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
       >
         ☰
       </button>
-      <a class="brand" href={lang === "en" ? `${base}/` : `${base}/zh/`}>
+      <a class="brand" href={lang === "en" ? `${base}/` : `${base}/zh.html`}>
         MIG
       </a>
       <span class="version">{t.version}</span>
@@ -103,7 +103,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
           class={lang === "zh" ? "current" : ""}
           aria-current={lang === "zh" ? "true" : undefined}
           data-lang-set="zh"
-          href={lang === "zh" ? `${base}/zh/` : otherLangHref}
+          href={lang === "zh" ? `${base}/zh.html` : otherLangHref}
         >
           中文
         </a>

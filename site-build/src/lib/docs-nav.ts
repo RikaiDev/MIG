@@ -13,10 +13,9 @@ const GROUPS = {
 
 export function pageUrl(base: string, lang: "en" | "zh", id: string) {
 	const slug = id.replace(/\.md$/, "");
+	if (slug === "index") return lang === "en" ? `${base}/` : `${base}/zh.html`;
 	const prefix = lang === "en" ? `${base}/` : `${base}/zh/`;
-	return slug === "index"
-		? prefix.replace(/\/$/, "") || "/"
-		: `${prefix}${slug}.html`;
+	return `${prefix}${slug}.html`;
 }
 
 export function buildNav(

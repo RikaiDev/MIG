@@ -11,13 +11,7 @@ Design guidelines for interactive half-mirror ambient displays: surfaces that
 are simultaneously a mirror, an optical measurement instrument, and a
 touch/voice interface.
 
-## Start here
-
-- New to mirrors? Read `human.md` first (rituals, recognition, glance),
-  then `interaction-methods.md` (pick an input method deliberately).
-- Designing a screen? `checklists.md` is the review gate.
-- Challenging a rule? Every rule carries status — `validation.md` explains
-  how proposed rules graduate by evidence.
+:::section-gallery
 
 ## How to read a rule
 

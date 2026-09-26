@@ -45,10 +45,11 @@ export function remarkMig() {
 }
 
 function ruleSection(id, status, titleNode, bodyNodes) {
+	const slug = `rule-${id.toLowerCase()}`;
 	return {
 		type: "element",
 		tagName: "section",
-		properties: { className: ["rule"], id: `rule-${id.toLowerCase()}` },
+		properties: { className: ["rule"], id: slug },
 		children: [
 			{
 				type: "element",
@@ -66,6 +67,16 @@ function ruleSection(id, status, titleNode, bodyNodes) {
 						tagName: "span",
 						properties: { className: ["chip", status] },
 						children: [{ type: "text", value: status }],
+					},
+					{
+						type: "element",
+						tagName: "a",
+						properties: {
+							className: ["rule-anchor"],
+							href: `#${slug}`,
+							ariaLabel: `Link to rule ${id}`,
+						},
+						children: [{ type: "text", value: "#" }],
 					},
 				],
 			},

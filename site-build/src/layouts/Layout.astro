@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+	title: string;
+	description: string;
+	hero?: boolean;
+	active: string;
+}
+
+const { title, description, hero = false, active } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const asset = (p) => `${base}/assets/${p}`;
+const pages = await getCollection("docs");
+
+const groups = new Map();
+for (const p of pages) {
+	const g = p.data.navGroup ?? "";
+	if (!groups.has(g)) groups.set(g, []);
+	groups.get(g).push(p);
+}
+const order = [
+	"index",
+	"human",
+	"principles",
+	"interaction-methods",
+	"components",
+	"mirror-hardware",
+	"ai-interaction",
+	"accessibility",
+	"references",
+	"history",
+	"checklists",
+	"validation",
+	"glossary",
+	"changelog",
+	"foundations/color",
+	"foundations/typography",
+	"foundations/layout-grid",
+	"foundations/iconography",
+	"foundations/motion",
+];
+const byId = new Map(pages.map((p) => [p.id.replace(/\.md$/, ""), p]));
+const ordered = order.map((id) => byId.get(id)).filter(Boolean);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title} — Mirror Interface Guidelines</title>
+<meta name="description" content={description} />
+<link rel="stylesheet" href={`${asset("styles.css")}`} />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar">
+<a class="brand" href={`${base}/`}><span class="brand-mark" aria-hidden="true"></span>MIG</a>
+<div class="topbar-right">
+<span class="version-chip">v0.1.0 · Draft</span>
+<button class="search-btn" id="search-open" aria-label="Search">Search <kbd>/</kbd></button>
+<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+</div>
+</header>
+<div class="search-overlay" id="search-overlay" hidden>
+<div class="search-box" role="dialog" aria-label="Search guidelines">
+<input id="search-input" type="search" placeholder="Search rules, components, patterns…" autocomplete="off" />
+<div id="search-results" class="search-results"></div>
+</div>
+</div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<nav aria-label="Guideline sections">
+{(() => {
+	const items = [];
+	let foundationsHeaded = false;
+	for (const p of ordered) {
+		const id = p.id.replace(/\.md$/, "");
+		if (p.data.navGroup === "Foundations" && !foundationsHeaded) {
+			items.push(<p class="nav-group">Foundations</p>);
+			foundationsHeaded = true;
+		}
+		items.push(
+			<a
+				class={id === active ? "active" : ""}
+				aria-current={id === active ? "page" : undefined}
+				href={`${base}/${id}.html`}
+			>
+				{p.data.nav}
+			</a>
+		);
+	}
+	return items;
+})()}
+</nav>
+<div class="status-legend">
+<span class="chip borrowed">borrowed</span>
+<span class="chip derived">derived</span>
+<span class="chip proposed">proposed</span>
+</div>
+</aside>
+<main class="content" id="main">
+{hero && (
+<section class="hero">
+<p class="eyebrow">RikaiDev · Design Guidelines</p>
+<h1>Mirror Interface<br /><em>Guidelines</em></h1>
+<p class="lede">Design rules for interactive half-mirror ambient displays —
+surfaces that are simultaneously a mirror, an optical measurement instrument,
+and a touch/voice interface.</p>
+<div class="hero-chips">
+<span class="chip borrowed">borrowed — restates HIG / Material / WCAG</span>
+<span class="chip derived">derived — established principle, mirror analogy</span>
+<span class="chip proposed">proposed — no precedent, needs validation</span>
+</div>
+</section>
+)}
+<article class="prose">
+<slot />
+</article>
+<footer class="colophon">Mirror Interface Guidelines · v0.1.0 draft · <a href={`${base}/validation.html`}>validation status</a> · <a href={`${base}/changelog.html`}>changelog</a></footer>
+</main>
+</div>
+<script src={`${asset("app.js")}`} defer></script>
+</body>
+</html>

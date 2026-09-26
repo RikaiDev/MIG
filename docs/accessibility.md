@@ -1,3 +1,8 @@
+---
+title: "Accessibility"
+description: "What WCAG means on a reflective surface."
+nav: "Accessibility"
+---
 # Accessibility on mirrors
 
 WCAG applies in full; these clauses need mirror-specific readings:

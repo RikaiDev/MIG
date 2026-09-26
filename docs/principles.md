@@ -1,3 +1,8 @@
+---
+title: "Principles"
+description: "Five principles everything else hangs from."
+nav: "Principles"
+---
 # Principles
 
 1. **P1 The reflection is the content** (derived — HIG Deference). UI defers to

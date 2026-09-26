@@ -42,6 +42,8 @@
 	})();
 
 	function asset(path) {
+		var css = document.querySelector('link[rel="stylesheet"]');
+		if (css) return css.href.replace(/styles\.css.*$/, path);
 		return base + path;
 	}
 

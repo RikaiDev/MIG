@@ -1,3 +1,8 @@
+---
+title: "Components"
+description: "Examples of the principles applied: status, commit, touch, bars, confirmations."
+nav: "Components"
+---
 # Components
 
 Components are examples of the principles applied, not a mandate. Each names

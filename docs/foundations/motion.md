@@ -1,3 +1,8 @@
+---
+title: "Motion"
+description: "Motion tokens with live easing demos."
+navGroup: "Foundations"
+---
 # Foundations — Motion
 
 ## Tokens

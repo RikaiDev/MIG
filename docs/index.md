@@ -1,3 +1,8 @@
+---
+title: "Overview"
+description: "Mirror Interface Guidelines: design rules for interactive half-mirror ambient displays."
+nav: "Overview"
+---
 # Mirror Interface Guidelines (MIG)
 
 Version 0.1.0 — DRAFT. Provisional, not ratified. See `changelog.md`.

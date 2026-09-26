@@ -1,3 +1,8 @@
+---
+title: "Layout grid"
+description: "Grid, clear zone, edge regions."
+navGroup: "Foundations"
+---
 # Foundations — Layout grid
 
 :::clear-zone

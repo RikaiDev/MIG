@@ -1,3 +1,8 @@
+---
+title: "History"
+description: "From calm computing to bathroom mirrors."
+nav: "History"
+---
 # History: from calm computing to bathroom mirrors
 
 A mirror guideline with no history is an opinion. This is the lineage each

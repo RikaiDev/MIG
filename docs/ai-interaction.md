@@ -1,3 +1,8 @@
+---
+title: "AI interaction"
+description: "Voice, presence, proactivity, privacy, zero-touch coverage."
+nav: "AI interaction"
+---
 # AI interaction
 
 ## Voice (derived — HIG Siri guidelines, Material voice)

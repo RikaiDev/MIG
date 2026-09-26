@@ -1,3 +1,8 @@
+---
+title: "Glossary"
+description: "Terms."
+nav: "Glossary"
+---
 # Glossary
 
 - **Clear zone.** Central panel fraction reserved for reflection/measurement.

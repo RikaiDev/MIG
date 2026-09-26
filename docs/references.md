@@ -1,3 +1,8 @@
+---
+title: "References"
+description: "Bibliography behind every borrowed rule."
+nav: "References"
+---
 # References
 
 Borrowed rules cite these. Nothing here is paraphrased from memory; quotes

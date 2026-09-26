@@ -1,3 +1,8 @@
+---
+title: "Color"
+description: "Color roles with measured contrast values."
+navGroup: "Foundations"
+---
 # Foundations — Color
 
 ## Roles

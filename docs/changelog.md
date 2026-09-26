@@ -1,3 +1,8 @@
+---
+title: "Changelog"
+description: "Version history."
+nav: "Changelog"
+---
 # Changelog
 
 ## 0.1.0 (draft)

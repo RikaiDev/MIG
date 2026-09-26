@@ -1,3 +1,8 @@
+---
+title: "Mirror hardware"
+description: "Panels, optical ROI, lighting, viewing distance."
+nav: "Mirror hardware"
+---
 # Mirror hardware
 
 ## Panel types (informative)

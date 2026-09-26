@@ -3,9 +3,12 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "bun build.mjs"
+		"prebuild": "rm -rf node_modules/.vite node_modules/.astro .astro",
+		"build": "astro build && bun make-index.mjs",
+		"preview": "astro preview"
 	},
 	"dependencies": {
-		"marked": "^16.0.0"
+		"astro": "^5.0.0",
+		"unist-util-visit": "^5.1.0"
 	}
 }

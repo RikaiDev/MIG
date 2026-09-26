@@ -1,3 +1,8 @@
+---
+title: "Validation"
+description: "How proposed rules graduate by evidence."
+nav: "Validation"
+---
 # Validation
 
 A `proposed` rule graduates by evidence, not by vote:

@@ -1,3 +1,8 @@
+---
+title: "Interaction methods"
+description: "No input method is mandatory: touch, gesture, gaze, voice, phone, presence."
+nav: "Interaction methods"
+---
 # Interaction methods
 
 A mirror mandates no input method. Each method below lists when it fits,

@@ -1,3 +1,8 @@
+---
+title: "Typography"
+description: "Type scale with real sizes."
+navGroup: "Foundations"
+---
 # Foundations — Typography
 
 ## Scale

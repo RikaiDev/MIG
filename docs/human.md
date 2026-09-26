@@ -1,3 +1,8 @@
+---
+title: "The human"
+description: "Rituals, recognition, and glances: the human relationship with mirrors comes first."
+nav: "The human"
+---
 # The human
 
 Before any pixel: a person has spent a lifetime with mirrors. The guideline

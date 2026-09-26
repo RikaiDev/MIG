@@ -15,6 +15,28 @@
 		});
 	}
 
+	// Language: remember choice, keep reading position across switch,
+	// honor stored choice on the front door.
+	try {
+		const here = location.pathname;
+		const onZh = /(^|\/)zh\//.test(here);
+		for (const a of document.querySelectorAll(".langswitch a[data-lang-set]")) {
+			a.addEventListener("click", () => {
+				try {
+					localStorage.setItem("mig-lang", a.dataset.langSet);
+				} catch {}
+				if (location.hash) a.href += location.hash;
+			});
+		}
+		const atRoot = /\/MIG\/?$/.test(here) || /\/MIG\/index\.html$/.test(here);
+		const stored = localStorage.getItem("mig-lang");
+		if (atRoot && stored === "zh" && !onZh) {
+			location.replace(`${base}/zh/${location.hash}`);
+		} else if (atRoot && stored === "en" && onZh) {
+			location.replace(`${base}/${location.hash}`);
+		}
+	} catch {}
+
 	// Symptom search: plain words first, no jargon required.
 	const input = document.getElementById("search");
 	const hits = document.getElementById("hits");

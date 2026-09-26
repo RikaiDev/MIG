@@ -84,13 +84,24 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
         MIG
       </a>
       <span class="version">{t.version}</span>
-      <a
-        class="langtoggle"
-        href={otherLangHref}
-        aria-label={lang === "en" ? "切換為繁體中文" : "Switch to English"}
-      >
-        {lang === "en" ? "中文" : "EN"}
-      </a>
+      <nav class="langswitch" aria-label={lang === "en" ? "Language" : "語言"}>
+        <a
+          class={lang === "en" ? "current" : ""}
+          aria-current={lang === "en" ? "true" : undefined}
+          data-lang-set="en"
+          href={lang === "en" ? `${base}/` : otherLangHref}
+        >
+          EN
+        </a>
+        <a
+          class={lang === "zh" ? "current" : ""}
+          aria-current={lang === "zh" ? "true" : undefined}
+          data-lang-set="zh"
+          href={lang === "zh" ? `${base}/zh/` : otherLangHref}
+        >
+          中文
+        </a>
+      </nav>
       <div class="searchwrap">
         <input
           id="search"

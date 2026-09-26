@@ -133,7 +133,8 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 <label><input type="radio" name="lab2-mode" value="space" /> In mirror space</label>
 <label>Viewpoint <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 cm</output></label>
 </div>
-<svg id="lab2-svg" viewBox="0 0 640 240" role="img" aria-label="Side view of screen plane, mirror plane, and marker offset"></svg>
+<p>Black circle = eye (viewpoint); red X = where the marker appears to land.</p>
+<svg id="lab2-svg" viewBox="0 0 640 285" role="img" aria-label="Top-down view: as the eye moves sideways, the fixed marker appears to land away from the body"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -149,24 +150,39 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} cm`;
 		const m = mode();
-		const off = m === "fixed" ? 0 : m === "body" ? v * 0.6 : v * 1.8;
-		const ox = 320 + v * 2;
-		const mx = 320 + v * 2 + off;
-		svg.innerHTML =
-			`<line x1="60" y1="200" x2="580" y2="200" stroke="#6b5f52" stroke-width="2"/>` +
-			`<rect x="120" y="60" width="400" height="10" fill="#9a3412" opacity="0.85"/>` +
-			`<text x="120" y="50" font-size="13" fill="#211a13">screen plane</text>` +
-			`<rect x="120" y="150" width="400" height="10" fill="#6b5f52" opacity="0.4"/>` +
-			`<text x="120" y="175" font-size="13" fill="#211a13">reflection depth</text>` +
-			`<circle cx="${ox}" cy="100" r="10" fill="none" stroke="#211a13" stroke-width="3"/>` +
-			`<circle cx="${mx}" cy="100" r="10" fill="none" stroke="#9a3412" stroke-width="3" stroke-dasharray="5 4"/>` +
-			`<text x="60" y="30" font-size="13" fill="#211a13">black = where the body is seen · red dashed = where the marker lands</text>`;
+		const ex = 320 + v * 4;
+		const mx = 320;
+		const my = 60;
+		const bx = 320;
+		const by = 170;
+		const hx = ex + (mx - ex) * (95 / 185);
+		const hy = by;
+		let parts =
+			`<line x1="120" y1="60" x2="520" y2="60" stroke="#211a13" stroke-width="3"/>` +
+			`<line x1="120" y1="66" x2="520" y2="66" stroke="#6b5f52" stroke-width="2"/>` +
+			`<text x="120" y="40" font-size="15" fill="#211a13">mirror + screen (top view)</text>` +
+			`<circle cx="${mx}" cy="${my}" r="9" fill="#9a3412"/>` +
+			`<text x="336" y="48" font-size="15" fill="#9a3412">marker (fixed)</text>` +
+			`<circle cx="${bx}" cy="${by}" r="30" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>` +
+			`<text x="${bx}" y="${by + 5}" font-size="15" fill="#6b5f52" text-anchor="middle">body</text>` +
+			`<circle cx="${ex}" cy="242" r="9" fill="none" stroke="#211a13" stroke-width="3"/>` +
+			`<text x="${ex + (ex >= 320 ? 16 : -16)}" y="264" font-size="15" fill="#211a13" text-anchor="${ex >= 320 ? "start" : "end"}">viewpoint</text>`;
+		if (m === "fixed") {
+			parts += `<line x1="${ex}" y1="242" x2="${hx}" y2="${hy}" stroke="#6b5f52" stroke-width="2.5"/>`;
+		} else {
+			const k = m === "body" ? 0.25 : 1;
+			const xx = Math.min(600, Math.max(40, bx + (hx - bx) * k));
+			const yy = Math.min(250, Math.max(40, by + (hy - by) * k));
+			parts += `<line x1="${ex}" y1="242" x2="${xx}" y2="${yy}" stroke="#211a13" stroke-width="2.5"/>`;
+			parts += `<path d="M${xx - 8} ${yy - 8} l16 16 M${xx + 8} ${yy - 8} l-16 16" stroke="#9a3412" stroke-width="3"/>`;
+		}
+		svg.innerHTML = parts;
 		document.getElementById("lab2-verdict").textContent =
 			m === "fixed"
 				? "Fixed: viewpoint-independent, but never registers on a body — use for time and status only."
 				: m === "body"
-					? "Body-following: small drift as viewpoint moves — calibration and feedback required."
-					: "Mirror-space: error grows fast with viewpoint — never claim precise registration without per-viewpoint calibration.";
+					? "Body-following: tracking compensates most of the error, leaving a small residual — calibration and feedback required."
+					: "Mirror-space: the full error shows — never claim precise registration without per-viewpoint calibration.";
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);

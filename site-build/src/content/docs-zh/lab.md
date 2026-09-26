@@ -133,7 +133,8 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <label><input type="radio" name="lab2-mode" value="space" /> 鏡中空間</label>
 <label>觀看位置 <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 公分</output></label>
 </div>
-<svg id="lab2-svg" viewBox="0 0 640 240" role="img" aria-label="螢幕平面、鏡面深度與標記偏移側視圖"></svg>
+<p>黑圈＝眼睛（視點）；紅叉＝標記看起來的落點。</p>
+<svg id="lab2-svg" viewBox="0 0 640 285" role="img" aria-label="俯視圖：眼睛橫移時，固定標記看起來的落點如何離開身體"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -149,24 +150,39 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} 公分`;
 		const m = mode();
-		const off = m === "fixed" ? 0 : m === "body" ? v * 0.6 : v * 1.8;
-		const ox = 320 + v * 2;
-		const mx = 320 + v * 2 + off;
-		svg.innerHTML =
-			`<line x1="60" y1="200" x2="580" y2="200" stroke="#6b5f52" stroke-width="2"/>` +
-			`<rect x="120" y="60" width="400" height="10" fill="#9a3412" opacity="0.85"/>` +
-			`<text x="120" y="50" font-size="13" fill="#211a13">screen plane 螢幕平面</text>` +
-			`<rect x="120" y="150" width="400" height="10" fill="#6b5f52" opacity="0.4"/>` +
-			`<text x="120" y="175" font-size="13" fill="#211a13">reflection depth 倒影深度</text>` +
-			`<circle cx="${ox}" cy="100" r="10" fill="none" stroke="#211a13" stroke-width="3"/>` +
-			`<circle cx="${mx}" cy="100" r="10" fill="none" stroke="#9a3412" stroke-width="3" stroke-dasharray="5 4"/>` +
-			`<text x="60" y="30" font-size="13" fill="#211a13">黑圈＝身體被看到的位置 · 紅虛線＝標記實際落點</text>`;
+		const ex = 320 + v * 4;
+		const mx = 320;
+		const my = 60;
+		const bx = 320;
+		const by = 170;
+		const hx = ex + (mx - ex) * (95 / 185);
+		const hy = by;
+		let parts =
+			`<line x1="120" y1="60" x2="520" y2="60" stroke="#211a13" stroke-width="3"/>` +
+			`<line x1="120" y1="66" x2="520" y2="66" stroke="#6b5f52" stroke-width="2"/>` +
+			`<text x="120" y="40" font-size="15" fill="#211a13">鏡面＋螢幕（俯視）</text>` +
+			`<circle cx="${mx}" cy="${my}" r="9" fill="#9a3412"/>` +
+			`<text x="336" y="48" font-size="15" fill="#9a3412">標記（固定）</text>` +
+			`<circle cx="${bx}" cy="${by}" r="30" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>` +
+			`<text x="${bx}" y="${by + 5}" font-size="15" fill="#6b5f52" text-anchor="middle">身體</text>` +
+			`<circle cx="${ex}" cy="242" r="9" fill="none" stroke="#211a13" stroke-width="3"/>` +
+			`<text x="${ex + (ex >= 320 ? 16 : -16)}" y="264" font-size="15" fill="#211a13" text-anchor="${ex >= 320 ? "start" : "end"}">視點</text>`;
+		if (m === "fixed") {
+			parts += `<line x1="${ex}" y1="242" x2="${hx}" y2="${hy}" stroke="#6b5f52" stroke-width="2.5"/>`;
+		} else {
+			const k = m === "body" ? 0.25 : 1;
+			const xx = Math.min(600, Math.max(40, bx + (hx - bx) * k));
+			const yy = Math.min(250, Math.max(40, by + (hy - by) * k));
+			parts += `<line x1="${ex}" y1="242" x2="${xx}" y2="${yy}" stroke="#211a13" stroke-width="2.5"/>`;
+			parts += `<path d="M${xx - 8} ${yy - 8} l16 16 M${xx + 8} ${yy - 8} l-16 16" stroke="#9a3412" stroke-width="3"/>`;
+		}
+		svg.innerHTML = parts;
 		document.getElementById("lab2-verdict").textContent =
 			m === "fixed"
 				? "固定：與視點無關，但永遠貼不到身體上——只給時間與狀態用。"
 				: m === "body"
-					? "跟隨身體：視點移動帶來小漂移——需要校準與回饋。"
-					: "鏡中空間：誤差隨視點快速放大——沒有逐視點校準，不得宣稱精準貼合。";
+					? "跟隨身體：追蹤補償大部分誤差，只剩小殘差——需要校準與回饋。"
+					: "鏡中空間：誤差隨視點完整呈現——沒有逐視點校準，不得宣稱精準貼合。";
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);

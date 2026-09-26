@@ -3,7 +3,8 @@
  * Fields (one per line, `key: value`; continuation lines append):
  * id, title, normative (must|should|may), evidence
  * (physical|direct|cross-domain|decision|hypothesis), tech
- * (optical|video|both), scope, statement, why, wrong, fix, verify, gaps.
+ * (optical|video|both), scope, statement, why, wrong, do, fix, impl,
+ * verify, gaps, version (optional, defaults to v0.1.0).
  * Fence meta selects label language: ```rule en (default: zh).
  */
 import { visit } from "unist-util-visit";
@@ -38,7 +39,9 @@ const SECTIONS = {
 		["statement", "規則"],
 		["why", "原因"],
 		["wrong", "錯誤範例"],
+		["do", "正例"],
 		["fix", "建議做法"],
+		["impl", "實作注意"],
 		["verify", "驗證方法"],
 		["gaps", "已知缺口"],
 	],
@@ -47,7 +50,9 @@ const SECTIONS = {
 		["statement", "Rule"],
 		["why", "Rationale"],
 		["wrong", "Wrong example"],
+		["do", "Do instead"],
 		["fix", "Fix"],
+		["impl", "Implementation notes"],
 		["verify", "Verify"],
 		["gaps", "Known gaps"],
 	],
@@ -106,8 +111,10 @@ export default function ruleBlock() {
 			};
 			const f = parseRule(node.value);
 			const slug = `rule-${f.id.toLowerCase()}`;
+			const version = esc(f.version ?? "v0.1.0");
 			let html = `<section class="rule" id="${slug}" aria-label="${esc(f.id)}">`;
 			html += `<div class="rule-head"><span class="rule-id">${esc(f.id)}</span>`;
+			html += `<span class="badge version">${version}</span>`;
 			html += `<span class="badge normative-${esc(f.normative)}">${L.normative[f.normative]}</span>`;
 			html += `<span class="badge evidence">${L.evidence[f.evidence]}</span>`;
 			html += `<span class="badge tech">${L.tech[f.tech]}</span></div>`;

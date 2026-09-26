@@ -91,30 +91,11 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 ## Demo 2 — position and depth
 
-**What it is.** A side-view answer to "the camera sees the face, so will the user see the marker on the face" (POS-01). Two viewpoints, one fixed marker, one body in mirror depth.
+**What it is.** A sticker on a mirror does not follow you — take one step right, your nose follows, the sticker stays. (POS-01)
 
-<figure>
-<svg viewBox="0 0 640 300" role="img" aria-label="Side view: two viewpoints look through one fixed screen marker and see it land on two different points of the body behind the mirror.">
-<line x1="298" y1="20" x2="298" y2="280" stroke="#211a13" stroke-width="3"/>
-<line x1="306" y1="20" x2="306" y2="280" stroke="#6b5f52" stroke-width="2"/>
-<text x="312" y="36" font-size="15" fill="#211a13">mirror glass + screen</text>
-<circle cx="302" cy="150" r="9" fill="#9a3412"/>
-<text x="312" y="208" font-size="15" fill="#9a3412">marker (on screen, fixed)</text>
-<circle cx="110" cy="118" r="9" fill="none" stroke="#211a13" stroke-width="3"/>
-<text x="60" y="100" font-size="15" fill="#211a13">viewpoint A</text>
-<circle cx="110" cy="192" r="9" fill="none" stroke="#6b5f52" stroke-width="3" stroke-dasharray="4 3"/>
-<text x="60" y="222" font-size="15" fill="#6b5f52">viewpoint B (moved)</text>
-<line x1="110" y1="118" x2="470" y2="177" stroke="#211a13" stroke-width="2.5"/>
-<line x1="110" y1="192" x2="470" y2="114" stroke="#6b5f52" stroke-width="2.5" stroke-dasharray="8 5"/>
-<circle cx="470" cy="150" r="50" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="470" y="240" font-size="14" fill="#6b5f52" text-anchor="middle">body, in mirror depth (virtual)</text>
-<path d="M462 169 l16 16 M478 169 l-16 16" stroke="#9a3412" stroke-width="3"/>
-<text x="492" y="192" font-size="15" fill="#9a3412">lands here</text>
-<path d="M462 106 l16 16 M478 106 l-16 16" stroke="#9a3412" stroke-width="3"/>
-<text x="492" y="122" font-size="15" fill="#9a3412">lands here after moving</text>
-</svg>
-<figcaption>The marker never moves. The eyes move — and the registration breaks. Flat alignment is not mirror alignment.</figcaption>
-</figure>
+Like a star sticker on a window: you walk away, the sticker stays on the glass. It will never follow your nose.
+
+
 
 **Use when.** Deciding between fixed, body-following, and mirror-space positioning — or reviewing a design that claims "precise face registration".
 
@@ -122,9 +103,9 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 **Steps.**
 
-1. Pick a positioning mode.
-2. Drag the viewpoint ±40 cm and watch the red marker separate from the body.
-3. Read the verdict: which mode your element is allowed to use.
+1. Pretend you are Mei and drag the slider to walk left and right.
+2. Watch whether the star follows the nose.
+3. Switch the three ways to play (fixed / follows body / in mirror space) and see who keeps up with the nose.
 
 <div class="demo wide">
 <div class="row">
@@ -133,8 +114,8 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 <label><input type="radio" name="lab2-mode" value="space" /> In mirror space</label>
 <label>Viewpoint <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 cm</output></label>
 </div>
-<p>Black circle = eye (viewpoint); red X = where the marker appears to land.</p>
-<svg id="lab2-svg" viewBox="0 0 640 285" role="img" aria-label="Top-down view: as the eye moves sideways, the fixed marker appears to land away from the body"></svg>
+<p>Star = sticker (never walks on its own); round face = you in the mirror, following you.</p>
+<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="Sticker game: drag the slider to walk left and right, watch whether the star follows the nose"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -146,43 +127,47 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 	function mode() {
 		return document.querySelector('input[name="lab2-mode"]:checked').value;
 	}
+	const STAR = "0,-15 3.5,-4.9 14.3,-4.6 5.8,2.8 8.8,13.1 0,7 -8.8,13.1 -5.8,2.8 -14.3,-4.6 -3.5,-4.9";
 	function draw() {
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} cm`;
 		const m = mode();
-		const ex = 320 + v * 4;
-		const mx = 320;
-		const my = 60;
-		const bx = 320;
-		const by = 170;
-		const hx = ex + (mx - ex) * (95 / 185);
-		const hy = by;
+		const H = v * 3;
+		const nx = 320 + H;
+		const ny = 162;
+		let sx;
+		if (m === "fixed") sx = 320;
+		else if (m === "body") sx = nx - Math.max(-10, Math.min(10, H * 0.15));
+		else sx = 320 + H * 0.5;
+		const miss = Math.abs(sx - nx);
+		const missCm = m === "fixed" ? Math.abs(v) : m === "body" ? Math.round(Math.abs(v) * 0.15) : Math.round(Math.abs(v) * 0.5);
 		let parts =
-			`<line x1="120" y1="60" x2="520" y2="60" stroke="#211a13" stroke-width="3"/>` +
-			`<line x1="120" y1="66" x2="520" y2="66" stroke="#6b5f52" stroke-width="2"/>` +
-			`<text x="120" y="40" font-size="15" fill="#211a13">mirror + screen (top view)</text>` +
-			`<circle cx="${mx}" cy="${my}" r="9" fill="#9a3412"/>` +
-			`<text x="336" y="48" font-size="15" fill="#9a3412">marker (fixed)</text>` +
-			`<circle cx="${bx}" cy="${by}" r="30" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>` +
-			`<text x="${bx}" y="${by + 5}" font-size="15" fill="#6b5f52" text-anchor="middle">body</text>` +
-			`<circle cx="${ex}" cy="242" r="9" fill="none" stroke="#211a13" stroke-width="3"/>` +
-			`<text x="${ex + (ex >= 320 ? 16 : -16)}" y="264" font-size="15" fill="#211a13" text-anchor="${ex >= 320 ? "start" : "end"}">viewpoint</text>`;
-		if (m === "fixed") {
-			parts += `<line x1="${ex}" y1="242" x2="${hx}" y2="${hy}" stroke="#6b5f52" stroke-width="2.5"/>`;
-		} else {
-			const k = m === "body" ? 0.25 : 1;
-			const xx = Math.min(600, Math.max(40, bx + (hx - bx) * k));
-			const yy = Math.min(250, Math.max(40, by + (hy - by) * k));
-			parts += `<line x1="${ex}" y1="242" x2="${xx}" y2="${yy}" stroke="#211a13" stroke-width="2.5"/>`;
-			parts += `<path d="M${xx - 8} ${yy - 8} l16 16 M${xx + 8} ${yy - 8} l-16 16" stroke="#9a3412" stroke-width="3"/>`;
+			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#f3ede1" stroke="#211a13" stroke-width="6"/>` +
+			`<circle cx="${nx}" cy="150" r="45" fill="#faf7f1" stroke="#211a13" stroke-width="3"/>` +
+			`<circle cx="${nx - 16}" cy="140" r="5" fill="#211a13"/>` +
+			`<circle cx="${nx + 16}" cy="140" r="5" fill="#211a13"/>` +
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#211a13" stroke-width="3" stroke-linecap="round"/>` +
+			`<circle cx="${nx}" cy="${ny}" r="3" fill="#6b5f52"/>` +
+			`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#9a3412"/>`;
+		if (miss > 8) {
+			const lx = (sx + nx) / 2;
+			parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#9a3412" stroke-width="2" stroke-dasharray="6 4"/>`;
+			parts += `<text x="${lx}" y="${ny + 58}" font-size="15" fill="#9a3412" text-anchor="middle">off by ${missCm} cm</text>`;
 		}
 		svg.innerHTML = parts;
-		document.getElementById("lab2-verdict").textContent =
-			m === "fixed"
-				? "Fixed: viewpoint-independent, but never registers on a body — use for time and status only."
-				: m === "body"
-					? "Body-following: tracking compensates most of the error, leaving a small residual — calibration and feedback required."
-					: "Mirror-space: the full error shows — never claim precise registration without per-viewpoint calibration.";
+		let verdict;
+		if (missCm < 5) {
+			verdict = m === "fixed" && v !== 0 ? "Aligned! But it breaks the moment you move." : "Aligned! The star sits on the nose.";
+		} else if (missCm < 20) {
+			verdict = `Close — off by ${missCm} cm.`;
+		} else if (m === "body") {
+			verdict = `Off by ${missCm} cm — the sticker chases the nose, just a little slow.`;
+		} else if (m === "space") {
+			verdict = `Off by ${missCm} cm — it lives inside the mirror; nearer or farther gives different answers. Never claim precision without calibration.`;
+		} else {
+			verdict = `Way off — ${missCm} cm! The sticker is glued to the glass; you walk away, it stays.`;
+		}
+		document.getElementById("lab2-verdict").textContent = verdict;
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);
@@ -196,6 +181,8 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 **What it is.** A clickable journey through the baseline flow including every branch: tracking loss, second person, leaving (FLOW-01, PPL-01, exit pattern).
 
+Starring: Mei, Saturday afternoon at the department store, trying on a jacket. You play the mirror — only press the buttons offered.
+
 **Use when.** Checking whether a flow design names every state and its exit — any transition you cannot click through here is missing design.
 
 **Cases needing caution.** Timing values (grace periods, countdowns) are placeholders. Set them per deployment and record them; do not ship these defaults.
@@ -207,8 +194,10 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 3. Confirm every path ends in reset or a named recovery — never a dead end.
 
 <div class="demo wide">
-<p>State: <output id="lab3-state">idle-mirror</output></p>
+<p>State: <output id="lab3-state"></output></p>
+<p>Mirror shows: <output id="lab3-screen"></output></p>
 <div class="row" id="lab3-btns"></div>
+<p>Story so far:</p>
 <ol id="lab3-log"></ol>
 </div>
 
@@ -226,18 +215,33 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 		countdown: [["confirm keep", "engaged"], ["timeout: cleared", "reset"]],
 		reset: [["next user approaches", "noticing"]],
 	};
+	const NAME = {"idle-mirror": "plain mirror", noticing: "noticing", guidance: "guidance", engaged: "trying on", paused: "tracking lost", queue: "someone joins", countdown: "clearing countdown", reset: "reset"};
+	const SCREEN = {
+		"idle-mirror": "(a plain mirror, only you)",
+		noticing: '"Hi! Step onto the footprints to try on the jacket"',
+		guidance: '"One step forward, onto the footprints →"',
+		engaged: '"Jacket on! Like it?"',
+		paused: '"Wait — your hand left the frame, raise it back"',
+		queue: '"Someone wants a turn too: queue up? or restart?"',
+		countdown: '"Clearing in 10 seconds — keep it?"',
+		reset: "(a clean mirror, next please)",
+	};
 	const state = document.getElementById("lab3-state");
+	const screen = document.getElementById("lab3-screen");
 	const log = document.getElementById("lab3-log");
+	let cur = "idle-mirror";
 	function render() {
+		state.textContent = `${NAME[cur]} (${cur})`;
+		screen.textContent = SCREEN[cur];
 		box.innerHTML = "";
-		for (const [label, to] of EDGES[state.textContent] || []) {
+		for (const [label, to] of EDGES[cur] || []) {
 			const b = document.createElement("button");
 			b.textContent = label;
 			b.addEventListener("click", () => {
 				const li = document.createElement("li");
-				li.textContent = `${state.textContent} → ${to} (${label})`;
+				li.textContent = `${NAME[cur]} → ${NAME[to]} (${label})`;
 				log.prepend(li);
-				state.textContent = to;
+				cur = to;
 				render();
 			});
 			box.appendChild(b);

@@ -91,30 +91,11 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 <span id="demo-depth"></span>
 
-**它是什麼。** 側視圖回答「攝影機抓到臉，使用者就會看到標記貼在臉上嗎」（POS-01）。兩個視點、一個固定標記、一個鏡中身體。
+**它是什麼。** 鏡子上的貼紙不會跟著你走——你往右一步，鼻子跟著走，貼紙還在原地。(POS-01)
 
-<figure>
-<svg viewBox="0 0 640 300" role="img" aria-label="側視圖：兩個視點透過同一個固定螢幕標記，看到它落在鏡後身體的兩個不同位置。">
-<line x1="298" y1="20" x2="298" y2="280" stroke="#211a13" stroke-width="3"/>
-<line x1="306" y1="20" x2="306" y2="280" stroke="#6b5f52" stroke-width="2"/>
-<text x="312" y="36" font-size="15" fill="#211a13">鏡面（玻璃＋螢幕）</text>
-<circle cx="302" cy="150" r="9" fill="#9a3412"/>
-<text x="312" y="208" font-size="15" fill="#9a3412">標記（在螢幕上，不動）</text>
-<circle cx="110" cy="118" r="9" fill="none" stroke="#211a13" stroke-width="3"/>
-<text x="52" y="100" font-size="15" fill="#211a13">視點 A</text>
-<circle cx="110" cy="192" r="9" fill="none" stroke="#6b5f52" stroke-width="3" stroke-dasharray="4 3"/>
-<text x="22" y="222" font-size="15" fill="#6b5f52">視點 B（移動後）</text>
-<line x1="110" y1="118" x2="470" y2="177" stroke="#211a13" stroke-width="2.5"/>
-<line x1="110" y1="192" x2="470" y2="114" stroke="#6b5f52" stroke-width="2.5" stroke-dasharray="8 5"/>
-<circle cx="470" cy="150" r="50" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>
-<text x="470" y="240" font-size="14" fill="#6b5f52" text-anchor="middle">身體，在鏡面深度裡（虛擬）</text>
-<path d="M462 169 l16 16 M478 169 l-16 16" stroke="#9a3412" stroke-width="3"/>
-<text x="492" y="192" font-size="15" fill="#9a3412">貼在這裡</text>
-<path d="M462 106 l16 16 M478 106 l-16 16" stroke="#9a3412" stroke-width="3"/>
-<text x="492" y="122" font-size="15" fill="#9a3412">移動後貼在這裡</text>
-</svg>
-<figcaption>標記沒動，眼睛動了，貼合就破了。平面對齊不等於鏡中對齊。</figcaption>
-</figure>
+就像把星星貼紙貼在窗戶上：你走開，貼紙還在窗戶上，不會跟著你的鼻子走。
+
+
 
 **何時用。** 在固定、跟隨身體、鏡中空間三種定位之間選，或審查一份宣稱「精準貼臉」的設計。
 
@@ -122,9 +103,9 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 **操作步驟。**
 
-1. 選一種定位模式。
-2. 拖動視點 ±40 公分，看紅色標記如何離開身體。
-3. 讀判讀：你的元素准用哪種模式。
+1. 假裝你是小美，拖滑桿左右走。
+2. 看星星貼紙有沒有跟著鼻子走。
+3. 切三種玩法（固定畫面／跟隨身體／鏡中空間），看誰跟得上鼻子。
 
 <div class="demo wide">
 <div class="row">
@@ -133,8 +114,8 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <label><input type="radio" name="lab2-mode" value="space" /> 鏡中空間</label>
 <label>觀看位置 <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 公分</output></label>
 </div>
-<p>黑圈＝眼睛（視點）；紅叉＝標記看起來的落點。</p>
-<svg id="lab2-svg" viewBox="0 0 640 285" role="img" aria-label="俯視圖：眼睛橫移時，固定標記看起來的落點如何離開身體"></svg>
+<p>星星＝貼紙（自己不會走）；圓臉＝鏡子裡的你，會跟著你走。</p>
+<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="貼紙遊戲：拖動滑桿假裝左右走，看星星貼紙有沒有跟著鼻子"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -146,43 +127,47 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 	function mode() {
 		return document.querySelector('input[name="lab2-mode"]:checked').value;
 	}
+	const STAR = "0,-15 3.5,-4.9 14.3,-4.6 5.8,2.8 8.8,13.1 0,7 -8.8,13.1 -5.8,2.8 -14.3,-4.6 -3.5,-4.9";
 	function draw() {
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} 公分`;
 		const m = mode();
-		const ex = 320 + v * 4;
-		const mx = 320;
-		const my = 60;
-		const bx = 320;
-		const by = 170;
-		const hx = ex + (mx - ex) * (95 / 185);
-		const hy = by;
+		const H = v * 3;
+		const nx = 320 + H;
+		const ny = 162;
+		let sx;
+		if (m === "fixed") sx = 320;
+		else if (m === "body") sx = nx - Math.max(-10, Math.min(10, H * 0.15));
+		else sx = 320 + H * 0.5;
+		const miss = Math.abs(sx - nx);
+		const missCm = m === "fixed" ? Math.abs(v) : m === "body" ? Math.round(Math.abs(v) * 0.15) : Math.round(Math.abs(v) * 0.5);
 		let parts =
-			`<line x1="120" y1="60" x2="520" y2="60" stroke="#211a13" stroke-width="3"/>` +
-			`<line x1="120" y1="66" x2="520" y2="66" stroke="#6b5f52" stroke-width="2"/>` +
-			`<text x="120" y="40" font-size="15" fill="#211a13">鏡面＋螢幕（俯視）</text>` +
-			`<circle cx="${mx}" cy="${my}" r="9" fill="#9a3412"/>` +
-			`<text x="336" y="48" font-size="15" fill="#9a3412">標記（固定）</text>` +
-			`<circle cx="${bx}" cy="${by}" r="30" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>` +
-			`<text x="${bx}" y="${by + 5}" font-size="15" fill="#6b5f52" text-anchor="middle">身體</text>` +
-			`<circle cx="${ex}" cy="242" r="9" fill="none" stroke="#211a13" stroke-width="3"/>` +
-			`<text x="${ex + (ex >= 320 ? 16 : -16)}" y="264" font-size="15" fill="#211a13" text-anchor="${ex >= 320 ? "start" : "end"}">視點</text>`;
-		if (m === "fixed") {
-			parts += `<line x1="${ex}" y1="242" x2="${hx}" y2="${hy}" stroke="#6b5f52" stroke-width="2.5"/>`;
-		} else {
-			const k = m === "body" ? 0.25 : 1;
-			const xx = Math.min(600, Math.max(40, bx + (hx - bx) * k));
-			const yy = Math.min(250, Math.max(40, by + (hy - by) * k));
-			parts += `<line x1="${ex}" y1="242" x2="${xx}" y2="${yy}" stroke="#211a13" stroke-width="2.5"/>`;
-			parts += `<path d="M${xx - 8} ${yy - 8} l16 16 M${xx + 8} ${yy - 8} l-16 16" stroke="#9a3412" stroke-width="3"/>`;
+			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#f3ede1" stroke="#211a13" stroke-width="6"/>` +
+			`<circle cx="${nx}" cy="150" r="45" fill="#faf7f1" stroke="#211a13" stroke-width="3"/>` +
+			`<circle cx="${nx - 16}" cy="140" r="5" fill="#211a13"/>` +
+			`<circle cx="${nx + 16}" cy="140" r="5" fill="#211a13"/>` +
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#211a13" stroke-width="3" stroke-linecap="round"/>` +
+			`<circle cx="${nx}" cy="${ny}" r="3" fill="#6b5f52"/>` +
+			`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#9a3412"/>`;
+		if (miss > 8) {
+			const lx = (sx + nx) / 2;
+			parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#9a3412" stroke-width="2" stroke-dasharray="6 4"/>`;
+			parts += `<text x="${lx}" y="${ny + 58}" font-size="15" fill="#9a3412" text-anchor="middle">差 ${missCm} 公分</text>`;
 		}
 		svg.innerHTML = parts;
-		document.getElementById("lab2-verdict").textContent =
-			m === "fixed"
-				? "固定：與視點無關，但永遠貼不到身體上——只給時間與狀態用。"
-				: m === "body"
-					? "跟隨身體：追蹤補償大部分誤差，只剩小殘差——需要校準與回饋。"
-					: "鏡中空間：誤差隨視點完整呈現——沒有逐視點校準，不得宣稱精準貼合。";
+		let verdict;
+		if (missCm < 5) {
+			verdict = m === "fixed" && v !== 0 ? "對準了！但你一動就破功。" : "對準了！星星貼著鼻子。";
+		} else if (missCm < 20) {
+			verdict = `差一點點，差 ${missCm} 公分。`;
+		} else if (m === "body") {
+			verdict = `差 ${missCm} 公分——貼紙追著鼻子跑，只慢一點點。`;
+		} else if (m === "space") {
+			verdict = `差 ${missCm} 公分——它住在鏡子裡面，你站遠站近答案不一樣，不校準不能說準。`;
+		} else {
+			verdict = `偏了！差 ${missCm} 公分——貼紙黏在玻璃上，你走開它還在原地。`;
+		}
+		document.getElementById("lab2-verdict").textContent = verdict;
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);
@@ -196,6 +181,8 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 **它是什麼。** 把基本流程含全部支線做成可點擊的：追蹤掉了、第二人加入、離開（FLOW-01、PPL-01、結束模式）。
 
+主角：小美，星期六下午的百貨公司，想試一件外套。你來當這面鏡子——每次只能按給出的按鈕。
+
 **何時用。** 檢查流程設計是否叫得出每個狀態和出口——這裡點不過去的轉換，就是缺失的設計。
 
 **注意案例。** 時間值（寬限期、倒數）是佔位符。各部署自行設定並記錄；不要拿預設值出貨。
@@ -207,8 +194,10 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 3. 確認每條路都結束在重設或具名恢復——沒有死路。
 
 <div class="demo wide">
-<p>目前狀態：<output id="lab3-state">idle-mirror</output></p>
+<p>目前狀態：<output id="lab3-state"></output></p>
+<p>鏡子顯示：<output id="lab3-screen"></output></p>
 <div class="row" id="lab3-btns"></div>
+<p>故事回顧：</p>
 <ol id="lab3-log"></ol>
 </div>
 
@@ -226,18 +215,33 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		countdown: [["確認保留", "engaged"], ["逾時：已清除", "reset"]],
 		reset: [["下一位靠近", "noticing"]],
 	};
+	const NAME = {"idle-mirror": "純鏡面", noticing: "注意到", guidance: "站位引導", engaged: "試穿中", paused: "追蹤掉了", queue: "有人加入", countdown: "倒數清除", reset: "重設"};
+	const SCREEN = {
+		"idle-mirror": "（鏡面，只照出你）",
+		noticing: "「嗨！站到腳印上，就可以試穿外套」",
+		guidance: "「往前一步，踩住腳印 →」",
+		engaged: "「外套穿好了，喜歡嗎？」",
+		paused: "「等等，你的手跑出畫面了，舉回來」",
+		queue: "「有人也想玩：排隊？還是重來？」",
+		countdown: "「10 秒後清除，要留著嗎？」",
+		reset: "（乾淨的鏡面，下一位）",
+	};
 	const state = document.getElementById("lab3-state");
+	const screen = document.getElementById("lab3-screen");
 	const log = document.getElementById("lab3-log");
+	let cur = "idle-mirror";
 	function render() {
+		state.textContent = `${NAME[cur]} (${cur})`;
+		screen.textContent = SCREEN[cur];
 		box.innerHTML = "";
-		for (const [label, to] of EDGES[state.textContent] || []) {
+		for (const [label, to] of EDGES[cur] || []) {
 			const b = document.createElement("button");
 			b.textContent = label;
 			b.addEventListener("click", () => {
 				const li = document.createElement("li");
-				li.textContent = `${state.textContent} → ${to}（${label}）`;
+				li.textContent = `${NAME[cur]} → ${NAME[to]}（${label}）`;
 				log.prepend(li);
-				state.textContent = to;
+				cur = to;
 				render();
 			});
 			box.appendChild(b);

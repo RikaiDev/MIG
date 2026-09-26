@@ -330,10 +330,10 @@ html {
 /* Layout: M3 navigation rail + content */
 .layout {
 	display: flex;
-	max-width: 1280px;
 	margin: 0 auto;
 	align-items: flex-start;
 	min-height: calc(100vh - 64px);
+	padding: 0 clamp(16px, 4vw, 64px);
 }
 .rail {
 	position: sticky;

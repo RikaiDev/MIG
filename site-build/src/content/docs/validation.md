@@ -18,7 +18,9 @@ scope: Every mirror deployment before launch and after any hardware, lighting, o
 statement: Acceptance requires the optics test, the environment matrix, and the field checklist on the checklists page — all run on the installed unit, with recorded conditions.
 why: Mockups cannot reproduce additive brightness, behind-mirror depth, or sensing quality; signing off in the studio signs off a different device.
 wrong: Figma-approved, shipped; on site nobody can read it and nobody can start it.
+do: Launch gated on three completed tables run on the installed unit.
 fix: Gate launch on the three checklists; re-run the affected subset after any physical change.
+impl: Re-run affected subsets after any physical change; an unsigned launch is a process failure.
 verify: The checklists themselves are the verification; a launch without completed tables is a process failure, not a design opinion.
 gaps: Cross-site comparability of results needs a shared reporting template — the checklists page is its first draft.
 ```

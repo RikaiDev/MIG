@@ -22,7 +22,9 @@ scope: Any mirror more than one person can see or reach.
 statement: Exactly one party holds control, shown unambiguously; a second person joining never inherits the session — they queue, request, or start fresh. Leaving without confirming ends the session by default.
 why: Silent session stealing is the fastest way to destroy trust in a public mirror; ambiguous control also corrupts evaluation data.
 wrong: A friend waving beside the user hijacks the try-on session; the next visitor inherits the previous cart.
+do: A highlighted silhouette shows the controller; the joiner gets queue, request, or restart.
 fix: Show the controller (e.g. highlighted silhouette consent, not identity); offer join / take-over-with-confirm / restart; time out idle control back to attract state.
+impl: Run two-person tests with a confederate; any silent transfer fails.
 verify: Two-person test: confederate joins mid-task; record whether control transferred without explicit action — any silent transfer fails.
 gaps: Fair queuing policies for high-traffic venues are deployment-specific.
 ```

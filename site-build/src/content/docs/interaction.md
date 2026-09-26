@@ -26,7 +26,9 @@ scope: All interactive mirror journeys.
 statement: Noticing is not wanting to operate; detecting is not selecting; losing track is not handing over to the next person; leaving is not a clean ending. Each pair gets different feedback and a different recovery path.
 why: Collapsing these states causes the classic mirror failures: photographing passersby, stealing sessions, and stranding the next user in someone else's state.
 wrong: Proximity alone starts capture and storage; a lost track hands the session to whoever stands nearby.
+do: Approach earns a low-risk shimmer; capture waits behind an explicit confirm step.
 fix: Notice gets a low-risk response ("interactive here") without consent implications; detection, pointing, and completion each get distinct feedback; tracking loss pauses submission and shows how to resume; leaving triggers explicit cancel, data clearing, and reset for the next user.
+impl: Name every state and its exit; any state you cannot name is missing design.
 verify: Walk through all four transitions with real users; log every state the design cannot name — each unnamed state is a missing design.
 gaps: Timing thresholds (how long is a glance vs a stare) are context-dependent; record per deployment, don't freeze globally.
 ```
@@ -43,7 +45,9 @@ scope: Any capture, storage, or sharing of identifiable personal content.
 statement: Proximity, gaze, or passing by never counts as consent to photograph, store, or publish. Capture requires an explicit, reversible confirmation step.
 why: A mirror invites bodies; bodies are not consent. The team sets this as a must, stated plainly as a team decision — not disguised as a lab-derived universal.
 wrong: "Stand here to try on" silently saves photos for "improving our service".
+do: Try first, then a separate save step stating what is kept, how long, and how to delete.
 fix: Separate the try step from the save step; show what is kept, for how long, and how to delete; leaving without confirming deletes by default.
+impl: Default to delete on unconfirmed leave; map retention wording to the local jurisdiction.
 verify: Privacy walkthrough per deployment: list every stored byte, its reason, its retention, its deletion path.
 gaps: Local regulations overlay this rule; teams must map it to their jurisdiction.
 ```
@@ -62,7 +66,9 @@ scope: Touch, gesture, voice, physical controls, and phone-as-remote on mirrors.
 statement: Document per method: which tasks it fits, which environment it needs, and what replaces it on failure. Measure sustained and repeated mid-air operation load (fatigue), not just recognition rate.
 why: Each method fails differently — reach and smudges vs discovery and drift vs noise and privacy; one method cannot cover all tasks.
 wrong: "Gesture is the most natural" as the whole input strategy, with no answer for recognition failure or tired arms.
+do: Gesture primary for try-on with touch fallback at reachable height; voice never the only path.
 fix: Publish a selection table per project; every primary method names its fallback; rest or mixed input for sustained arm-held operation.
+impl: Publish the selection table; log fallback usage, not just primary success.
 verify: Task completion under each method plus failure injection (occluded hand, noisy room, wet hands); record fallback usage, not just primary success.
 gaps: Fatigue budgets per gesture vocabulary await measurement; first record perceived exertion alongside task time.
 ```

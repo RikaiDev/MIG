@@ -106,7 +106,7 @@ export default function ruleBlock() {
 				normative: NORMATIVE[lang],
 				evidence: EVIDENCE[lang],
 				tech: TECH[lang],
-				sections: lang === "en" ? SECTIONS.en : SECTIONS_ZH,
+				sections: SECTIONS[lang],
 				anchor: lang === "en" ? "Link to this rule" : "連結到本條規則",
 			};
 			const f = parseRule(node.value);

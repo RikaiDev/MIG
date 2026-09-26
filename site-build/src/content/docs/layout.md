@@ -24,7 +24,9 @@ scope: All mirror content involving the human body.
 statement: Write down the reflection information each task must keep before placing anything; corners dodge the body but may be unreadable and unreachable — keep reflection, legibility, and reachability in one decision.
 why: The same UI may sit over white shirts, dark clothes, patterns, windows, or a second person; no fixed clear zone covers that.
 wrong: Site-wide "empty middle, info in corners" leaves price tags covering the garment in a try-on task.
+do: Try-on task: price and options docked low-right, garment zone from shoulders to knees clear.
 fix: Define keep and exclusion zones per task from the table below; keep information out of keep zones, put targets within reach.
+impl: Keep and exclusion zones per task go in the spec; verify with three heights and three clothing types on video.
 verify: Three users of different heights and clothing perform the task on video; check the keep zone was never covered.
 gaps: Quantified keep-zone sizes per task await field data; v1 gives direction, not centimeters.
 ```
@@ -48,7 +50,9 @@ scope: Movement guidance and try-on content with left/right directions.
 statement: "Raise your left hand" means the user's bodily left; design with body references, never mirror-flip the entire UI with its text.
 why: Mirrors already reverse; screen-coordinate left conflicts with felt left, and flipping mirrors the text into unreadability.
 wrong: Mirroring the whole interface to match the reflection, turning instructions into mirror writing.
+do: Arrow drawn from the user's viewpoint plus the words your left hand.
 fix: Draw arrows from the user's viewpoint; text always reads forward; prefer "your left hand" over "left side".
+impl: Text never mirrors; audit every directional asset for screen-coordinate wording.
 verify: Ask users to raise hands on instruction; redesign if left/right errors beat chance.
 gaps: Children's and older adults' grasp of body-reference wording untested.
 ```

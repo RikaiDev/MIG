@@ -26,7 +26,9 @@ scope: Passive half-mirror plus display behind it; does not directly apply to ca
 statement: Never treat a digital black region as an opaque plate that hides the scene.
 why: Black only lowers display emission; front-environment reflection remains. A direct consequence of additive optics, not a visual style preference.
 wrong: A mockup covers the face with a black card and assumes the physical mirror will do the same.
+do: Time and status docked in a slim top strip, tested against light shirts, dark coats, and a bright window.
 fix: Reposition content and reduce information; test on the physical mirror; if still unreadable, revisit lighting and hardware.
+impl: Passive stacks only; hardware with a physical shutter or opaque emissive mode documents the exception with its model number.
 verify: Show a full-black region, move a bright object before the mirror, confirm how its reflection still appears there; then check whether the design wrongly depends on black masking.
 gaps: Residual contrast figures per coating ratio not yet collected; field measurement required.
 ```
@@ -41,7 +43,9 @@ scope: All optical-mirror content containing text and icons.
 statement: Legibility tests must run on at least three reflection backgrounds (light clothing, dark clothing, bright window or a second person); passing mockup color contrast does not count as passing.
 why: The background belongs to the user and the room, not the designer; visual competition changes drastically with it.
 wrong: Testing white text only against a dark lab coat, then signing off for all venues.
+do: A background matrix card pinned next to the mockup, each cell marked readable, marginal, or unreadable.
 fix: Build a background matrix (clothing lightness × ambient level × second person present); record readable / marginal / unreadable per cell.
+impl: Record lux, distance, and clothing per cell; re-run the matrix after any lighting or placement change.
 verify: Swap three backgrounds on site and measure task legibility success; "white on black" is a candidate, not a universal answer.
 gaps: Minimum acceptable legibility thresholds per task not yet established; v1 requires recording, sets no universal number.
 ```
@@ -60,7 +64,9 @@ scope: Any design registering digital markers to bodies or space.
 statement: Pick exactly one: fixed on screen (time, instructions, status), following body parts (face effects, posture cues), located in mirror space (reflected hand operating virtual objects behind the mirror); each gets its own calibration and feedback, never one shared flat-layout rulebook.
 why: Error sources differ (screen coordinates vs body tracking vs viewing parallax); mixing them makes alignment failures undebuggable.
 wrong: One left/top scheme drives both the clock and face stickers; step sideways and it breaks.
+do: Clock fixed top-right; face sticker bound to a tracker ID with its update rate; mirror-space button with a viewpoint assumption.
 fix: Label every dynamic element with its positioning mode; body-following items note tracking source and rate, mirror-space items note viewpoint assumptions.
+impl: One mode per element, labeled in the spec; a mixed-mode element is a spec bug.
 verify: User steps 30 cm sideways; check markers still register; record the viewing range where they fail.
 gaps: End-to-end error envelopes per tracking stack must be measured by each team.
 ```
@@ -79,7 +85,9 @@ scope: Design kickoff for optical-mirror projects.
 statement: All five items below need written confirmation before visual design starts; any unknown marks its design decisions as assumptions, never sign-off.
 why: None of these can be fixed in UI alone; discovering them late means redoing the work.
 wrong: Assuming all half-mirror glass is touch-compatible, learning otherwise at launch.
+do: A signed five-row table at kickoff, unknowns dated for verification.
 fix: Sign off item by item with the hardware side; log unknowns as known gaps with verification dates.
+impl: No signature, no visual design on the affected decisions; re-confirm after any stack change.
 verify: Check each item against the acceptance table on the checklists page.
 gaps: Per-supplier compatibility matrices are each team's own; this guide endorses no vendor.
 ```

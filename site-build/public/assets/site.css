@@ -227,18 +227,6 @@ body {
 	border-radius: 5px;
 	padding: 1px 6px;
 }
-.main pre {
-	background: var(--ink);
-	color: var(--paper);
-	border-radius: var(--radius);
-	padding: 16px 18px;
-	overflow-x: auto;
-}
-.main pre code {
-	background: none;
-	color: inherit;
-	padding: 0;
-}
 /* Right TOC */
 .toc {
 	position: sticky;

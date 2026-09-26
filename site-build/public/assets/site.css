@@ -54,7 +54,7 @@ body {
 	font-size: 18px;
 }
 .version {
-	font-size: 12px;
+	font-size: 14px;
 	color: var(--ink-2);
 	border: 1px solid var(--line);
 	border-radius: 999px;
@@ -69,7 +69,7 @@ body {
 	white-space: nowrap;
 }
 .langswitch a {
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 700;
 	color: var(--ink-2);
 	text-decoration: none;
@@ -126,7 +126,7 @@ body {
 }
 .hits .hit-why {
 	display: block;
-	font-size: 13px;
+	font-size: 14px;
 	color: var(--ink-2);
 }
 /* Shell: full-width, no capped container */
@@ -145,9 +145,9 @@ body {
 	border-right: 1px solid var(--line);
 }
 .navgroup {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.02em;
 	color: var(--ink-2);
 	margin: 18px 0 6px 8px;
 }
@@ -182,13 +182,13 @@ body {
 .main h1 {
 	font-family: var(--font-display);
 	font-size: clamp(30px, 3.4vw, 42px);
-	line-height: 1.2;
+	line-height: 1.4;
 	letter-spacing: 0;
 	margin: 0 0 12px;
 }
 .main h2 {
 	font-size: 24px;
-	line-height: 1.35;
+	line-height: 1.4;
 	margin: 44px 0 8px;
 	padding-top: 16px;
 	border-top: 1px solid var(--line);
@@ -202,6 +202,9 @@ body {
 }
 .main a {
 	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
 }
 .main table {
 	width: 100%;
@@ -217,11 +220,11 @@ body {
 	vertical-align: top;
 }
 .main th {
-	font-size: 13px;
+	font-size: 14px;
 	color: var(--ink-2);
 }
 .main code {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-family: var(--font-mono);
 	font-size: 0.86em;
 	background: var(--code-bg);
 	border-radius: 5px;
@@ -238,9 +241,9 @@ body {
 	padding: 32px 20px 40px 0;
 }
 .toc-title {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.02em;
 	color: var(--ink-2);
 	margin: 0 0 6px;
 }
@@ -248,7 +251,7 @@ body {
 	display: block;
 	color: var(--ink-2);
 	text-decoration: none;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.45;
 	padding: 4px 0 4px 2px;
 }
@@ -275,14 +278,14 @@ body {
 	border-bottom: 1px solid var(--line);
 }
 .rule-id {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-family: var(--font-mono);
 	font-weight: 700;
 	font-size: 14px;
 	letter-spacing: 0.04em;
 }
 .badge {
 	display: inline-block;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
 	border-radius: 999px;
 	padding: 2px 10px;
@@ -307,23 +310,23 @@ body {
 	font-weight: 500;
 }
 .badge.version {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-family: var(--font-mono);
 	color: var(--ink-2);
 	font-weight: 500;
 }
 .rule-title {
 	font-family: var(--font-display);
 	font-size: 23px;
-	line-height: 1.35;
+	line-height: 1.4;
 	margin: 0 0 12px;
 }
 .rule-sec {
 	margin: 12px 0;
 }
 .rule-label {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.02em;
 	color: var(--ink-2);
 	margin: 0 0 2px;
 	text-transform: uppercase;
@@ -341,15 +344,15 @@ body {
 	padding: 40px 0 8px;
 }
 .kicker {
-	font-size: 13px;
-	letter-spacing: 0.1em;
+	font-size: 14px;
+	letter-spacing: 0.02em;
 	color: var(--ink-2);
 	margin: 0 0 12px;
 }
 .hero h1 {
 	font-family: var(--font-display);
 	font-size: clamp(36px, 5vw, 60px);
-	line-height: 1.12;
+	line-height: 1.4;
 	margin: 0 0 16px;
 }
 .lede {
@@ -379,8 +382,8 @@ body {
 	border-color: var(--accent);
 }
 .entry-num {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-	font-size: 13px;
+	font-family: var(--font-mono);
+	font-size: 14px;
 	color: var(--accent);
 	font-weight: 700;
 }
@@ -423,8 +426,8 @@ body {
 	align-items: center;
 }
 .demo output {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-	font-size: 13px;
+	font-family: var(--font-mono);
+	font-size: 14px;
 }
 .demo canvas,
 .demo svg {
@@ -434,7 +437,7 @@ body {
 	background: var(--paper);
 }
 .disclaimer {
-	font-size: 13px;
+	font-size: 14px;
 	color: var(--warn-ink);
 	background: var(--warn-bg);
 	border-radius: var(--radius);

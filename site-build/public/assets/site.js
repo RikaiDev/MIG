@@ -1,9 +1,9 @@
 /* MIG site interactions: symptom search, mobile nav. No camera, no tracking. */
 (() => {
-	const cssHref =
-		document.querySelector('link[rel="stylesheet"]')?.getAttribute("href") ??
-		"";
-	const base = cssHref.includes("/assets/") ? cssHref.split("/assets/")[0] : "";
+	const scriptSrc = document.currentScript?.src ?? "";
+	const base = scriptSrc.includes("/assets/")
+		? new URL(scriptSrc).pathname.split("/assets/")[0]
+		: "";
 
 	// Mobile nav toggle.
 	const toggle = document.getElementById("nav-toggle");

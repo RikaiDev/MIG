@@ -33,6 +33,7 @@ Porting Looking Glass to real mirrors must test *recognizable digital response* 
 | **Microsoft Mixed Reality: Comfort** | Limit → why → how to avoid → what to test, turning body/hardware limits into rules | Headset distances, angles, depth numbers as mirror specs |
 | **GOV.UK Design System patterns** | Task-named pages; when-to-use → how-it-works → research → known gaps | Their domain content |
 | **IBM Carbon** | Single-page organization (usage / demo / spec / verification); do–don't with handoff | A component library as the star; patterns lead here |
+| **Japan Digital Agency design system (typography)** | Noto family pairing, 170% CJK body line-height, 140% headings, links never color-only, 14px floor | JP-government context; our serif pairing and warm tokens are our own decision |
 
 ## Versions
 

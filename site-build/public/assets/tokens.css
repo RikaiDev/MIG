@@ -22,5 +22,9 @@
 	--focus: #9a3412;
 	--radius: 6px;
 	--measure: 68ch;
-	--font-display: Georgia, "Times New Roman", "Noto Serif TC", serif;
+	--font-display: "Noto Serif", "Noto Serif TC", Georgia, serif;
+	--font-body:
+		"Noto Sans", "Noto Sans TC", -apple-system, "Segoe UI", sans-serif;
+	--font-mono:
+		"Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }

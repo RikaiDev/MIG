@@ -91,22 +91,29 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 <span id="demo-depth"></span>
 
-**它是什麼。** 側視圖回答「攝影機抓到臉，使用者就會看到標記貼在臉上嗎」（POS-01）。三個標註部位：螢幕平面、倒影深度、觀看視點。
+**它是什麼。** 側視圖回答「攝影機抓到臉，使用者就會看到標記貼在臉上嗎」（POS-01）。兩個視點、一個固定標記、一個鏡中身體。
 
 <figure>
-<svg viewBox="0 0 640 200" role="img" aria-label="側視圖：像素住的螢幕平面、身體出現的倒影深度、會移動的眼睛視點。">
-<line x1="60" y1="170" x2="580" y2="170" stroke="#6b5f52" stroke-width="2"/>
-<rect x="120" y="60" width="400" height="10" fill="#9a3412"/>
-<text x="120" y="48" font-size="13" fill="#211a13">1 螢幕平面（像素住的地方）</text>
-<rect x="120" y="120" width="400" height="10" fill="#6b5f52" opacity="0.5"/>
-<text x="120" y="148" font-size="13" fill="#211a13">2 倒影深度（身體出現的地方）</text>
-<circle cx="560" cy="90" r="8" fill="none" stroke="#211a13" stroke-width="2"/>
-<text x="500" y="80" font-size="13" fill="#211a13">3 視點（會移動）</text>
-<line x1="552" y1="95" x2="330" y2="65" stroke="#9a3412" stroke-dasharray="5 4"/>
-<line x1="552" y1="95" x2="330" y2="125" stroke="#6b5f52" stroke-dasharray="5 4"/>
-<text x="330" y="190" font-size="13" fill="#9a3412">同一個標記，兩條視線——永遠不是同一個點</text>
+<svg viewBox="0 0 640 300" role="img" aria-label="側視圖：兩個視點透過同一個固定螢幕標記，看到它落在鏡後身體的兩個不同位置。">
+<line x1="298" y1="20" x2="298" y2="280" stroke="#211a13" stroke-width="3"/>
+<line x1="306" y1="20" x2="306" y2="280" stroke="#6b5f52" stroke-width="2"/>
+<text x="312" y="36" font-size="15" fill="#211a13">鏡面（玻璃＋螢幕）</text>
+<circle cx="302" cy="150" r="9" fill="#9a3412"/>
+<text x="312" y="208" font-size="15" fill="#9a3412">標記（在螢幕上，不動）</text>
+<circle cx="110" cy="118" r="9" fill="none" stroke="#211a13" stroke-width="3"/>
+<text x="52" y="100" font-size="15" fill="#211a13">視點 A</text>
+<circle cx="110" cy="192" r="9" fill="none" stroke="#6b5f52" stroke-width="3" stroke-dasharray="4 3"/>
+<text x="22" y="222" font-size="15" fill="#6b5f52">視點 B（移動後）</text>
+<line x1="110" y1="118" x2="470" y2="177" stroke="#211a13" stroke-width="2.5"/>
+<line x1="110" y1="192" x2="470" y2="114" stroke="#6b5f52" stroke-width="2.5" stroke-dasharray="8 5"/>
+<circle cx="470" cy="150" r="50" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="470" y="240" font-size="14" fill="#6b5f52" text-anchor="middle">身體，在鏡面深度裡（虛擬）</text>
+<path d="M462 169 l16 16 M478 169 l-16 16" stroke="#9a3412" stroke-width="3"/>
+<text x="492" y="192" font-size="15" fill="#9a3412">貼在這裡</text>
+<path d="M462 106 l16 16 M478 106 l-16 16" stroke="#9a3412" stroke-width="3"/>
+<text x="492" y="122" font-size="15" fill="#9a3412">移動後貼在這裡</text>
 </svg>
-<figcaption>一個標記，兩條視線。平面對齊不等於鏡中對齊。</figcaption>
+<figcaption>標記沒動，眼睛動了，貼合就破了。平面對齊不等於鏡中對齊。</figcaption>
 </figure>
 
 **何時用。** 在固定、跟隨身體、鏡中空間三種定位之間選，或審查一份宣稱「精準貼臉」的設計。

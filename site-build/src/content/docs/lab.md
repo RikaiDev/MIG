@@ -91,22 +91,29 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 ## Demo 2 — position and depth
 
-**What it is.** A side-view answer to "the camera sees the face, so will the user see the marker on the face" (POS-01). Three labeled parts: screen plane, reflection depth, viewpoint.
+**What it is.** A side-view answer to "the camera sees the face, so will the user see the marker on the face" (POS-01). Two viewpoints, one fixed marker, one body in mirror depth.
 
 <figure>
-<svg viewBox="0 0 640 200" role="img" aria-label="Side view: screen plane near the glass, reflection depth behind it, eye viewpoint to the side.">
-<line x1="60" y1="170" x2="580" y2="170" stroke="#6b5f52" stroke-width="2"/>
-<rect x="120" y="60" width="400" height="10" fill="#9a3412"/>
-<text x="120" y="48" font-size="13" fill="#211a13">1 screen plane (where pixels live)</text>
-<rect x="120" y="120" width="400" height="10" fill="#6b5f52" opacity="0.5"/>
-<text x="120" y="148" font-size="13" fill="#211a13">2 reflection depth (where the body appears)</text>
-<circle cx="560" cy="90" r="8" fill="none" stroke="#211a13" stroke-width="2"/>
-<text x="500" y="80" font-size="13" fill="#211a13">3 viewpoint (moves)</text>
-<line x1="552" y1="95" x2="330" y2="65" stroke="#9a3412" stroke-dasharray="5 4"/>
-<line x1="552" y1="95" x2="330" y2="125" stroke="#6b5f52" stroke-dasharray="5 4"/>
-<text x="330" y="190" font-size="13" fill="#9a3412">same marker, two sightlines — never the same point</text>
+<svg viewBox="0 0 640 300" role="img" aria-label="Side view: two viewpoints look through one fixed screen marker and see it land on two different points of the body behind the mirror.">
+<line x1="298" y1="20" x2="298" y2="280" stroke="#211a13" stroke-width="3"/>
+<line x1="306" y1="20" x2="306" y2="280" stroke="#6b5f52" stroke-width="2"/>
+<text x="312" y="36" font-size="15" fill="#211a13">mirror glass + screen</text>
+<circle cx="302" cy="150" r="9" fill="#9a3412"/>
+<text x="312" y="208" font-size="15" fill="#9a3412">marker (on screen, fixed)</text>
+<circle cx="110" cy="118" r="9" fill="none" stroke="#211a13" stroke-width="3"/>
+<text x="60" y="100" font-size="15" fill="#211a13">viewpoint A</text>
+<circle cx="110" cy="192" r="9" fill="none" stroke="#6b5f52" stroke-width="3" stroke-dasharray="4 3"/>
+<text x="60" y="222" font-size="15" fill="#6b5f52">viewpoint B (moved)</text>
+<line x1="110" y1="118" x2="470" y2="177" stroke="#211a13" stroke-width="2.5"/>
+<line x1="110" y1="192" x2="470" y2="114" stroke="#6b5f52" stroke-width="2.5" stroke-dasharray="8 5"/>
+<circle cx="470" cy="150" r="50" fill="none" stroke="#6b5f52" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="470" y="240" font-size="14" fill="#6b5f52" text-anchor="middle">body, in mirror depth (virtual)</text>
+<path d="M462 169 l16 16 M478 169 l-16 16" stroke="#9a3412" stroke-width="3"/>
+<text x="492" y="192" font-size="15" fill="#9a3412">lands here</text>
+<path d="M462 106 l16 16 M478 106 l-16 16" stroke="#9a3412" stroke-width="3"/>
+<text x="492" y="122" font-size="15" fill="#9a3412">lands here after moving</text>
 </svg>
-<figcaption>One marker, two sightlines. Flat alignment is not mirror alignment.</figcaption>
+<figcaption>The marker never moves. The eyes move — and the registration breaks. Flat alignment is not mirror alignment.</figcaption>
 </figure>
 
 **Use when.** Deciding between fixed, body-following, and mirror-space positioning — or reviewing a design that claims "precise face registration".

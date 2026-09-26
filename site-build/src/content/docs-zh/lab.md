@@ -91,9 +91,9 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 <span id="demo-depth"></span>
 
-**它是什麼。** 鏡子上的貼紙不會跟著你走——你往右一步，鼻子跟著走，貼紙還在原地。(POS-01)
+**它是什麼。** 偵防室的半面鏡：燈一關，鏡子那邊還是看得到人。魔鏡一樣——螢幕關了，你的臉還在；螢幕只是往上加光。(POS-01)
 
-就像把星星貼紙貼在窗戶上：你走開，貼紙還在窗戶上，不會跟著你的鼻子走。
+黑暗的偵訊室裡，單面鏡後面的人一直看得到你，不管這邊的燈開不開。魔鏡的螢幕就是那盞燈。
 
 
 
@@ -103,9 +103,9 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 **操作步驟。**
 
-1. 假裝你是小美，拖滑桿左右走。
-2. 看星星貼紙有沒有跟著鼻子走。
-3. 切三種玩法（固定畫面／跟隨身體／鏡中空間），看誰跟得上鼻子。
+1. 先把螢幕關掉：你的臉還在不在？（在——這就是半面鏡。）
+2. 打開螢幕，假裝你是小美，拖滑桿左右走。
+3. 看發光記號有沒有跟著鼻子走；切三種玩法，看誰跟得上。
 
 <div class="demo wide">
 <div class="row">
@@ -113,9 +113,11 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <label><input type="radio" name="lab2-mode" value="body" /> 跟隨身體</label>
 <label><input type="radio" name="lab2-mode" value="space" /> 鏡中空間</label>
 <label>觀看位置 <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 公分</output></label>
+<label><input type="radio" name="lab2-power" value="on" checked /> 螢幕開</label>
+<label><input type="radio" name="lab2-power" value="off" /> 螢幕關</label>
 </div>
-<p>星星＝貼紙（自己不會走）；圓臉＝鏡子裡的你，會跟著你走。</p>
-<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="貼紙遊戲：拖動滑桿假裝左右走，看星星貼紙有沒有跟著鼻子"></svg>
+<p>圓臉＝鏡子裡的你（螢幕關了也在）；亮點＝螢幕發的光（關了就沒）。</p>
+<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="黑玻璃魔鏡：螢幕關了臉還在，拖動滑桿假裝左右走，看發光記號有沒有跟著鼻子"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -127,11 +129,13 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 	function mode() {
 		return document.querySelector('input[name="lab2-mode"]:checked').value;
 	}
+
 	const STAR = "0,-15 3.5,-4.9 14.3,-4.6 5.8,2.8 8.8,13.1 0,7 -8.8,13.1 -5.8,2.8 -14.3,-4.6 -3.5,-4.9";
 	function draw() {
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} 公分`;
 		const m = mode();
+		const power = document.querySelector('input[name="lab2-power"]:checked').value;
 		const H = v * 3;
 		const nx = 320 + H;
 		const ny = 162;
@@ -142,35 +146,40 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		const miss = Math.abs(sx - nx);
 		const missCm = m === "fixed" ? Math.abs(v) : m === "body" ? Math.round(Math.abs(v) * 0.15) : Math.round(Math.abs(v) * 0.5);
 		let parts =
-			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#f3ede1" stroke="#211a13" stroke-width="6"/>` +
-			`<circle cx="${nx}" cy="150" r="45" fill="#faf7f1" stroke="#211a13" stroke-width="3"/>` +
-			`<circle cx="${nx - 16}" cy="140" r="5" fill="#211a13"/>` +
-			`<circle cx="${nx + 16}" cy="140" r="5" fill="#211a13"/>` +
-			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#211a13" stroke-width="3" stroke-linecap="round"/>` +
-			`<circle cx="${nx}" cy="${ny}" r="3" fill="#6b5f52"/>` +
-			`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#9a3412"/>`;
-		if (miss > 8) {
-			const lx = (sx + nx) / 2;
-			parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#9a3412" stroke-width="2" stroke-dasharray="6 4"/>`;
-			parts += `<text x="${lx}" y="${ny + 58}" font-size="15" fill="#9a3412" text-anchor="middle">差 ${missCm} 公分</text>`;
+			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#141817"/>` +
+			`<polygon points="90,20 250,20 150,280 90,280" fill="#ffffff" opacity="0.05"/>` +
+			`<circle cx="${nx}" cy="150" r="45" fill="#2e3532" stroke="#e8e0cf" stroke-width="2"/>` +
+			`<circle cx="${nx - 16}" cy="140" r="5" fill="#e8e0cf"/>` +
+			`<circle cx="${nx + 16}" cy="140" r="5" fill="#e8e0cf"/>` +
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>`;
+		if (power === "on") {
+			parts += `<circle cx="${sx}" cy="${ny}" r="17" fill="#ffcf7d" opacity="0.25"/>` +
+				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>`;
+			if (miss > 8) {
+				parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#ffcf7d" stroke-width="2" stroke-dasharray="6 4"/>`;
+				parts += `<text x="${(sx + nx) / 2}" y="${ny + 58}" font-size="15" fill="#ffcf7d" text-anchor="middle">差 ${missCm} 公分</text>`;
+			}
 		}
 		svg.innerHTML = parts;
 		let verdict;
-		if (missCm < 5) {
-			verdict = m === "fixed" && v !== 0 ? "對準了！但你一動就破功。" : "對準了！星星貼著鼻子。";
+		if (power === "off") {
+			verdict = "螢幕關了，發光的記號沒了——但你的臉還在。這就是偵防室半面鏡：鏡子一直在，螢幕只是往上加光。黑底遮不住任何東西（OPT-01）。";
+		} else if (missCm < 5) {
+			verdict = v !== 0 ? "對準了！但你一動就破功。" : "對準了！亮點貼著鼻子。";
 		} else if (missCm < 20) {
 			verdict = `差一點點，差 ${missCm} 公分。`;
 		} else if (m === "body") {
-			verdict = `差 ${missCm} 公分——貼紙追著鼻子跑，只慢一點點。`;
+			verdict = `差 ${missCm} 公分——亮點追著鼻子跑，只慢一點點。`;
 		} else if (m === "space") {
 			verdict = `差 ${missCm} 公分——它住在鏡子裡面，你站遠站近答案不一樣，不校準不能說準。`;
 		} else {
-			verdict = `偏了！差 ${missCm} 公分——貼紙黏在玻璃上，你走開它還在原地。`;
+			verdict = `偏了！差 ${missCm} 公分——亮點黏在螢幕上，你走開它還在原地。`;
 		}
 		document.getElementById("lab2-verdict").textContent = verdict;
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);
+	for (const r of document.querySelectorAll('input[name="lab2-power"]')) r.addEventListener("change", draw);
 	draw();
 })();
 </script>

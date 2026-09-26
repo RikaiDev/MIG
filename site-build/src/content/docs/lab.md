@@ -91,9 +91,9 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 ## Demo 2 — position and depth
 
-**What it is.** A sticker on a mirror does not follow you — take one step right, your nose follows, the sticker stays. (POS-01)
+**What it is.** An interrogation-room two-way mirror: lights off on your side, they still see you. A magic mirror is the same — screen off, your face stays; the screen only adds light. (POS-01)
 
-Like a star sticker on a window: you walk away, the sticker stays on the glass. It will never follow your nose.
+In a dark observation room, the people behind the glass see you the whole time, lights on or off. The mirror screen is that lamp.
 
 
 
@@ -103,9 +103,9 @@ Like a star sticker on a window: you walk away, the sticker stays on the glass. 
 
 **Steps.**
 
-1. Pretend you are Mei and drag the slider to walk left and right.
-2. Watch whether the star follows the nose.
-3. Switch the three ways to play (fixed / follows body / in mirror space) and see who keeps up with the nose.
+1. Switch the screen off first: is your face still there? (Yes — that is the half-mirror.)
+2. Switch it on, pretend you are Mei, and drag to walk left and right.
+3. Watch whether the light follows the nose; switch the three ways to play.
 
 <div class="demo wide">
 <div class="row">
@@ -113,9 +113,11 @@ Like a star sticker on a window: you walk away, the sticker stays on the glass. 
 <label><input type="radio" name="lab2-mode" value="body" /> Follows body</label>
 <label><input type="radio" name="lab2-mode" value="space" /> In mirror space</label>
 <label>Viewpoint <input id="lab2-view" type="range" min="-40" max="40" value="0" /> <output id="lab2-view-v">0 cm</output></label>
+<label><input type="radio" name="lab2-power" value="on" checked /> Screen on</label>
+<label><input type="radio" name="lab2-power" value="off" /> Screen off</label>
 </div>
-<p>Star = sticker (never walks on its own); round face = you in the mirror, following you.</p>
-<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="Sticker game: drag the slider to walk left and right, watch whether the star follows the nose"></svg>
+<p>Round face = you in the mirror (there even with the screen off); bright dot = light from the screen (gone when off).</p>
+<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="Dark-glass magic mirror: face stays with the screen off; drag to walk left and right, watch whether the light follows the nose"></svg>
 <p id="lab2-verdict"></p>
 </div>
 
@@ -127,11 +129,13 @@ Like a star sticker on a window: you walk away, the sticker stays on the glass. 
 	function mode() {
 		return document.querySelector('input[name="lab2-mode"]:checked').value;
 	}
+
 	const STAR = "0,-15 3.5,-4.9 14.3,-4.6 5.8,2.8 8.8,13.1 0,7 -8.8,13.1 -5.8,2.8 -14.3,-4.6 -3.5,-4.9";
 	function draw() {
 		const v = +view.value;
 		document.getElementById("lab2-view-v").textContent = `${v} cm`;
 		const m = mode();
+		const power = document.querySelector('input[name="lab2-power"]:checked').value;
 		const H = v * 3;
 		const nx = 320 + H;
 		const ny = 162;
@@ -142,35 +146,40 @@ Like a star sticker on a window: you walk away, the sticker stays on the glass. 
 		const miss = Math.abs(sx - nx);
 		const missCm = m === "fixed" ? Math.abs(v) : m === "body" ? Math.round(Math.abs(v) * 0.15) : Math.round(Math.abs(v) * 0.5);
 		let parts =
-			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#f3ede1" stroke="#211a13" stroke-width="6"/>` +
-			`<circle cx="${nx}" cy="150" r="45" fill="#faf7f1" stroke="#211a13" stroke-width="3"/>` +
-			`<circle cx="${nx - 16}" cy="140" r="5" fill="#211a13"/>` +
-			`<circle cx="${nx + 16}" cy="140" r="5" fill="#211a13"/>` +
-			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#211a13" stroke-width="3" stroke-linecap="round"/>` +
-			`<circle cx="${nx}" cy="${ny}" r="3" fill="#6b5f52"/>` +
-			`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#9a3412"/>`;
-		if (miss > 8) {
-			const lx = (sx + nx) / 2;
-			parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#9a3412" stroke-width="2" stroke-dasharray="6 4"/>`;
-			parts += `<text x="${lx}" y="${ny + 58}" font-size="15" fill="#9a3412" text-anchor="middle">off by ${missCm} cm</text>`;
+			`<rect x="90" y="20" width="460" height="260" rx="18" fill="#141817"/>` +
+			`<polygon points="90,20 250,20 150,280 90,280" fill="#ffffff" opacity="0.05"/>` +
+			`<circle cx="${nx}" cy="150" r="45" fill="#2e3532" stroke="#e8e0cf" stroke-width="2"/>` +
+			`<circle cx="${nx - 16}" cy="140" r="5" fill="#e8e0cf"/>` +
+			`<circle cx="${nx + 16}" cy="140" r="5" fill="#e8e0cf"/>` +
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>`;
+		if (power === "on") {
+			parts += `<circle cx="${sx}" cy="${ny}" r="17" fill="#ffcf7d" opacity="0.25"/>` +
+				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>`;
+			if (miss > 8) {
+				parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#ffcf7d" stroke-width="2" stroke-dasharray="6 4"/>`;
+				parts += `<text x="${(sx + nx) / 2}" y="${ny + 58}" font-size="15" fill="#ffcf7d" text-anchor="middle">off by ${missCm} cm</text>`;
+			}
 		}
 		svg.innerHTML = parts;
 		let verdict;
-		if (missCm < 5) {
-			verdict = m === "fixed" && v !== 0 ? "Aligned! But it breaks the moment you move." : "Aligned! The star sits on the nose.";
+		if (power === "off") {
+			verdict = "Screen off, the light dot is gone — but your face stays. That is the interrogation-room mirror: the glass is always there, the screen only adds light. Black hides nothing (OPT-01).";
+		} else if (missCm < 5) {
+			verdict = v !== 0 ? "Aligned! But it breaks the moment you move." : "Aligned! The light sits on the nose.";
 		} else if (missCm < 20) {
 			verdict = `Close — off by ${missCm} cm.`;
 		} else if (m === "body") {
-			verdict = `Off by ${missCm} cm — the sticker chases the nose, just a little slow.`;
+			verdict = `Off by ${missCm} cm — the light chases the nose, just a little slow.`;
 		} else if (m === "space") {
 			verdict = `Off by ${missCm} cm — it lives inside the mirror; nearer or farther gives different answers. Never claim precision without calibration.`;
 		} else {
-			verdict = `Way off — ${missCm} cm! The sticker is glued to the glass; you walk away, it stays.`;
+			verdict = `Way off — ${missCm} cm! The light is glued to the screen; you walk away, it stays.`;
 		}
 		document.getElementById("lab2-verdict").textContent = verdict;
 	}
 	view.addEventListener("input", draw);
 	for (const r of document.querySelectorAll('input[name="lab2-mode"]')) r.addEventListener("change", draw);
+	for (const r of document.querySelectorAll('input[name="lab2-power"]')) r.addEventListener("change", draw);
 	draw();
 })();
 </script>

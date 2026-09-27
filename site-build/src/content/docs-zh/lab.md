@@ -205,6 +205,7 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <div class="demo wide">
 <svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="小劇場：小美與鏡面的位置關係"></svg>
 <p>發生什麼事：<output id="lab3-story"></output></p>
+<p><output id="lab3-lesson"></output></p>
 <p>鏡子顯示：<output id="lab3-screen"></output></p>
 <p>目前狀態：<output id="lab3-state"></output></p>
 <div class="row" id="lab3-btns"></div>
@@ -246,6 +247,16 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		countdown: "小美轉身走了，鏡子開始倒數清除。",
 		reset: "鏡面乾乾淨淨，下一位請。",
 	};
+	const LESSON = {
+		"idle-mirror": "鏡面考點：什麼都不顯示時，它就是一面鏡子——這是及格線（Scope）。",
+		noticing: "鏡面考點：倒影會跟著動，不代表可以互動；要一個認得出的數位回應（Start pattern）。",
+		guidance: "鏡面考點：站位同時解決三件事——鏡頭看得到、字不擋臉、手搆得到（ZONE-01）。",
+		engaged: "鏡面考點：資訊躲開衣服保留區，價錢牌不准遮住外套（ZONE-01）。",
+		paused: "鏡面考點：鏡子看得到你，但鏡頭看不到手——看得到、感測得到、操作得到是三件事（FLOW-01）。",
+		queue: "鏡面考點：鏡子裡兩張臉，它分不出誰是主控者——主控權要顯示出來（PPL-01）。",
+		countdown: "鏡面考點：你走了，照片還在——下一位是陌生人（PRIV-01）。",
+		reset: "鏡面考點：重設畫面是設計出來的，不是沒清乾淨（Exit pattern）。",
+	};
 	const POS = {
 		"idle-mirror": { mei: 500 },
 		noticing: { mei: 400 },
@@ -272,8 +283,8 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		if (q.other) g += person(q.other, "#6b5f52", 0.15);
 		if (q.mei !== null && q.mei !== undefined) {
 			if (q.half) {
-				g += person(2, "#9a3412", 0.19) +
-					`<text x="44" y="106" font-size="22" fill="#9a3412">?</text>`;
+				g += person(55, "#9a3412", 0.19) +
+					`<text x="112" y="108" font-size="22" fill="#9a3412">?</text>`;
 			} else {
 				g += person(q.mei, "#9a3412", 0.19);
 			}
@@ -285,6 +296,7 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 	const screen = document.getElementById("lab3-screen");
 	const scene = document.getElementById("lab3-scene");
 	const story = document.getElementById("lab3-story");
+	const lesson = document.getElementById("lab3-lesson");
 	const trail = document.getElementById("lab3-trail");
 	let cur = "idle-mirror";
 	const walked = ["純鏡面"];
@@ -292,6 +304,7 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		state.textContent = `${NAME[cur]} (${cur})`;
 		screen.textContent = SCREEN[cur];
 		story.textContent = STORY[cur];
+		lesson.textContent = LESSON[cur];
 		scene.innerHTML = drawScene(cur);
 		trail.textContent = walked.join(" → ");
 		box.innerHTML = "";

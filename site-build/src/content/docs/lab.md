@@ -205,6 +205,7 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 <div class="demo wide">
 <svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="Comic panel: Mei and the mirror positions"></svg>
 <p>What happens: <output id="lab3-story"></output></p>
+<p><output id="lab3-lesson"></output></p>
 <p>Mirror shows: <output id="lab3-screen"></output></p>
 <p>State: <output id="lab3-state"></output></p>
 <div class="row" id="lab3-btns"></div>
@@ -246,6 +247,16 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 		countdown: "Mei turns to leave; the mirror starts clearing.",
 		reset: "A clean mirror. Next, please.",
 	};
+	const LESSON = {
+		"idle-mirror": "Mirror lesson: showing nothing, it is simply a mirror — that is the passing bar (Scope).",
+		noticing: "Mirror lesson: a following reflection is not interactivity; it needs a recognizable digital response (Start pattern).",
+		guidance: "Mirror lesson: one standing spot solves three things — camera sees, text avoids the face, hands can reach (ZONE-01).",
+		engaged: "Mirror lesson: information dodges the garment zone; price tags never cover the jacket (ZONE-01).",
+		paused: "Mirror lesson: the mirror sees you, the camera lost your hand — seen, sensed, and operable are three things (FLOW-01).",
+		queue: "Mirror lesson: two faces in the mirror and it cannot tell the boss — control must be shown (PPL-01).",
+		countdown: "Mirror lesson: you left, the photo stayed — the next visitor is a stranger (PRIV-01).",
+		reset: "Mirror lesson: the reset screen is designed, not leftover (Exit pattern).",
+	};
 	const POS = {
 		"idle-mirror": { mei: 500 },
 		noticing: { mei: 400 },
@@ -272,8 +283,8 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 		if (q.other) g += person(q.other, "#6b5f52", 0.15);
 		if (q.mei !== null && q.mei !== undefined) {
 			if (q.half) {
-				g += person(2, "#9a3412", 0.19) +
-					`<text x="44" y="106" font-size="22" fill="#9a3412">?</text>`;
+				g += person(55, "#9a3412", 0.19) +
+					`<text x="112" y="108" font-size="22" fill="#9a3412">?</text>`;
 			} else {
 				g += person(q.mei, "#9a3412", 0.19);
 			}
@@ -285,6 +296,7 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 	const screen = document.getElementById("lab3-screen");
 	const scene = document.getElementById("lab3-scene");
 	const story = document.getElementById("lab3-story");
+	const lesson = document.getElementById("lab3-lesson");
 	const trail = document.getElementById("lab3-trail");
 	let cur = "idle-mirror";
 	const walked = ["plain mirror"];
@@ -292,6 +304,7 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 		state.textContent = `${NAME[cur]} (${cur})`;
 		screen.textContent = SCREEN[cur];
 		story.textContent = STORY[cur];
+		lesson.textContent = LESSON[cur];
 		scene.innerHTML = drawScene(cur);
 		trail.textContent = walked.join(" → ");
 		box.innerHTML = "";

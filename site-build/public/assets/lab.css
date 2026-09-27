@@ -12,6 +12,9 @@
 	font-size: 1.15rem;
 	line-height: 1.5;
 }
+#lab3 .lab-task strong {
+	min-height: 3em;
+}
 .lab-kicker,
 .lab-step {
 	color: var(--accent);
@@ -117,51 +120,90 @@
 .lab-more .lab-slider {
 	margin-top: 12px;
 }
+.lab-page .toc {
+	display: none;
+}
+.lab-page .main {
+	padding-right: 30px;
+	padding-left: 30px;
+}
+.lab-page .main > .mirror-lab {
+	max-width: 1100px;
+}
 .lab-journey {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	grid-template-columns: minmax(0, 1.8fr) minmax(290px, 1fr);
 	align-items: start;
-	gap: 20px;
+	gap: 22px;
 }
-.lab-journey figure {
-	margin: 0;
+.lab-board {
+	display: grid;
+	gap: 14px;
 }
-.lab-journey figcaption {
-	margin-top: 8px;
+.lab-board-fallback {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.lab-board-title {
+	margin: 0 0 7px;
+	font-size: 0.85rem;
+	font-weight: 700;
 	color: var(--ink-2);
-	font-size: 0.9rem;
 }
-.lab-scene {
+.lab-board-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 7px;
+}
+.lab-card {
+	min-width: 0;
+	margin: 0;
+	border: 2px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--paper);
+	overflow: hidden;
+}
+.lab-card[aria-current="step"] {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 2px var(--accent);
+}
+.lab-card figcaption {
+	padding: 5px 4px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-align: center;
+	line-height: 1.35;
+}
+.lab-frame {
 	width: 100%;
 	aspect-ratio: 1;
-	border-radius: var(--radius);
 	background-image: url("./mirror-journey.jpg");
 	background-size: 400% 212%;
 	background-repeat: no-repeat;
 }
-.lab-scene[data-scene="idle-mirror"] {
+.lab-frame[data-scene="idle-mirror"] {
 	background-position: 0 0;
 }
-.lab-scene[data-scene="noticing"] {
+.lab-frame[data-scene="noticing"] {
 	background-position: 33.333% 0;
 }
-.lab-scene[data-scene="guidance"] {
+.lab-frame[data-scene="guidance"] {
 	background-position: 66.667% 0;
 }
-.lab-scene[data-scene="engaged"] {
+.lab-frame[data-scene="engaged"] {
 	background-position: 100% 0;
 }
-/* The sprite's lower row starts above its halfway line; this offset aligns the mirror across rows. */
-.lab-scene[data-scene="paused"] {
+.lab-frame[data-scene="paused"] {
 	background-position: 0 91%;
 }
-.lab-scene[data-scene="queue"] {
+.lab-frame[data-scene="queue"] {
 	background-position: 33.333% 91%;
 }
-.lab-scene[data-scene="countdown"] {
+.lab-frame[data-scene="countdown"] {
 	background-position: 66.667% 91%;
 }
-.lab-scene[data-scene="reset"] {
+.lab-frame[data-scene="reset"] {
 	background-position: 100% 91%;
 }
 .lab-story {
@@ -175,6 +217,9 @@
 }
 .lab-story h3 {
 	font-size: 1.45rem;
+}
+.lab-caption {
+	color: var(--ink-2);
 }
 .lab-screen {
 	display: grid;
@@ -197,7 +242,16 @@
 	.lab-journey {
 		grid-template-columns: 1fr;
 	}
-	.lab-scene {
-		max-width: 500px;
+	.lab-page .main {
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+}
+@media (max-width: 560px) {
+	#lab3 .lab-task strong {
+		min-height: 4.5em;
+	}
+	.lab-board-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }

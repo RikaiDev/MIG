@@ -63,25 +63,24 @@ description: 用三個免攝影機互動，看懂鏡面上的光、位置與使�
 
 <span id="demo-states"></span>
 
-你來替鏡子做決定。先帶小美完成第一次試穿，再試三種突發情況。
+你來替鏡子做決定。故事板會標出目前這一幕；先走上排主線，再試下排的突發情況。
 
 <div class="demo wide mirror-lab" id="lab3" data-lang="zh">
 <div class="lab-task"><span class="lab-kicker">你的任務</span><strong id="lab3-prompt">先讓小美發現這面鏡子。</strong></div>
 <div class="lab-journey">
-<figure>
-<div class="lab-scene" data-scene="idle-mirror" role="img" aria-label="小美走近一面普通鏡子"></div>
-<figcaption id="lab3-caption">小美走過一面普通鏡子。</figcaption>
-</figure>
+<div class="lab-board" id="lab3-board" role="group" aria-label="小美試穿的八幕故事板">
+<img class="lab-board-fallback" src="/MIG/assets/mirror-journey.jpg" alt="小美從靠近鏡子到試穿，以及追蹤中斷、朋友加入、離開和清空的八幕故事" />
+</div>
 <div class="lab-story">
 <p class="lab-step" id="lab3-step">第 1 步／3 步</p>
 <h3 id="lab3-state" aria-live="polite">純鏡面</h3>
+<p class="lab-caption" id="lab3-caption">小美走過一面普通鏡子。</p>
 <p class="lab-screen"><span>鏡面顯示</span><output id="lab3-screen">只有倒影</output></p>
 <p id="lab3-lesson" class="lab-result">還沒有人開始操作，鏡面保持安靜。</p>
 <div class="lab-actions" id="lab3-actions"><button type="button">讓小美靠近</button></div>
 <button type="button" id="lab3-back" class="lab-secondary" hidden>回上一幕</button>
 </div>
 </div>
-<details class="lab-more"><summary>查看完整狀態路線</summary><p id="lab3-map">純鏡面 → 注意到 → 站位引導 → 試穿中；試穿中可能暫停、遇到第二人，或因離開而清空。</p></details>
 </div>
 
 觀察每一次「人做了什麼 → 鏡面如何回應」。所有支線都要能恢復或清空，不能讓下一位接上小美的試穿（FLOW-01、PPL-01、PRIV-01）。

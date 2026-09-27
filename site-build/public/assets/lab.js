@@ -27,6 +27,8 @@
 				],
 				explored: (count) => `選一種突發情況來試試（已看 ${count}／3 種）。`,
 				done: "三種情況都看過了。你可以重看其中一種，或從頭再走一次。",
+				boardMain: "先走主線",
+				boardChanges: "再看變化與清空",
 				states: {
 					"idle-mirror": {
 						name: "純鏡面",
@@ -149,6 +151,8 @@
 				],
 				explored: (count) => `Try an interruption (${count} of 3 explored).`,
 				done: "You have seen all three interruptions. Revisit one or start the journey again.",
+				boardMain: "Follow the main route",
+				boardChanges: "Then explore changes and clearing",
 				states: {
 					"idle-mirror": {
 						name: "Plain mirror",
@@ -366,12 +370,41 @@
 
 	const journey = document.getElementById("lab3");
 	if (!journey) return;
-	const scene = journey.querySelector(".lab-scene");
+	const board = journey.querySelector("#lab3-board");
 	const actions = journey.querySelector("#lab3-actions");
 	const back = journey.querySelector("#lab3-back");
 	const history = [];
 	const explored = new Set();
 	let current = "idle-mirror";
+	for (const [label, states] of [
+		[words.boardMain, ["idle-mirror", "noticing", "guidance", "engaged"]],
+		[words.boardChanges, ["paused", "queue", "countdown", "reset"]],
+	]) {
+		const group = document.createElement("div");
+		group.className = "lab-board-group";
+		const title = document.createElement("p");
+		title.className = "lab-board-title";
+		title.textContent = label;
+		const row = document.createElement("div");
+		row.className = "lab-board-grid";
+		for (const key of states) {
+			const figure = document.createElement("figure");
+			figure.className = "lab-card";
+			figure.dataset.state = key;
+			const image = document.createElement("div");
+			image.className = "lab-frame";
+			image.dataset.scene = key;
+			image.setAttribute("role", "img");
+			image.setAttribute("aria-label", words.states[key].caption);
+			const caption = document.createElement("figcaption");
+			caption.textContent = words.states[key].name;
+			figure.append(image, caption);
+			row.appendChild(figure);
+		}
+		group.append(title, row);
+		board.appendChild(group);
+	}
+	board.querySelector(".lab-board-fallback")?.remove();
 	function navigate(target) {
 		history.push(current);
 		if (["paused", "queue", "countdown"].includes(target)) explored.add(target);
@@ -380,8 +413,11 @@
 	}
 	function renderJourney() {
 		const item = words.states[current];
-		scene.dataset.scene = current;
-		scene.setAttribute("aria-label", item.caption);
+		board.querySelectorAll(".lab-card").forEach((card) => {
+			if (card.dataset.state === current)
+				card.setAttribute("aria-current", "step");
+			else card.removeAttribute("aria-current");
+		});
 		journey.querySelector("#lab3-caption").textContent = item.caption;
 		journey.querySelector("#lab3-state").textContent = item.name;
 		journey.querySelector("#lab3-step").textContent = words.step[item.step];
@@ -405,18 +441,6 @@
 			}),
 		);
 		back.hidden = history.length === 0;
-		if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-			scene.getAnimations().forEach((animation) => {
-				animation.cancel();
-			});
-			scene.animate(
-				[
-					{ opacity: 0.65, transform: "scale(0.99)" },
-					{ opacity: 1, transform: "scale(1)" },
-				],
-				{ duration: 250, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
-			);
-		}
 	}
 	back.addEventListener("click", () => {
 		if (history.length) {

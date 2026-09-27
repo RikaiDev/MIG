@@ -75,7 +75,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
       <link rel="stylesheet" href={`${base}/assets/lab.css`} />
     )}
   </head>
-  <body>
+  <body class={title === "Mirror Lab" ? "lab-page" : undefined}>
     <a class="skip" href="#main">
       {t.skip}
     </a>

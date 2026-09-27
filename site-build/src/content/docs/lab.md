@@ -63,25 +63,24 @@ This illustrates spatial relationships, not registration accuracy. Measure align
 
 ## Demo 3 — how does the mirror help Mei try on a jacket?
 
-You make the mirror’s decisions. Help Mei complete her first fitting, then explore three interruptions.
+You make the mirror’s decisions. The storyboard marks the current scene: follow the top row first, then try the changes in the lower row.
 
 <div class="demo wide mirror-lab" id="lab3" data-lang="en">
 <div class="lab-task"><span class="lab-kicker">Your task</span><strong id="lab3-prompt">Help Mei notice the mirror first.</strong></div>
 <div class="lab-journey">
-<figure>
-<div class="lab-scene" data-scene="idle-mirror" role="img" aria-label="Mei walks toward an ordinary mirror"></div>
-<figcaption id="lab3-caption">Mei walks past an ordinary mirror.</figcaption>
-</figure>
+<div class="lab-board" id="lab3-board" role="group" aria-label="Eight scenes from Mei's fitting">
+<img class="lab-board-fallback" src="/MIG/assets/mirror-journey.jpg" alt="Eight scenes: Mei approaches, tries on a jacket, loses tracking, meets a friend, leaves, and the mirror clears" />
+</div>
 <div class="lab-story">
 <p class="lab-step" id="lab3-step">Step 1 of 3</p>
 <h3 id="lab3-state" aria-live="polite">Plain mirror</h3>
+<p class="lab-caption" id="lab3-caption">Mei walks past an ordinary mirror.</p>
 <p class="lab-screen"><span>Mirror shows</span><output id="lab3-screen">Reflection only</output></p>
 <p id="lab3-lesson" class="lab-result">No one has started yet, so the mirror stays quiet.</p>
 <div class="lab-actions" id="lab3-actions"><button type="button">Let Mei approach</button></div>
 <button type="button" id="lab3-back" class="lab-secondary" hidden>Previous scene</button>
 </div>
 </div>
-<details class="lab-more"><summary>See the complete state route</summary><p id="lab3-map">Plain mirror → notice → standing guide → trying on; then tracking may pause, a second person may join, or Mei may leave and the fitting clears.</p></details>
 </div>
 
 At each step, watch “what the person did → how the mirror responds.” Every branch needs a way to resume or clear, so the next visitor never inherits Mei’s fitting (FLOW-01, PPL-01, PRIV-01).

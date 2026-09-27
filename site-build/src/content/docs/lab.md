@@ -261,9 +261,9 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 		function person(x, color, s) {
 			const y = 175 - 32 * s;
 			return `<g transform="translate(${x},${y}) scale(${s})" stroke="${color}" stroke-linecap="round" fill="none">` +
-				`<circle cx="6" cy="-34" r="10" fill="${color}" stroke="none"/>` +
-				`<path d="M0 -22 L2 8" stroke-width="9"/>` +
-				`<path d="M1 -16 L12 -2 M1 -16 L-8 2" stroke-width="5"/>` +
+				`<circle cx="6" cy="-30" r="10" fill="${color}" stroke="none"/>` +
+				`<path d="M0 -24 L2 8" stroke-width="9"/>` +
+				`<path d="M1 -18 L12 -4 M1 -18 L-8 0" stroke-width="5"/>` +
 				`<path d="M2 8 L12 32 M2 8 L-8 32" stroke-width="6"/></g>`;
 		}
 		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +

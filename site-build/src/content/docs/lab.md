@@ -14,21 +14,30 @@ Explore interactive mirrors through three small experiments. Do one thing, then 
 
 ## Demo 1 — why does a bright background hide text?
 
-Choose “Bright window,” lower screen brightness, then raise it again. Watch when the time on the right gets lost in the reflection.
+Adjust screen brightness beside the bright window and watch when the time on the right becomes clear. Then compare the dim room.
 
 <div class="demo wide mirror-lab" id="lab1" data-lang="en">
-<div class="lab-task"><span class="lab-kicker">Your task</span><strong>Keep the time on the right easy to read.</strong></div>
-<div class="lab-control-group" role="group" aria-label="Choose room brightness">
+<div class="lab-task"><span class="lab-kicker">Your task</span><strong>Keep the time on the right side of the mirror easy to read.</strong></div>
+<div class="lab1-workspace">
+<div class="lab1-controls">
+<div class="lab1-control-step"><strong>1　Choose room light</strong><div class="lab-control-group" role="group" aria-label="Choose room brightness">
 <button type="button" data-light="bright" aria-pressed="true">Bright window</button>
 <button type="button" data-light="dim" aria-pressed="false">Dim room</button>
-</div>
-<canvas id="lab1-canvas" width="640" height="220" role="img" aria-label="Left shows reflection only; right adds screen text. The result is described below.">Left shows reflection only; right adds screen text.</canvas>
-<label class="lab-slider">Adjust screen brightness <input id="lab1-screen" type="range" min="0" max="100" value="65" /> <output id="lab1-screen-value">65%</output></label>
-<p id="lab1-result" class="lab-result" aria-live="polite">The letters compete with the bright reflection. Try lowering screen brightness.</p>
+</div></div>
+<div class="lab1-control-step"><strong>2　Adjust screen brightness</strong><label class="lab-slider"><input id="lab1-screen" type="range" min="0" max="100" value="65" aria-label="Adjust screen brightness" /> <output id="lab1-screen-value">65%</output></label></div>
 <details class="lab-more"><summary>Why does this happen? Adjust reflectance</summary>
 <p>The mirror reflects room light and transmits screen light. Black pixels cannot cover the reflection.</p>
 <label class="lab-slider">Mirror reflectance <input id="lab1-reflectance" type="range" min="10" max="90" value="50" /> <output id="lab1-reflectance-value">50%</output></label>
 </details>
+</div>
+<div class="lab1-observation">
+<div class="lab1-compare">
+<figure><figcaption>Reflection only</figcaption><div class="lab1-scene" data-room="bright" id="lab1-reflection" role="img" aria-label="Mirror by a bright window, reflection only"></div></figure>
+<figure><figcaption>Screen time added</figcaption><div class="lab1-scene" data-room="bright" id="lab1-time-scene" role="img" aria-label="Mirror by a bright window, showing screen time"><span class="lab1-clock" aria-hidden="true">20:47</span></div></figure>
+</div>
+<p id="lab1-result" class="lab-result" aria-live="polite">The letters compete with the bright reflection. Try lowering screen brightness.</p>
+</div>
+</div>
 </div>
 
 Check text placement against the brightest expected background. The sliders show how light combines; measure real brightness on the mirror (OPT-01, OPT-02).

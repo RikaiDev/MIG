@@ -2,8 +2,9 @@
 	const zh = document.getElementById("lab1")?.dataset.lang === "zh";
 	const words = zh
 		? {
-				lightLeft: "只有倒影",
-				lightRight: "加上螢幕文字",
+				lightRoom: { bright: "明亮窗邊", dim: "較暗室內" },
+				lightReflection: "只有倒影",
+				lightTime: "顯示螢幕時間",
 				lightDimClear: "室內變暗，倒影變弱，時間更容易看清。切回明亮窗邊比較。",
 				lightDimFaint: "室內雖然暗，螢幕太暗仍看不清時間。把螢幕調亮。",
 				lightFaint: "文字被亮倒影淹沒了。把螢幕調亮，或把文字移到較暗的位置。",
@@ -125,8 +126,9 @@
 				},
 			}
 		: {
-				lightLeft: "Reflection only",
-				lightRight: "Screen text added",
+				lightRoom: { bright: "Bright window", dim: "Dim room" },
+				lightReflection: "reflection only",
+				lightTime: "screen time added",
 				lightDimClear:
 					"In the dim room the reflection fades, so the time is easier to read. Switch back to the bright window to compare.",
 				lightDimFaint:
@@ -265,9 +267,7 @@
 			};
 
 	const light = document.getElementById("lab1");
-	const canvas = light?.querySelector("canvas");
-	if (canvas) {
-		const ctx = canvas.getContext("2d");
+	if (light) {
 		const screen = light.querySelector("#lab1-screen");
 		const reflectance = light.querySelector("#lab1-reflectance");
 		let room = "bright";
@@ -276,36 +276,33 @@
 				((room === "bright" ? 0.82 : 0.16) * Number(reflectance.value)) / 100;
 			const screenLight =
 				(Number(screen.value) / 100) * (1 - Number(reflectance.value) / 100);
-			const shade = Math.round(23 + reflection * 175);
-			ctx.clearRect(0, 0, 640, 220);
-			for (const [x, lit] of [
-				[0, false],
-				[328, true],
-			]) {
-				ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
-				ctx.fillRect(x, 0, 312, 220);
-				ctx.fillStyle = `rgb(${shade + 38},${shade + 38},${shade + 38})`;
-				ctx.beginPath();
-				ctx.arc(x + 156, 96, 30, 0, Math.PI * 2);
-				ctx.fill();
-				ctx.fillRect(x + 106, 130, 100, 90);
-				ctx.fillStyle = "#211a13";
-				ctx.fillRect(x, 0, 312, 34);
-				ctx.fillStyle = "#ffffff";
-				ctx.font = "600 15px system-ui, sans-serif";
-				ctx.fillText(lit ? words.lightRight : words.lightLeft, x + 16, 24);
-				if (lit) {
-					ctx.globalAlpha = Math.min(1, screenLight * 2);
-					ctx.font = "700 38px system-ui, sans-serif";
-					ctx.fillText("20:47", x + 92, 115);
-					ctx.globalAlpha = 1;
-				}
-			}
+			const threshold = reflection * 0.75 + 0.1;
+			light.querySelectorAll(".lab1-scene").forEach((scene) => {
+				scene.dataset.room = room;
+			});
+			light.style.setProperty(
+				"--clock-opacity",
+				String(
+					Math.max(0.08, Math.min(1, 0.55 + 3 * (screenLight - threshold))),
+				),
+			);
+			light
+				.querySelector("#lab1-reflection")
+				.setAttribute(
+					"aria-label",
+					`${words.lightRoom[room]}, ${words.lightReflection}`,
+				);
+			light
+				.querySelector("#lab1-time-scene")
+				.setAttribute(
+					"aria-label",
+					`${words.lightRoom[room]}, ${words.lightTime}`,
+				);
 			light.querySelector("#lab1-screen-value").textContent =
 				`${screen.value}%`;
 			light.querySelector("#lab1-reflectance-value").textContent =
 				`${reflectance.value}%`;
-			const faint = screenLight < reflection * 0.75 + 0.1;
+			const faint = screenLight < threshold;
 			light.querySelector("#lab1-result").textContent =
 				room === "dim"
 					? faint

@@ -14,21 +14,30 @@ description: 用三個免攝影機互動，看懂鏡面上的光、位置與使�
 
 <span id="demo-light"></span>
 
-先按「明亮窗邊」，把螢幕調暗，再調亮。觀察右邊的時間何時被倒影淹沒。
+先在明亮窗邊調整螢幕亮度，看右邊的時間何時變清楚；再切到暗室比較。
 
 <div class="demo wide mirror-lab" id="lab1" data-lang="zh">
-<div class="lab-task"><span class="lab-kicker">你的任務</span><strong>讓右邊的時間保持清楚可讀。</strong></div>
-<div class="lab-control-group" role="group" aria-label="選擇環境亮度">
+<div class="lab-task"><span class="lab-kicker">你的任務</span><strong>讓鏡面右邊的時間保持清楚可讀。</strong></div>
+<div class="lab1-workspace">
+<div class="lab1-controls">
+<div class="lab1-control-step"><strong>1　選擇環境光</strong><div class="lab-control-group" role="group" aria-label="選擇環境亮度">
 <button type="button" data-light="bright" aria-pressed="true">明亮窗邊</button>
 <button type="button" data-light="dim" aria-pressed="false">較暗室內</button>
-</div>
-<canvas id="lab1-canvas" width="640" height="220" role="img" aria-label="左邊只有倒影，右邊加入螢幕文字；結果在下方說明">左邊只有倒影；右邊加入螢幕文字。</canvas>
-<label class="lab-slider">調整螢幕亮度 <input id="lab1-screen" type="range" min="0" max="100" value="65" /> <output id="lab1-screen-value">65%</output></label>
-<p id="lab1-result" class="lab-result" aria-live="polite">右邊的文字與亮倒影競爭。試著調低螢幕亮度。</p>
+</div></div>
+<div class="lab1-control-step"><strong>2　調整螢幕亮度</strong><label class="lab-slider"><input id="lab1-screen" type="range" min="0" max="100" value="65" aria-label="調整螢幕亮度" /> <output id="lab1-screen-value">65%</output></label></div>
 <details class="lab-more"><summary>想知道為什麼？調整鏡面反射率</summary>
 <p>鏡面會反射環境光，也會透出螢幕光。黑色像素不會遮住倒影。</p>
 <label class="lab-slider">鏡面反射率 <input id="lab1-reflectance" type="range" min="10" max="90" value="50" /> <output id="lab1-reflectance-value">50%</output></label>
 </details>
+</div>
+<div class="lab1-observation">
+<div class="lab1-compare">
+<figure><figcaption>只有倒影</figcaption><div class="lab1-scene" data-room="bright" id="lab1-reflection" role="img" aria-label="明亮窗邊的鏡子，只有倒影"></div></figure>
+<figure><figcaption>加上螢幕時間</figcaption><div class="lab1-scene" data-room="bright" id="lab1-time-scene" role="img" aria-label="明亮窗邊的鏡子，螢幕顯示時間"><span class="lab1-clock" aria-hidden="true">20:47</span></div></figure>
+</div>
+<p id="lab1-result" class="lab-result" aria-live="polite">右邊的文字與亮倒影競爭。試著調低螢幕亮度。</p>
+</div>
+</div>
 </div>
 
 設計時先用最亮的預期背景檢查文字位置。滑桿只用來看光相加的關係；真正亮度要在鏡面上量測（OPT-01、OPT-02）。

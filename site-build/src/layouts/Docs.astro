@@ -71,6 +71,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     {description && <meta name="description" content={description} />}
     <link rel="stylesheet" href={`${base}/assets/tokens.css`} />
     <link rel="stylesheet" href={`${base}/assets/site.css`} />
+    {title === "Mirror Lab" && <link rel="stylesheet" href={`${base}/assets/lab.css`} />}
   </head>
   <body>
     <a class="skip" href="#main">

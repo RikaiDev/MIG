@@ -16,7 +16,7 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 <span id="demo-light"></span>
 
-**它是什麼。** 回答「這段文字在倒影後面活不活得下來」的打稿期模擬器（OPT-01、OPT-02）。
+**先看懂。** 鏡面同時收到兩種光：身後環境的倒影，以及螢幕發出的字。調整下面三個滑桿，看字會不會被倒影淹沒（OPT-01、OPT-02）。
 
 <figure>
 <svg viewBox="0 0 640 240" role="img" aria-label="左：設計稿以為黑卡能蓋住臉。右：真實鏡面中明亮倒影依然穿透。">
@@ -50,8 +50,9 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <label>反射率 <input id="lab1-r" type="range" min="10" max="90" value="50" /> <output id="lab1-r-v">50%</output></label>
 <label>螢幕亮度 <input id="lab1-s" type="range" min="0" max="100" value="80" /> <output id="lab1-s-v">80%</output></label>
 </div>
-<canvas id="lab1-canvas" width="640" height="220"></canvas>
-<p id="lab1-verdict"></p>
+<p class="lab-hint">左邊只有倒影；右邊在同一個倒影上加上螢幕文字。黑色畫面不會把倒影擦掉。</p>
+<canvas id="lab1-canvas" width="640" height="220" role="img" aria-label="左邊是倒影，右邊加上螢幕發光文字；下方文字說明目前結果"></canvas>
+<p id="lab1-verdict" class="lab-verdict" aria-live="polite"></p>
 </div>
 
 <script>
@@ -65,22 +66,38 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		const r = +$("lab1-r").value / 100;
 		const s = +$("lab1-s").value / 100;
 		const t = 1 - r;
-		const seen = Math.min(1, bg * r + s * t);
+		const reflection = bg * r;
+		const screenLight = s * t;
 		$("lab1-bg-v").textContent = `${$("lab1-bg").value}%`;
 		$("lab1-r-v").textContent = `${$("lab1-r").value}%`;
 		$("lab1-s-v").textContent = `${$("lab1-s").value}%`;
-		const g = Math.round(seen * 255);
-		ctx.fillStyle = `rgb(${g},${g},${g})`;
-		ctx.fillRect(0, 0, 640, 220);
-		ctx.fillStyle = seen > 0.55 ? "#101413" : "#ffffff";
-		ctx.font = "700 44px system-ui, sans-serif";
-		ctx.fillText("20:47  72%", 60, 110);
-		ctx.font = "400 22px system-ui, sans-serif";
-		ctx.fillText("seen = bg × R + screen × T", 60, 160);
-		const ok = seen < 0.35 || seen > 0.75;
-		$("lab1-verdict").textContent = ok
-			? "此處判讀：這個背景下文字大概可讀——接著去換背景，不要只換字色。"
-			: "此處判讀：文字正在跟倒影打架——移動或減少內容（OPT-01），不只換顏色。";
+		ctx.clearRect(0, 0, 640, 220);
+		function panel(x, lit) {
+			const shade = Math.round(23 + reflection * 160);
+			ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
+			ctx.fillRect(x, 0, 312, 220);
+			ctx.fillStyle = `rgb(${Math.min(255, shade + 38)},${Math.min(255, shade + 38)},${Math.min(255, shade + 38)})`;
+			ctx.beginPath();
+			ctx.arc(x + 156, 96, 30, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.fillRect(x + 106, 130, 100, 90);
+			ctx.fillStyle = "#211a13";
+			ctx.fillRect(x, 0, 312, 34);
+			ctx.fillStyle = "#ffffff";
+			ctx.font = "600 15px system-ui, sans-serif";
+			ctx.fillText(lit ? "加上螢幕文字" : "只有倒影", x + 16, 25);
+			if (lit) {
+				ctx.globalAlpha = Math.max(0.02, screenLight);
+				ctx.font = "700 38px system-ui, sans-serif";
+				ctx.fillText("20:47", x + 92, 116);
+				ctx.globalAlpha = 1;
+			}
+		}
+		panel(0, false);
+		panel(328, true);
+		$("lab1-verdict").textContent = screenLight < reflection * 0.7 + 0.12
+			? "文字亮度不足；提高螢幕亮度，或把文字移到較暗的位置。"
+			: "這個背景下，文字比倒影亮。再試更亮的背景。";
 	}
 	for (const id of ["lab1-bg", "lab1-r", "lab1-s"]) $(id).addEventListener("input", draw);
 	draw();
@@ -91,15 +108,13 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 
 <span id="demo-depth"></span>
 
-**它是什麼。** 偵防室的半面鏡：燈一關，鏡子那邊還是看得到人。魔鏡一樣——螢幕關了，你的臉還在；螢幕只是往上加光。(POS-01)
-
-黑暗的偵訊室裡，單面鏡後面的人一直看得到你，不管這邊的燈開不開。魔鏡的螢幕就是那盞燈。
+**先看懂。** 人左右移動時，倒影會跟著走；螢幕畫出的亮點能不能跟上，取決於它放在哪裡（POS-01）。關掉螢幕，亮點消失，倒影仍在。
 
 
 
 **何時用。** 在固定、跟隨身體、鏡中空間三種定位之間選，或審查一份宣稱「精準貼臉」的設計。
 
-**注意案例。** 下面的漂移曲線是示意，不是校準數據。沒有逐視點實測，不得出貨任何貼合宣稱。
+**注意案例。** 圖中的偏移量只是示意；真正的貼合程度須在每個觀看位置實測。
 
 **操作步驟。**
 
@@ -116,9 +131,9 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 <label><input type="radio" name="lab2-power" value="on" checked /> 螢幕開</label>
 <label><input type="radio" name="lab2-power" value="off" /> 螢幕關</label>
 </div>
-<p>圓臉＝鏡子裡的你（螢幕關了也在）；亮點＝螢幕發的光（關了就沒）。</p>
+<p class="lab-hint">圓臉＝倒影，星星＝螢幕畫的記號。先移動「觀看位置」，再切換三種放法，比較星星有沒有跟著鼻子。</p>
 <svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="黑玻璃魔鏡：螢幕關了臉還在，拖動滑桿假裝左右走，看發光記號有沒有跟著鼻子"></svg>
-<p id="lab2-verdict"></p>
+<p id="lab2-verdict" class="lab-verdict" aria-live="polite"></p>
 </div>
 
 <script>
@@ -151,10 +166,12 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 			`<circle cx="${nx}" cy="150" r="45" fill="#2e3532" stroke="#e8e0cf" stroke-width="2"/>` +
 			`<circle cx="${nx - 16}" cy="140" r="5" fill="#e8e0cf"/>` +
 			`<circle cx="${nx + 16}" cy="140" r="5" fill="#e8e0cf"/>` +
-			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>`;
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>` +
+			`<text x="${nx}" y="235" font-size="16" fill="#e8e0cf" text-anchor="middle">倒影</text>`;
 		if (power === "on") {
 			parts += `<circle cx="${sx}" cy="${ny}" r="17" fill="#ffcf7d" opacity="0.25"/>` +
-				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>`;
+				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>` +
+				`<text x="${sx}" y="72" font-size="16" fill="#ffcf7d" text-anchor="middle">螢幕記號</text>`;
 			if (miss > 8) {
 				parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#ffcf7d" stroke-width="2" stroke-dasharray="6 4"/>`;
 				parts += `<text x="${(sx + nx) / 2}" y="${ny + 58}" font-size="15" fill="#ffcf7d" text-anchor="middle">差 ${missCm} 公分</text>`;
@@ -165,7 +182,7 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 		if (power === "off") {
 			verdict = "螢幕關了，發光的記號沒了——但你的臉還在。這就是偵防室半面鏡：鏡子一直在，螢幕只是往上加光。黑底遮不住任何東西（OPT-01）。";
 		} else if (missCm < 5) {
-			verdict = v !== 0 ? "對準了！但你一動就破功。" : "對準了！亮點貼著鼻子。";
+			verdict = m === "fixed" && v === 0 ? "站在正中間時，固定亮點剛好對準鼻子；左右走看看。" : "這個位置看起來對準了；再移動，確認它是否仍跟著鼻子。";
 		} else if (missCm < 20) {
 			verdict = `差一點點，差 ${missCm} 公分。`;
 		} else if (m === "body") {
@@ -202,132 +219,22 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 2. 逐一逼出分支：追蹤掉了、第二人加入、離開。
 3. 確認每條路都結束在重設或具名恢復——沒有死路。
 
-<div class="demo wide">
-<svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="小劇場：小美與鏡面的位置關係"></svg>
-<p>發生什麼事：<output id="lab3-story"></output></p>
-<p><output id="lab3-lesson"></output></p>
-<p>鏡子顯示：<output id="lab3-screen"></output></p>
-<p>目前狀態：<output id="lab3-state"></output></p>
-<div class="row" id="lab3-btns"></div>
-<p>走過：<output id="lab3-trail"></output></p>
+<div class="demo wide" id="lab3" data-lang="zh">
+<div class="lab-graph" aria-label="互動狀態圖"></div>
+<div class="lab-journey">
+<figure>
+<div class="lab-scene" data-scene="idle-mirror" role="img" aria-label="小美路過一面普通鏡子"></div>
+<figcaption>同一面鏡子的八個時刻。按事件，看畫面和鏡面回應一起變化。</figcaption>
+</figure>
+<div>
+<h3 id="lab3-state" aria-live="polite">純鏡面</h3>
+<p><strong>發生的事：</strong><output id="lab3-story">小美路過一面普通鏡子。</output></p>
+<p class="lab-screen"><strong>鏡面顯示：</strong> <output id="lab3-screen">只顯示倒影</output></p>
+<p><strong>為什麼這樣設計：</strong><output id="lab3-lesson">開始前是一面普通鏡子。</output></p>
+<h4>接下來會怎樣？</h4>
+<div class="lab-actions"></div>
 </div>
-
-<script>
-(() => {
-	const box = document.getElementById("lab3-btns");
-	if (!box) return;
-	const EDGES = {
-		"idle-mirror": [["有人靠近", "noticing"]],
-		noticing: [["給出因果提示", "guidance"], ["無視／路過", "idle-mirror"]],
-		guidance: [["到達站位、教會一個動作", "engaged"], ["走開", "idle-mirror"]],
-		engaged: [["追蹤掉了", "paused"], ["第二人加入", "queue"], ["離開", "countdown"]],
-		paused: [["原操作的手回來", "engaged"], ["逾時", "idle-mirror"]],
-		queue: [["雙方確認接管", "engaged"], ["重開新工作階段", "guidance"]],
-		countdown: [["確認保留", "engaged"], ["逾時：已清除", "reset"]],
-		reset: [["下一位靠近", "noticing"]],
-	};
-	const NAME = {"idle-mirror": "純鏡面", noticing: "注意到", guidance: "站位引導", engaged: "試穿中", paused: "追蹤掉了", queue: "有人加入", countdown: "倒數清除", reset: "重設"};
-	const SCREEN = {
-		"idle-mirror": "（鏡面，只照出你）",
-		noticing: "「嗨！站到腳印上，就可以試穿外套」",
-		guidance: "「往前一步，踩住腳印 →」",
-		engaged: "「外套穿好了，喜歡嗎？」",
-		paused: "「等等，你的手跑出畫面了，舉回來」",
-		queue: "「有人也想玩：排隊？還是重來？」",
-		countdown: "「10 秒後清除，要留著嗎？」",
-		reset: "（乾淨的鏡面，下一位）",
-	};
-	const STORY = {
-		"idle-mirror": "星期六下午，小美走進百貨公司，經過一面看起來很普通的鏡子。",
-		noticing: "鏡面角落亮起小光點，小美餘光掃到，停了下來。",
-		guidance: "地板上出現一對腳印，鏡子說：站上來。",
-		engaged: "外套穿到鏡子裡的小美身上了，她轉了一圈。",
-		paused: "小美的手伸出畫面，鏡子跟丟了，提交先暫停。",
-		queue: "朋友阿哲也想玩，站在小美旁邊揮手。",
-		countdown: "小美轉身走了，鏡子開始倒數清除。",
-		reset: "鏡面乾乾淨淨，下一位請。",
-	};
-	const LESSON = {
-		"idle-mirror": "鏡面考點：什麼都不顯示時，它就是一面鏡子——這是及格線（Scope）。",
-		noticing: "鏡面考點：倒影會跟著動，不代表可以互動；要一個認得出的數位回應（Start pattern）。",
-		guidance: "鏡面考點：站位同時解決三件事——鏡頭看得到、字不擋臉、手搆得到（ZONE-01）。",
-		engaged: "鏡面考點：資訊躲開衣服保留區，價錢牌不准遮住外套（ZONE-01）。",
-		paused: "鏡面考點：鏡子看得到你，但鏡頭看不到手——看得到、感測得到、操作得到是三件事（FLOW-01）。",
-		queue: "鏡面考點：鏡子裡兩張臉，它分不出誰是主控者——主控權要顯示出來（PPL-01）。",
-		countdown: "鏡面考點：你走了，照片還在——下一位是陌生人（PRIV-01）。",
-		reset: "鏡面考點：重設畫面是設計出來的，不是沒清乾淨（Exit pattern）。",
-	};
-	const POS = {
-		"idle-mirror": { mei: 500 },
-		noticing: { mei: 400 },
-		guidance: { mei: 300, marks: true },
-		engaged: { mei: 300, glow: true },
-		paused: { mei: 60, half: true },
-		queue: { mei: 300, other: 180 },
-		countdown: { mei: 500, away: true },
-		reset: { mei: null },
-	};
-	function drawScene(key) {
-		const q = POS[key];
-		function person(x, color, s) {
-			// Figure: Font Awesome Free person-walking (CC BY 4.0, Fonticons, Inc.), flipped to face the mirror.
-			return `<g transform="translate(${x},${175 + 12 * s}) scale(${-s},${s}) translate(-160,-512)" fill="${color}"><path d="M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l-8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z"/></g>`;
-		}
-		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
-			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
-			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
-		if (q.marks) {
-			g += `<ellipse cx="352" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>` +
-				`<ellipse cx="382" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>`;
-		}
-		if (q.other) g += person(q.other, "#6b5f52", 0.15);
-		if (q.mei !== null && q.mei !== undefined) {
-			if (q.half) {
-				g += person(55, "#9a3412", 0.19) +
-					`<text x="112" y="108" font-size="22" fill="#9a3412">?</text>`;
-			} else {
-				g += person(q.mei, "#9a3412", 0.19);
-			}
-			if (q.away) g += `<text x="${q.mei + 28}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
-		}
-		return g;
-	}
-	const state = document.getElementById("lab3-state");
-	const screen = document.getElementById("lab3-screen");
-	const scene = document.getElementById("lab3-scene");
-	const story = document.getElementById("lab3-story");
-	const lesson = document.getElementById("lab3-lesson");
-	const trail = document.getElementById("lab3-trail");
-	let cur = "idle-mirror";
-	const walked = ["純鏡面"];
-	function render() {
-		state.textContent = `${NAME[cur]} (${cur})`;
-		screen.textContent = SCREEN[cur];
-		story.textContent = STORY[cur];
-		lesson.textContent = LESSON[cur];
-		scene.innerHTML = drawScene(cur);
-		trail.textContent = walked.join(" → ");
-		box.innerHTML = "";
-		for (const [label, to] of EDGES[cur] || []) {
-			const b = document.createElement("button");
-			b.innerHTML = "";
-			const t1 = document.createElement("span");
-			t1.textContent = label;
-			const t2 = document.createElement("small");
-			t2.textContent = ` → ${NAME[to]}`;
-			b.appendChild(t1);
-			b.appendChild(document.createTextNode(" "));
-			b.appendChild(t2);
-			b.addEventListener("click", () => {
-				walked.push(NAME[to]);
-				cur = to;
-				render();
-			});
-			box.appendChild(b);
-		}
-	}
-	render();
-})();
-</script>
-
-<p><small>人物圖示來源：Font Awesome Free（CC BY 4.0，Fonticons, Inc.）。</small></p>
+</div>
+<p class="lab-hint"><strong>走過的狀態：</strong><output id="lab3-trail">純鏡面</output></p>
+</div>
+<script src="/MIG/assets/lab-journey.js"></script>

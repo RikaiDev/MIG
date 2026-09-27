@@ -1,0 +1,72 @@
+.lab-explain {
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+.lab-hint {
+	margin: 8px 0;
+	color: var(--ink-2);
+}
+.lab-verdict {
+	padding: 12px 14px;
+	border-left: 4px solid var(--accent);
+	background: var(--paper);
+}
+.lab-scene {
+	width: 100%;
+	aspect-ratio: 1;
+	background-image: url('./mirror-journey.jpg');
+	background-size: 400% 200%;
+	background-repeat: no-repeat;
+	border-radius: var(--radius);
+}
+.lab-scene[data-scene="idle-mirror"] { background-position: 0 0; }
+.lab-scene[data-scene="noticing"] { background-position: 33.333% 0; }
+.lab-scene[data-scene="guidance"] { background-position: 66.667% 0; }
+.lab-scene[data-scene="engaged"] { background-position: 100% 0; }
+.lab-scene[data-scene="paused"] { background-position: 0 100%; }
+.lab-scene[data-scene="queue"] { background-position: 33.333% 100%; }
+.lab-scene[data-scene="countdown"] { background-position: 66.667% 100%; }
+.lab-scene[data-scene="reset"] { background-position: 100% 100%; }
+.lab-journey {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 20px;
+	align-items: start;
+}
+.lab-journey h3 { margin: 0 0 12px; }
+.lab-journey p { margin: 10px 0; }
+.lab-journey figure { margin: 0; }
+.lab-journey figcaption { margin-top: 8px; color: var(--ink-2); font-size: 0.9rem; }
+.lab-screen {
+	background: var(--ink);
+	color: var(--paper);
+	border-radius: var(--radius);
+	padding: 12px 14px;
+}
+.lab-screen output { color: inherit; font-family: var(--font-body); font-size: 1rem; }
+.lab-graph {
+	margin: 16px 0;
+}
+.lab-graph-row { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 6px 0; }
+.lab-node {
+	padding: 5px 9px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	font-size: 0.85rem;
+}
+.lab-arrow { color: var(--ink-2); }
+.lab-node[aria-current="step"] {
+	border-color: var(--accent);
+	background: var(--accent-soft);
+	font-weight: 700;
+}
+.lab-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab-actions button { min-height: 44px; text-align: left; }
+.lab-actions small { display: block; font-weight: 400; }
+@media (max-width: 960px) {
+	.lab-journey { grid-template-columns: 1fr; }
+	.lab-scene { max-width: 500px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.lab-scene { animation: none; }
+}

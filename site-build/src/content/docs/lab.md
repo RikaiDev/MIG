@@ -16,7 +16,7 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 ## Demo 1 — additive light
 
-**What it is.** A mockup-time simulator for the question "will this text survive the reflection behind it" (OPT-01, OPT-02).
+**See it first.** The mirror carries two kinds of light at once: the reflection of the room and letters lit by the screen. Move the three sliders to see when the reflection overwhelms the letters (OPT-01, OPT-02).
 
 <figure>
 <svg viewBox="0 0 640 240" role="img" aria-label="Left: mockup assumes a black card hides the face. Right: on a real mirror the bright reflection still shows through.">
@@ -50,8 +50,9 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 <label>Reflectance <input id="lab1-r" type="range" min="10" max="90" value="50" /> <output id="lab1-r-v">50%</output></label>
 <label>Screen level <input id="lab1-s" type="range" min="0" max="100" value="80" /> <output id="lab1-s-v">80%</output></label>
 </div>
-<canvas id="lab1-canvas" width="640" height="220"></canvas>
-<p id="lab1-verdict"></p>
+<p class="lab-hint">Left: reflection only. Right: screen text added to the same reflection. A black screen cannot erase it.</p>
+<canvas id="lab1-canvas" width="640" height="220" role="img" aria-label="Left shows reflection only; right adds glowing screen text. The result is described below."></canvas>
+<p id="lab1-verdict" class="lab-verdict" aria-live="polite"></p>
 </div>
 
 <script>
@@ -65,22 +66,38 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 		const r = +$("lab1-r").value / 100;
 		const s = +$("lab1-s").value / 100;
 		const t = 1 - r;
-		const seen = Math.min(1, bg * r + s * t);
+		const reflection = bg * r;
+		const screenLight = s * t;
 		$("lab1-bg-v").textContent = `${$("lab1-bg").value}%`;
 		$("lab1-r-v").textContent = `${$("lab1-r").value}%`;
 		$("lab1-s-v").textContent = `${$("lab1-s").value}%`;
-		const g = Math.round(seen * 255);
-		ctx.fillStyle = `rgb(${g},${g},${g})`;
-		ctx.fillRect(0, 0, 640, 220);
-		ctx.fillStyle = seen > 0.55 ? "#101413" : "#ffffff";
-		ctx.font = "700 44px system-ui, sans-serif";
-		ctx.fillText("20:47  72%", 60, 110);
-		ctx.font = "400 22px system-ui, sans-serif";
-		ctx.fillText("seen = bg × R + screen × T", 60, 160);
-		const dark = seen < 0.35 || seen > 0.75;
-		$("lab1-verdict").textContent = dark
-			? "Verdict here: text likely legible on this background — now change the background, not the text."
-			: "Verdict here: text competes with the reflection — move or reduce content (OPT-01), don't just recolor.";
+		ctx.clearRect(0, 0, 640, 220);
+		function panel(x, lit) {
+			const shade = Math.round(23 + reflection * 160);
+			ctx.fillStyle = `rgb(${shade},${shade},${shade})`;
+			ctx.fillRect(x, 0, 312, 220);
+			ctx.fillStyle = `rgb(${Math.min(255, shade + 38)},${Math.min(255, shade + 38)},${Math.min(255, shade + 38)})`;
+			ctx.beginPath();
+			ctx.arc(x + 156, 96, 30, 0, Math.PI * 2);
+			ctx.fill();
+			ctx.fillRect(x + 106, 130, 100, 90);
+			ctx.fillStyle = "#211a13";
+			ctx.fillRect(x, 0, 312, 34);
+			ctx.fillStyle = "#ffffff";
+			ctx.font = "600 15px system-ui, sans-serif";
+			ctx.fillText(lit ? "Screen text added" : "Reflection only", x + 16, 25);
+			if (lit) {
+				ctx.globalAlpha = Math.max(0.02, screenLight);
+				ctx.font = "700 38px system-ui, sans-serif";
+				ctx.fillText("20:47", x + 92, 116);
+				ctx.globalAlpha = 1;
+			}
+		}
+		panel(0, false);
+		panel(328, true);
+		$("lab1-verdict").textContent = screenLight < reflection * 0.7 + 0.12
+			? "The letters are faint beside the reflection. Increase screen light or move the text to a darker area."
+			: "The letters stand out here. Now try a brighter background.";
 	}
 	for (const id of ["lab1-bg", "lab1-r", "lab1-s"]) $(id).addEventListener("input", draw);
 	draw();
@@ -91,15 +108,13 @@ Each demo answers one design question. Pattern per demo: what it is, an annotate
 
 ## Demo 2 — position and depth
 
-**What it is.** An interrogation-room two-way mirror: lights off on your side, they still see you. A magic mirror is the same — screen off, your face stays; the screen only adds light. (POS-01)
-
-In a dark observation room, the people behind the glass see you the whole time, lights on or off. The mirror screen is that lamp.
+**See it first.** Move left and right: your reflection follows. Whether the bright mark drawn by the screen follows depends on where it is anchored (POS-01). Turn off the screen: the mark disappears, but the reflection stays.
 
 
 
 **Use when.** Deciding between fixed, body-following, and mirror-space positioning — or reviewing a design that claims "precise face registration".
 
-**Cases needing caution.** The drift curves below are illustrative, not calibration data. Never ship a registration claim without per-viewpoint measurement on the unit.
+**Cases needing caution.** The offset shown below is illustrative. Measure alignment at each viewpoint on the actual unit.
 
 **Steps.**
 
@@ -116,9 +131,9 @@ In a dark observation room, the people behind the glass see you the whole time, 
 <label><input type="radio" name="lab2-power" value="on" checked /> Screen on</label>
 <label><input type="radio" name="lab2-power" value="off" /> Screen off</label>
 </div>
-<p>Round face = you in the mirror (there even with the screen off); bright dot = light from the screen (gone when off).</p>
+<p class="lab-hint">Round face = your reflection; star = a mark drawn by the screen. Move the viewpoint, then switch among three placements to compare where the star goes.</p>
 <svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="Dark-glass magic mirror: face stays with the screen off; drag to walk left and right, watch whether the light follows the nose"></svg>
-<p id="lab2-verdict"></p>
+<p id="lab2-verdict" class="lab-verdict" aria-live="polite"></p>
 </div>
 
 <script>
@@ -151,10 +166,12 @@ In a dark observation room, the people behind the glass see you the whole time, 
 			`<circle cx="${nx}" cy="150" r="45" fill="#2e3532" stroke="#e8e0cf" stroke-width="2"/>` +
 			`<circle cx="${nx - 16}" cy="140" r="5" fill="#e8e0cf"/>` +
 			`<circle cx="${nx + 16}" cy="140" r="5" fill="#e8e0cf"/>` +
-			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>`;
+			`<path d="M${nx - 18} 165 Q${nx} 180 ${nx + 18} 165" fill="none" stroke="#e8e0cf" stroke-width="3" stroke-linecap="round"/>` +
+			`<text x="${nx}" y="235" font-size="16" fill="#e8e0cf" text-anchor="middle">reflection</text>`;
 		if (power === "on") {
 			parts += `<circle cx="${sx}" cy="${ny}" r="17" fill="#ffcf7d" opacity="0.25"/>` +
-				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>`;
+				`<polygon points="${STAR}" transform="translate(${sx},${ny})" fill="#ffcf7d"/>` +
+				`<text x="${sx}" y="72" font-size="16" fill="#ffcf7d" text-anchor="middle">screen mark</text>`;
 			if (miss > 8) {
 				parts += `<line x1="${sx}" y1="${ny + 38}" x2="${nx}" y2="${ny + 38}" stroke="#ffcf7d" stroke-width="2" stroke-dasharray="6 4"/>`;
 				parts += `<text x="${(sx + nx) / 2}" y="${ny + 58}" font-size="15" fill="#ffcf7d" text-anchor="middle">off by ${missCm} cm</text>`;
@@ -165,7 +182,7 @@ In a dark observation room, the people behind the glass see you the whole time, 
 		if (power === "off") {
 			verdict = "Screen off, the light dot is gone — but your face stays. That is the interrogation-room mirror: the glass is always there, the screen only adds light. Black hides nothing (OPT-01).";
 		} else if (missCm < 5) {
-			verdict = v !== 0 ? "Aligned! But it breaks the moment you move." : "Aligned! The light sits on the nose.";
+			verdict = m === "fixed" && v === 0 ? "At the center, the fixed mark happens to meet the nose. Move sideways to see what changes." : "It looks aligned here. Move again to see whether it keeps following the nose.";
 		} else if (missCm < 20) {
 			verdict = `Close — off by ${missCm} cm.`;
 		} else if (m === "body") {
@@ -202,131 +219,22 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 2. Force each branch: tracking lost, second person joins, leave.
 3. Confirm every path ends in reset or a named recovery — never a dead end.
 
-<div class="demo wide">
-<svg id="lab3-scene" viewBox="0 0 560 200" role="img" aria-label="Comic panel: Mei and the mirror positions"></svg>
-<p>What happens: <output id="lab3-story"></output></p>
-<p><output id="lab3-lesson"></output></p>
-<p>Mirror shows: <output id="lab3-screen"></output></p>
-<p>State: <output id="lab3-state"></output></p>
-<div class="row" id="lab3-btns"></div>
-<p>Walked: <output id="lab3-trail"></output></p>
+<div class="demo wide" id="lab3" data-lang="en">
+<div class="lab-graph" aria-label="Interaction state graph"></div>
+<div class="lab-journey">
+<figure>
+<div class="lab-scene" data-scene="idle-mirror" role="img" aria-label="Mei walks past an ordinary mirror"></div>
+<figcaption>Eight moments at the same mirror. Choose an event to see the scene and mirror response change together.</figcaption>
+</figure>
+<div>
+<h3 id="lab3-state" aria-live="polite">Plain mirror</h3>
+<p><strong>What happens: </strong><output id="lab3-story">Mei walks past an ordinary mirror.</output></p>
+<p class="lab-screen"><strong>Mirror shows: </strong><output id="lab3-screen">Reflection only</output></p>
+<p><strong>Why this response: </strong><output id="lab3-lesson">Before anyone begins, it is an ordinary mirror.</output></p>
+<h4>What happens next?</h4>
+<div class="lab-actions"></div>
 </div>
-
-<script>
-(() => {
-	const box = document.getElementById("lab3-btns");
-	if (!box) return;
-	const EDGES = {
-		"idle-mirror": [["approach", "noticing"]],
-		noticing: [["show causal cue", "guidance"], ["ignore / pass by", "idle-mirror"]],
-		guidance: [["reach zone, one action taught", "engaged"], ["walk away", "idle-mirror"]],
-		engaged: [["tracking lost", "paused"], ["second person joins", "queue"], ["leave", "countdown"]],
-		paused: [["original hand re-enters", "engaged"], ["timeout", "idle-mirror"]],
-		queue: [["request confirmed", "engaged"], ["restart fresh", "guidance"]],
-		countdown: [["confirm keep", "engaged"], ["timeout: cleared", "reset"]],
-		reset: [["next user approaches", "noticing"]],
-	};
-	const NAME = {"idle-mirror": "plain mirror", noticing: "noticing", guidance: "guidance", engaged: "trying on", paused: "tracking lost", queue: "someone joins", countdown: "clearing countdown", reset: "reset"};
-	const SCREEN = {
-		"idle-mirror": "(a plain mirror, only you)",
-		noticing: '"Hi! Step onto the footprints to try on the jacket"',
-		guidance: '"One step forward, onto the footprints →"',
-		engaged: '"Jacket on! Like it?"',
-		paused: '"Wait — your hand left the frame, raise it back"',
-		queue: '"Someone wants a turn too: queue up? or restart?"',
-		countdown: '"Clearing in 10 seconds — keep it?"',
-		reset: "(a clean mirror, next please)",
-	};
-	const STORY = {
-		"idle-mirror": "Saturday afternoon: Mei walks past a mirror that looks perfectly ordinary.",
-		noticing: "A small light winks in the corner; Mei catches it and stops.",
-		guidance: "Footprints appear on the floor. The mirror says: step on.",
-		engaged: "The jacket is on mirror-Mei now. She gives it a twirl.",
-		paused: "Mei's hand leaves the frame; the mirror loses it and pauses submission.",
-		queue: "Her friend Zhe wants a turn too, waving beside her.",
-		countdown: "Mei turns to leave; the mirror starts clearing.",
-		reset: "A clean mirror. Next, please.",
-	};
-	const LESSON = {
-		"idle-mirror": "Mirror lesson: showing nothing, it is simply a mirror — that is the passing bar (Scope).",
-		noticing: "Mirror lesson: a following reflection is not interactivity; it needs a recognizable digital response (Start pattern).",
-		guidance: "Mirror lesson: one standing spot solves three things — camera sees, text avoids the face, hands can reach (ZONE-01).",
-		engaged: "Mirror lesson: information dodges the garment zone; price tags never cover the jacket (ZONE-01).",
-		paused: "Mirror lesson: the mirror sees you, the camera lost your hand — seen, sensed, and operable are three things (FLOW-01).",
-		queue: "Mirror lesson: two faces in the mirror and it cannot tell the boss — control must be shown (PPL-01).",
-		countdown: "Mirror lesson: you left, the photo stayed — the next visitor is a stranger (PRIV-01).",
-		reset: "Mirror lesson: the reset screen is designed, not leftover (Exit pattern).",
-	};
-	const POS = {
-		"idle-mirror": { mei: 500 },
-		noticing: { mei: 400 },
-		guidance: { mei: 300, marks: true },
-		engaged: { mei: 300, glow: true },
-		paused: { mei: 60, half: true },
-		queue: { mei: 300, other: 180 },
-		countdown: { mei: 500, away: true },
-		reset: { mei: null },
-	};
-	function drawScene(key) {
-		const q = POS[key];
-		function person(x, color, s) {
-			// Figure: Font Awesome Free person-walking (CC BY 4.0, Fonticons, Inc.), flipped to face the mirror.
-			return `<g transform="translate(${x},${175 + 12 * s}) scale(${-s},${s}) translate(-160,-512)" fill="${color}"><path d="M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l-8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z"/></g>`;
-		}
-		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
-			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
-			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
-		if (q.marks) {
-			g += `<ellipse cx="352" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>` +
-				`<ellipse cx="382" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>`;
-		}
-		if (q.other) g += person(q.other, "#6b5f52", 0.15);
-		if (q.mei !== null && q.mei !== undefined) {
-			if (q.half) {
-				g += person(55, "#9a3412", 0.19) +
-					`<text x="112" y="108" font-size="22" fill="#9a3412">?</text>`;
-			} else {
-				g += person(q.mei, "#9a3412", 0.19);
-			}
-			if (q.away) g += `<text x="${q.mei + 28}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
-		}
-		return g;
-	}
-	const state = document.getElementById("lab3-state");
-	const screen = document.getElementById("lab3-screen");
-	const scene = document.getElementById("lab3-scene");
-	const story = document.getElementById("lab3-story");
-	const lesson = document.getElementById("lab3-lesson");
-	const trail = document.getElementById("lab3-trail");
-	let cur = "idle-mirror";
-	const walked = ["plain mirror"];
-	function render() {
-		state.textContent = `${NAME[cur]} (${cur})`;
-		screen.textContent = SCREEN[cur];
-		story.textContent = STORY[cur];
-		lesson.textContent = LESSON[cur];
-		scene.innerHTML = drawScene(cur);
-		trail.textContent = walked.join(" → ");
-		box.innerHTML = "";
-		for (const [label, to] of EDGES[cur] || []) {
-			const b = document.createElement("button");
-			const t1 = document.createElement("span");
-			t1.textContent = label;
-			const t2 = document.createElement("small");
-			t2.textContent = ` → ${NAME[to]}`;
-			b.appendChild(t1);
-			b.appendChild(document.createTextNode(" "));
-			b.appendChild(t2);
-			b.addEventListener("click", () => {
-				walked.push(NAME[to]);
-				cur = to;
-				render();
-			});
-			box.appendChild(b);
-		}
-	}
-	render();
-})();
-</script>
-
-<p><small>Figure credit: person pictogram by Font Awesome Free (CC BY 4.0, Fonticons, Inc.).</small></p>
+</div>
+<p class="lab-hint"><strong>States visited: </strong><output id="lab3-trail">Plain mirror</output></p>
+</div>
+<script src="/MIG/assets/lab-journey.js"></script>

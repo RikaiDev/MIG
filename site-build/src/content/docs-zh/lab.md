@@ -266,8 +266,8 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
 			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
 		if (q.marks) {
-			g += `<ellipse cx="310" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>` +
-				`<ellipse cx="340" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>`;
+			g += `<ellipse cx="352" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>` +
+				`<ellipse cx="382" cy="178" rx="11" ry="5" fill="#9a3412" opacity="0.3"/>`;
 		}
 		if (q.other) g += person(q.other, "#6b5f52", 0.15);
 		if (q.mei !== null && q.mei !== undefined) {

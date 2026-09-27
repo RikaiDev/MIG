@@ -37,24 +37,30 @@ Check text placement against the brightest expected background. The sliders show
 
 ## Demo 2 — does the mark follow when you move?
 
-Choose “Fixed on screen,” then press “Step right.” Watch whether the reflection and star stay together.
+Press “Step right” and see whether the star stays on the reflection. Then compare another placement mode.
 
 <div class="demo wide mirror-lab" id="lab2" data-lang="en">
-<div class="lab-task"><span class="lab-kicker">Your task</span><strong>Find which mark follows the reflection.</strong></div>
-<div class="lab-control-group" role="group" aria-label="Your position">
+<div class="lab-task"><span class="lab-kicker">Your task</span><strong>Find which star stays on the reflection as you move.</strong></div>
+<div class="lab2-workspace">
+<div class="lab2-controls">
+<div class="lab2-control-step"><strong>1　Move your position</strong><div class="lab-control-group" role="group" aria-label="Your position">
 <button type="button" data-position="left" aria-pressed="false">Step left</button>
 <button type="button" data-position="center" aria-pressed="true">Stand center</button>
 <button type="button" data-position="right" aria-pressed="false">Step right</button>
-</div>
-<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="Comparison of reflection and screen star positions"></svg>
-<p class="lab-key">The round face is the reflection. The star is drawn by the screen.</p>
-<div class="lab-control-group" role="group" aria-label="How the mark is placed">
+</div></div>
+<div class="lab2-control-step"><strong>2　Choose star placement</strong><div class="lab-control-group" role="group" aria-label="How the mark is placed">
 <button type="button" data-mode="fixed" aria-pressed="true">Fixed on screen</button>
 <button type="button" data-mode="body" aria-pressed="false">Follow body</button>
 <button type="button" data-mode="space" aria-pressed="false">In mirror space</button>
+</div></div>
+<button type="button" id="lab2-power" class="lab-secondary" aria-pressed="false">3　Turn the screen off: what remains?</button>
 </div>
-<p id="lab2-result" class="lab-result" aria-live="polite">At the center they happen to overlap. Press “Step right” to see what changes.</p>
-<button type="button" id="lab2-power" class="lab-secondary" aria-pressed="false">Turn the screen off: what remains?</button>
+<div class="lab2-observation">
+<div id="lab2-scene" class="lab2-illustration" data-position="center" data-powered="true" role="img" aria-label="Mei stands centered at the mirror with a gold star on her reflection"><span class="lab2-star" aria-hidden="true">★</span></div>
+<p class="lab-key">Mei and her reflection change position; the gold star is drawn by the screen.</p>
+<div class="lab2-feedback" aria-live="polite"><strong id="lab2-verdict">Move one step</strong><p id="lab2-result">At the center, the star happens to overlap the reflection. Step left or right.</p></div>
+</div>
+</div>
 </div>
 
 This illustrates spatial relationships, not registration accuracy. Measure alignment at different viewpoints on the real unit before making a precision claim (POS-01).

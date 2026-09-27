@@ -8,11 +8,18 @@
 				lightDimFaint: "室內雖然暗，螢幕太暗仍看不清時間。把螢幕調亮。",
 				lightFaint: "文字被亮倒影淹沒了。把螢幕調亮，或把文字移到較暗的位置。",
 				lightClear: "現在時間比較清楚。把螢幕調低，看看何時開始難讀。",
-				reflection: "倒影",
-				mark: "螢幕星星",
+				scenePosition: {
+					left: "小美站在鏡子左側",
+					center: "小美站在鏡子中央",
+					right: "小美站在鏡子右側",
+				},
 				powerOff: "螢幕關了，星星消失；倒影還在。",
 				powerOnButton: "重新打開螢幕",
 				powerOffButton: "關掉螢幕，看看還剩什麼",
+				statusMove: "先移動一步",
+				statusAligned: "星星與倒影對齊",
+				statusApart: "星星與倒影錯開",
+				statusOff: "螢幕已關閉",
 				center: "站在中間時，亮點剛好和倒影重疊。往左或往右走看看。",
 				fixed: "倒影移動了，星星仍留在螢幕中央。試試「跟著身體走」。",
 				body: "星星跟著倒影一起移動。再切回「固定在螢幕上」比較。",
@@ -128,12 +135,19 @@
 					"The bright reflection overwhelms the letters. Increase screen light or move the text to a darker area.",
 				lightClear:
 					"The time is clearer now. Lower screen brightness to find when it becomes hard to read.",
-				reflection: "Reflection",
-				mark: "Screen star",
+				scenePosition: {
+					left: "Mei stands left of the mirror center",
+					center: "Mei stands at the mirror center",
+					right: "Mei stands right of the mirror center",
+				},
 				powerOff:
 					"With the screen off, the star disappears. The reflection remains.",
 				powerOnButton: "Turn the screen back on",
 				powerOffButton: "Turn the screen off: what remains?",
+				statusMove: "Move one step",
+				statusAligned: "Star stays aligned",
+				statusApart: "Star and reflection separate",
+				statusOff: "Screen is off",
 				center:
 					"At the center, the mark happens to meet the reflection. Step left or right to compare.",
 				fixed:
@@ -320,33 +334,32 @@
 		let position = "center";
 		let mode = "fixed";
 		let powered = true;
-		const svg = depth.querySelector("#lab2-svg");
+		const scene = depth.querySelector("#lab2-scene");
 		const power = depth.querySelector("#lab2-power");
 		function drawDepth() {
-			const offset =
-				position === "left" ? -105 : position === "right" ? 105 : 0;
-			const face = 320 + offset;
+			const face = position === "left" ? 43 : position === "right" ? 69.2 : 58;
 			const star =
-				mode === "fixed" ? 320 : mode === "body" ? face : 320 + offset * 0.5;
-			const gap = Math.abs(star - face);
-			svg.innerHTML = `<rect x="90" y="20" width="460" height="260" rx="18" fill="#141817"/>
-				<circle cx="${face}" cy="145" r="47" fill="#2e3532" stroke="#e8e0cf" stroke-width="3"/>
-				<circle cx="${face - 16}" cy="136" r="4" fill="#e8e0cf"/><circle cx="${face + 16}" cy="136" r="4" fill="#e8e0cf"/>
-				<path d="M${face - 18} 160 Q${face} 178 ${face + 18} 160" fill="none" stroke="#e8e0cf" stroke-width="3"/>
-				<text x="${face}" y="235" text-anchor="middle" font-size="16" fill="#e8e0cf">${words.reflection}</text>
-				${
-					powered
-						? `<circle cx="${star}" cy="145" r="14" fill="#ffcf7d"/>
-				<text x="${star}" y="80" text-anchor="middle" font-size="16" fill="#ffcf7d">${words.mark}</text>
-				${gap > 15 ? `<line x1="${face}" y1="195" x2="${star}" y2="195" stroke="#ffcf7d" stroke-width="3" stroke-dasharray="6 5"/>` : ""}`
-						: ""
-				}`;
+				mode === "fixed" ? 58 : mode === "body" ? face : (58 + face) / 2;
+			scene.dataset.position = position;
+			scene.dataset.powered = String(powered);
+			scene.style.setProperty("--mark-x", `${star}%`);
+			depth.querySelector("#lab2-verdict").textContent = !powered
+				? words.statusOff
+				: position === "center"
+					? words.statusMove
+					: mode === "body"
+						? words.statusAligned
+						: words.statusApart;
 			depth.querySelector("#lab2-result").textContent = !powered
 				? words.powerOff
 				: position === "center"
 					? words.center
 					: words[mode];
-			power.textContent = powered ? words.powerOffButton : words.powerOnButton;
+			scene.setAttribute(
+				"aria-label",
+				`${words.scenePosition[position]}. ${depth.querySelector("#lab2-result").textContent}`,
+			);
+			power.textContent = `3　${powered ? words.powerOffButton : words.powerOnButton}`;
 			power.setAttribute("aria-pressed", String(!powered));
 		}
 		for (const attribute of ["position", "mode"]) {

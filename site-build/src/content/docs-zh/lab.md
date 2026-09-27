@@ -37,24 +37,30 @@ description: 用三個免攝影機互動，看懂鏡面上的光、位置與使�
 
 <span id="demo-depth"></span>
 
-先選「固定在螢幕上」，再按「往右一步」。看倒影和星星是否仍在一起。
+先按「往右一步」，觀察星星是否還在倒影身上；再換一種定位方式比較。
 
 <div class="demo wide mirror-lab" id="lab2" data-lang="zh">
-<div class="lab-task"><span class="lab-kicker">你的任務</span><strong>找出哪一種亮點會跟著倒影走。</strong></div>
-<div class="lab-control-group" role="group" aria-label="你的站位">
+<div class="lab-task"><span class="lab-kicker">你的任務</span><strong>找出哪種星星會一直貼在倒影身上。</strong></div>
+<div class="lab2-workspace">
+<div class="lab2-controls">
+<div class="lab2-control-step"><strong>1　移動站位</strong><div class="lab-control-group" role="group" aria-label="你的站位">
 <button type="button" data-position="left" aria-pressed="false">往左一步</button>
 <button type="button" data-position="center" aria-pressed="true">站在中間</button>
 <button type="button" data-position="right" aria-pressed="false">往右一步</button>
-</div>
-<svg id="lab2-svg" viewBox="0 0 640 300" role="img" aria-label="倒影與螢幕星星的位置比較"></svg>
-<p class="lab-key">圓臉是倒影；星星是螢幕畫出的記號。</p>
-<div class="lab-control-group" role="group" aria-label="亮點如何定位">
+</div></div>
+<div class="lab2-control-step"><strong>2　選星星如何定位</strong><div class="lab-control-group" role="group" aria-label="亮點如何定位">
 <button type="button" data-mode="fixed" aria-pressed="true">固定在螢幕上</button>
 <button type="button" data-mode="body" aria-pressed="false">跟著身體走</button>
 <button type="button" data-mode="space" aria-pressed="false">放在鏡中空間</button>
+</div></div>
+<button type="button" id="lab2-power" class="lab-secondary" aria-pressed="false">3　關掉螢幕，看看還剩什麼</button>
 </div>
-<p id="lab2-result" class="lab-result" aria-live="polite">現在站在中間，兩者剛好重疊。按「往右一步」看看。</p>
-<button type="button" id="lab2-power" class="lab-secondary" aria-pressed="false">關掉螢幕，看看還剩什麼</button>
+<div class="lab2-observation">
+<div id="lab2-scene" class="lab2-illustration" data-position="center" data-powered="true" role="img" aria-label="小美站在鏡子中央，金色星星落在倒影身上"><span class="lab2-star" aria-hidden="true">★</span></div>
+<p class="lab-key">小美和倒影會換站位；金色星星是螢幕畫出的記號。</p>
+<div class="lab2-feedback" aria-live="polite"><strong id="lab2-verdict">先移動一步</strong><p id="lab2-result">站在中間時，星星剛好和倒影重疊。請往左或往右走。</p></div>
+</div>
+</div>
 </div>
 
 這是位置關係示意，不是貼合精度測試。要宣稱貼合，須在實際設備與不同觀看位置量測（POS-01）。

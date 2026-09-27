@@ -259,14 +259,8 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 	function drawScene(key) {
 		const q = POS[key];
 		function person(x, color, s) {
-			const y = 175 - 46 * s;
-			return `<g transform="translate(${x},${y}) scale(${s})" stroke="${color}" fill="${color}" stroke-linecap="round" stroke-linejoin="round">` +
-				`<circle cx="10" cy="-38" r="11.5" stroke="none"/>` +
-				`<path d="M-4 -30 C4 -32 14 -30 16 -26 L12 6 C6 9 -2 8 -6 5 Z" stroke="none"/>` +
-				`<path d="M10 -24 L20 -10 L24 4" stroke-width="7.5" fill="none"/>` +
-				`<path d="M4 -24 L-2 -8 L-6 8" stroke-width="7.5" fill="none"/>` +
-				`<path d="M8 6 L16 26 L13 46 M13 46 L23 46" stroke-width="9" fill="none"/>` +
-				`<path d="M2 6 L-6 24 L-12 42 M-12 42 L-3 42" stroke-width="9" fill="none"/></g>`;
+			// Figure: Font Awesome Free person-walking (CC BY 4.0, Fonticons, Inc.), flipped to face the mirror.
+			return `<g transform="translate(${x},${175 + 12 * s}) scale(${-s},${s}) translate(-160,-512)" fill="${color}"><path d="M160 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zM126.5 199.3c-1 .4-1.9 .8-2.9 1.2l-8 3.5c-16.4 7.3-29 21.2-34.7 38.2l-2.6 7.8c-5.6 16.8-23.7 25.8-40.5 20.2s-25.8-23.7-20.2-40.5l2.6-7.8c11.4-34.1 36.6-61.9 69.4-76.5l-8-3.5c20.8-9.2 43.3-14 66.1-14c44.6 0 84.8 26.8 101.9 67.9L281 232.7l21.4 10.7c15.8 7.9 22.2 27.1 14.3 42.9s-27.1 22.2-42.9 14.3L247 287.3c-10.3-5.2-18.4-13.8-22.8-24.5l-9.6-23-19.3 65.5 49.5 54c5.4 5.9 9.2 13 11.2 20.8l23 92.1c4.3 17.1-6.1 34.5-23.3 38.8s-34.5-6.1-38.8-23.3l-22-88.1-70.7-77.1c-14.8-16.1-20.3-38.6-14.7-59.7l16.9-63.5zM68.7 398l25-62.4c2.1 3 4.5 5.8 7 8.6l40.7 44.4-14.5 36.2c-2.4 6-6 11.5-10.6 16.1L54.6 502.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L68.7 398z"/></g>`;
 		}
 		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
 			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
@@ -275,13 +269,13 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 			g += `<ellipse cx="310" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>` +
 				`<ellipse cx="340" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>`;
 		}
-		if (q.other) g += person(q.other, "#6b5f52", 0.85);
+		if (q.other) g += person(q.other, "#6b5f52", 0.15);
 		if (q.mei !== null && q.mei !== undefined) {
 			if (q.half) {
-				g += person(8, "#9a3412", 1.1) +
+				g += person(2, "#9a3412", 0.19) +
 					`<text x="44" y="106" font-size="22" fill="#9a3412">?</text>`;
 			} else {
-				g += person(q.mei, "#9a3412", 1.1);
+				g += person(q.mei, "#9a3412", 0.19);
 			}
 			if (q.away) g += `<text x="${q.mei + 28}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
 		}
@@ -321,3 +315,5 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 	render();
 })();
 </script>
+
+<p><small>Figure credit: person pictogram by Font Awesome Free (CC BY 4.0, Fonticons, Inc.).</small></p>

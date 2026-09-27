@@ -259,12 +259,14 @@ description: 三個免攝影機示範：光線疊加、位置與深度、互動�
 	function drawScene(key) {
 		const q = POS[key];
 		function person(x, color, s) {
-			const y = 175 - 32 * s;
-			return `<g transform="translate(${x},${y}) scale(${s})" stroke="${color}" stroke-linecap="round" fill="none">` +
-				`<circle cx="6" cy="-30" r="10" fill="${color}" stroke="none"/>` +
-				`<path d="M0 -24 L2 8" stroke-width="9"/>` +
-				`<path d="M1 -18 L12 -4 M1 -18 L-8 0" stroke-width="5"/>` +
-				`<path d="M2 8 L12 32 M2 8 L-8 32" stroke-width="6"/></g>`;
+			const y = 175 - 46 * s;
+			return `<g transform="translate(${x},${y}) scale(${s})" stroke="${color}" fill="${color}" stroke-linecap="round" stroke-linejoin="round">` +
+				`<circle cx="10" cy="-38" r="11.5" stroke="none"/>` +
+				`<path d="M-4 -30 C4 -32 14 -30 16 -26 L12 6 C6 9 -2 8 -6 5 Z" stroke="none"/>` +
+				`<path d="M10 -24 L20 -10 L24 4" stroke-width="7.5" fill="none"/>` +
+				`<path d="M4 -24 L-2 -8 L-6 8" stroke-width="7.5" fill="none"/>` +
+				`<path d="M8 6 L16 26 L13 46 M13 46 L23 46" stroke-width="9" fill="none"/>` +
+				`<path d="M2 6 L-6 24 L-12 42 M-12 42 L-3 42" stroke-width="9" fill="none"/></g>`;
 		}
 		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
 			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +

@@ -9,11 +9,51 @@
 	const toggle = document.getElementById("nav-toggle");
 	const nav = document.getElementById("sidenav");
 	if (toggle && nav) {
+		function closeMenu() {
+			nav.classList.remove("open");
+			toggle.setAttribute("aria-expanded", "false");
+		}
 		toggle.addEventListener("click", () => {
 			const open = nav.classList.toggle("open");
 			toggle.setAttribute("aria-expanded", open ? "true" : "false");
 		});
+		document.addEventListener("click", (event) => {
+			if (
+				nav.classList.contains("open") &&
+				!nav.contains(event.target) &&
+				!toggle.contains(event.target)
+			) {
+				closeMenu();
+			}
+		});
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && nav.classList.contains("open")) {
+				closeMenu();
+				toggle.focus();
+			}
+		});
 	}
+
+	// Allow keyboard scrolling when a narrow table needs horizontal space.
+	function updateTables() {
+		for (const table of document.querySelectorAll(".main table")) {
+			const scrollable = table.scrollWidth > table.clientWidth;
+			if (scrollable) {
+				table.tabIndex = 0;
+				table.setAttribute(
+					"aria-label",
+					document.documentElement.lang === "zh-Hant"
+						? "可左右捲動的表格"
+						: "Horizontally scrollable table",
+				);
+			} else {
+				table.removeAttribute("tabindex");
+				table.removeAttribute("aria-label");
+			}
+		}
+	}
+	updateTables();
+	window.addEventListener("resize", updateTables);
 
 	// Language: remember choice, keep reading position across switch,
 	// honor stored choice on the front door.

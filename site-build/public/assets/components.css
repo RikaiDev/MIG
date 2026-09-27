@@ -1,0 +1,222 @@
+/* Shared guideline content components. */
+/* Rule cards */
+.rule {
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	padding: 20px 24px;
+	margin: 24px 0 32px;
+	background: var(--surface);
+	box-shadow: var(--shadow-soft);
+}
+.rule-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--line);
+}
+.rule-id {
+	font-family: var(--font-mono);
+	font-weight: 700;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+	color: var(--accent);
+}
+.badge {
+	display: inline-block;
+	font-size: 14px;
+	font-weight: 700;
+	border-radius: 999px;
+	padding: 2px 10px;
+	white-space: nowrap;
+}
+.normative-must {
+	background: var(--must-bg);
+	color: var(--must-ink);
+}
+.normative-should {
+	background: var(--should-bg);
+	color: var(--should-ink);
+}
+.normative-may {
+	background: var(--may-bg);
+	color: var(--may-ink);
+}
+.badge.evidence,
+.badge.tech {
+	border: 1px solid var(--line);
+	color: var(--ink-2);
+	font-weight: 500;
+}
+.badge.version {
+	font-family: var(--font-mono);
+	color: var(--ink-2);
+	font-weight: 500;
+}
+.rule-title {
+	font-family: var(--font-display);
+	font-size: 23px;
+	line-height: 1.4;
+	margin: 0 0 12px;
+}
+.rule-sec {
+	margin: 12px 0;
+}
+.rule-label {
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: var(--ink-2);
+	margin: 0 0 2px;
+	text-transform: uppercase;
+}
+.rule-sec p {
+	margin: 0;
+}
+.rule-anchor {
+	color: var(--ink-2);
+	text-decoration: none;
+	font-size: 14px;
+}
+/* Homepage */
+.hero {
+	padding: 40px 0 8px;
+}
+.main > .hero {
+	max-width: 960px;
+}
+.kicker {
+	font-size: 14px;
+	letter-spacing: 0.02em;
+	color: var(--ink-2);
+	margin: 0 0 12px;
+}
+.hero h1 {
+	font-family: var(--font-display);
+	font-size: clamp(36px, 5vw, 60px);
+	line-height: 1.4;
+	margin: 0 0 16px;
+}
+.lede {
+	font-size: 18px;
+	line-height: 1.6;
+	color: var(--ink-2);
+	max-width: 60ch;
+}
+.entries {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 14px;
+	margin: 28px 0 8px;
+	max-width: 960px;
+}
+.entry {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	padding: 20px;
+	text-decoration: none;
+	color: var(--ink);
+	background: var(--surface);
+}
+.main .entry {
+	color: var(--ink);
+	text-decoration: none;
+}
+.entry:hover,
+.entry:focus-visible {
+	border-color: var(--accent);
+	box-shadow: var(--shadow-soft);
+}
+.entry-num {
+	font-family: var(--font-mono);
+	font-size: 14px;
+	color: var(--accent);
+	font-weight: 700;
+}
+.entry-title {
+	font-family: var(--font-display);
+	font-size: 21px;
+	font-weight: 700;
+}
+.entry-desc {
+	font-size: 14px;
+	color: var(--ink-2);
+	margin: 0;
+}
+.homesection {
+	margin-top: 32px;
+}
+/* Demos */
+.demo {
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--panel);
+	padding: 20px 22px;
+	margin: 20px 0 28px;
+}
+.demo h4 {
+	margin: 0 0 10px;
+	font-size: 16px;
+}
+.demo .row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	align-items: center;
+	margin: 10px 0;
+}
+.demo label {
+	font-size: 14px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.demo output {
+	font-family: var(--font-mono);
+	font-size: 14px;
+}
+.demo canvas,
+.demo svg {
+	max-width: 100%;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: var(--paper);
+}
+.disclaimer {
+	font-size: 14px;
+	color: var(--warn-ink);
+	background: var(--warn-bg);
+	border-radius: var(--radius);
+	padding: 10px 14px;
+}
+/* Prev/next */
+.prevnext {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 48px;
+	padding-top: 16px;
+	border-top: 1px solid var(--line);
+}
+/* Wide components escape the prose measure */
+.main > .rule,
+.main > .demo,
+.main > .wide {
+	max-width: 960px;
+}
+.prevnext a {
+	text-decoration: none;
+	font-weight: 700;
+	padding: 8px 12px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: var(--surface);
+}
+.prevnext a:hover {
+	border-color: var(--accent);
+}

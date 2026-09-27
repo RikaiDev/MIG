@@ -1,7 +1,7 @@
 /**
  * CSS architecture harness (KISS/DRY/SOLID/YAGNI).
- * - SOLID: tokens.css owns all literal color and :root; responsive section
- *   of site.css owns all @media.
+ * - SOLID: tokens.css owns all literal color and :root; site.css owns
+ *   shell/responsive rules, while components.css owns content components.
  * - DRY: no duplicate top-level selectors per file.
  * - YAGNI: dead-selector denylist; per-file line cap stops bloat recurrence.
  * Usage: bun check-css.mjs
@@ -14,10 +14,13 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const FILES = [
 	join(HERE, "public", "assets", "tokens.css"),
 	join(HERE, "public", "assets", "site.css"),
+	join(HERE, "public", "assets", "components.css"),
 ];
 const ALLOWED_BREAKPOINTS = [
 	"(max-width: 960px)",
+	"(max-width: 600px)",
 	"(prefers-reduced-motion: reduce)",
+	"(forced-colors: active)",
 ];
 const DEAD_SELECTORS = [
 	".sidebar",

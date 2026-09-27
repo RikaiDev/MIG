@@ -1,9 +1,11 @@
 /* tokens.css — warm print editorial. Sole owner of all literal color. */
 :root {
 	--paper: #faf7f1;
+	--surface: #fffdf9;
 	--ink: #211a13;
 	--ink-2: #6b5f52;
 	--accent: #9a3412;
+	--accent-hover: #6f270d;
 	--accent-ink: #ffffff;
 	--accent-soft: #f6e7d7;
 	--line: #e0d5c3;
@@ -19,6 +21,11 @@
 	--warn-bg: #f5d9a8;
 	--warn-ink: #4a2c00;
 	--code-bg: #efe8d9;
+	--scroll-track: #eee6d9;
+	--scroll-thumb: #80664f;
+	--scroll-thumb-hover: #604831;
+	--shadow-soft: 0 4px 16px #211a130a;
+	--shadow-nav: 8px 0 24px #211a1326;
 	--focus: #9a3412;
 	--radius: 6px;
 	--measure: 68ch;

@@ -207,9 +207,33 @@
 	background-position: 100% 91%;
 }
 .lab-story {
-	display: grid;
+	display: flex;
+	flex-direction: column;
 	gap: 14px;
-	align-content: start;
+	height: 470px;
+	min-width: 0;
+}
+.lab-story .lab-actions {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	height: 70px;
+	flex: none;
+	margin-top: auto;
+}
+.lab-story .lab-actions button {
+	height: 70px;
+	min-width: 0;
+	padding: 7px;
+}
+.lab-story #lab3-back {
+	align-self: flex-start;
+	flex: none;
+}
+.lab-story #lab3-back[hidden] {
+	display: inline-flex;
+	visibility: hidden;
+	pointer-events: none;
 }
 .lab-story p,
 .lab-story h3 {
@@ -248,6 +272,9 @@
 	}
 }
 @media (max-width: 560px) {
+	.lab-story {
+		height: 520px;
+	}
 	#lab3 .lab-task strong {
 		min-height: 4.5em;
 	}

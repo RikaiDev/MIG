@@ -258,6 +258,14 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 	};
 	function drawScene(key) {
 		const q = POS[key];
+		function person(x, color, s) {
+			const k = s || 1;
+			return `<g transform="translate(${x},140) scale(${k})" stroke="${color}" stroke-linecap="round">` +
+				`<circle cx="0" cy="-32" r="10" fill="${color}" stroke="none"/>` +
+				`<rect x="-9" y="-20" width="18" height="28" rx="7" fill="${color}" stroke="none"/>` +
+				`<path d="M-9 -14 L-15 8 M9 -14 L15 8" stroke-width="5" fill="none"/>` +
+				`<path d="M-5 8 L-7 32 M5 8 L7 32" stroke-width="6" fill="none"/></g>`;
+		}
 		let g = `<line x1="20" y1="175" x2="540" y2="175" stroke="#6b5f52" stroke-width="2"/>` +
 			`<rect x="370" y="20" width="160" height="150" rx="10" fill="#141817" stroke="${q.glow ? "#ffcf7d" : "#211a13"}" stroke-width="3"/>` +
 			`<polygon points="370,20 430,20 390,170 370,170" fill="#ffffff" opacity="0.06"/>`;
@@ -265,15 +273,15 @@ Starring: Mei, Saturday afternoon at the department store, trying on a jacket. Y
 			g += `<ellipse cx="310" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>` +
 				`<ellipse cx="340" cy="180" rx="10" ry="5" fill="none" stroke="#9a3412" stroke-width="2"/>`;
 		}
-		if (q.other) g += `<circle cx="${q.other}" cy="150" r="14" fill="#6b5f52"/>`;
+		if (q.other) g += person(q.other, "#6b5f52", 0.8);
 		if (q.mei !== null && q.mei !== undefined) {
 			if (q.half) {
-				g += `<circle cx="30" cy="150" r="16" fill="#9a3412"/>` +
-					`<text x="60" y="120" font-size="20" fill="#9a3412">?</text>`;
+				g += person(8, "#9a3412", 1) +
+					`<text x="48" y="112" font-size="22" fill="#9a3412">?</text>`;
 			} else {
-				g += `<circle cx="${q.mei}" cy="150" r="16" fill="#9a3412"/>`;
+				g += person(q.mei, "#9a3412", 1);
 			}
-			if (q.away) g += `<text x="${q.mei + 24}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
+			if (q.away) g += `<text x="${q.mei + 28}" y="150" font-size="16" fill="#6b5f52">→ 10…</text>`;
 		}
 		return g;
 	}

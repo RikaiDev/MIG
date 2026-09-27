@@ -151,17 +151,18 @@
 .lab-scene[data-scene="engaged"] {
 	background-position: 100% 0;
 }
+/* The sprite's lower row starts above its halfway line; this offset aligns the mirror across rows. */
 .lab-scene[data-scene="paused"] {
-	background-position: 0 100%;
+	background-position: 0 91%;
 }
 .lab-scene[data-scene="queue"] {
-	background-position: 33.333% 100%;
+	background-position: 33.333% 91%;
 }
 .lab-scene[data-scene="countdown"] {
-	background-position: 66.667% 100%;
+	background-position: 66.667% 91%;
 }
 .lab-scene[data-scene="reset"] {
-	background-position: 100% 100%;
+	background-position: 100% 91%;
 }
 .lab-story {
 	display: grid;
